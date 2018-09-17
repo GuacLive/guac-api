@@ -1,0 +1,42 @@
+{
+  "name": "guac-api",
+  "version": "1.0.0",
+  "description": "API",
+  "main": "src/babel.js",
+  "scripts": {
+    "start": "micro --listen tcp:*:9000",
+    "dev": "micro-dev -p 9000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuacLive/api.git"
+  },
+  "author": "datagutt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GuacLive/api/issues"
+  },
+  "homepage": "https://github.com/GuacLive/api#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
+    "@babel/preset-stage-1": "^7.0.0-beta.40",
+    "@babel/register": "^7.0.0-beta.42",
+    "micro-dev": "^2.1.1"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "jsonwebtoken": "^8.2.1",
+    "knex": "^0.14.2",
+    "micro": "^9.0.2",
+    "micro-boom": "^1.1.0",
+    "micro-cors": "^0.0.4",
+    "micro-hoofs": "^0.0.5",
+    "micro-ratelimit": "^0.3.0",
+    "microrouter": "^3.0.0",
+    "mysql2": "^1.5.1",
+    "nconf": "^0.10.0",
+    "urlencoded-body-parser": "^2.0.1"
+  }
+}
