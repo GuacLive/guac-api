@@ -23,15 +23,15 @@
     "@babel/preset-react": "^7.0.0-beta.40",
     "@babel/preset-stage-1": "^7.0.0-beta.40",
     "@babel/register": "^7.0.0-beta.42",
-    "micro-dev": "^2.1.1"
+    "micro-dev": "^3.0.0"
   },
   "dependencies": {
     "bcrypt": "^3.0.0",
     "jsonwebtoken": "^8.2.1",
-    "knex": "^0.14.2",
+    "knex": "^0.15.2",
     "micro": "^9.0.2",
     "micro-boom": "^1.1.0",
-    "micro-cors": "^0.0.4",
+    "micro-cors": "^0.1.0",
     "micro-hoofs": "^0.0.5",
     "micro-ratelimit": "^0.3.0",
     "microrouter": "^3.0.0",

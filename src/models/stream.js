@@ -43,8 +43,9 @@ class Stream {
 				stream_key: streamKey
 			})
 			.join('stream as s1', 's1.id', '=', 'stream_keys.id')
+			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
 			.debug(true)
-			.select('stream_keys.*', 's1.*')
+			.select('stream_keys.*', 's1.*', 'u1.username AS name')
 			.first()
 			.then(resolve)
 			.catch(reject);
