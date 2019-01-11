@@ -4,7 +4,7 @@
   "description": "API",
   "main": "src/babel.js",
   "scripts": {
-    "start": "micro --listen tcp:*:9000",
+    "start": "micro --listen tcp://0.0.0.0:9000",
     "dev": "micro-dev -p 9000"
   },
   "repository": {
