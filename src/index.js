@@ -9,7 +9,10 @@ nconf.defaults({
 	server: {
 		name: 'guac.live',
 		domain: 'guac.live',
-		register_type: 0
+		register_type: 0,
+		streaming_servers: {
+			'eu': '//stream.guac.live'
+		}
 	},
 	database: {
 		client: 'mysql2',
@@ -46,10 +49,11 @@ import rateLimit from 'micro-ratelimit';
 import { handleErrors } from 'micro-boom';
 
 const corsMiddleware = microCors({
-	allowMethods: [ 'POST', 'GET', 'PUT', 'DELETE' ],
-	allowHeaders: [ 'Content-Type', 'Authorization', 'Accept', 'X-Requested-With' ],
+	allowMethods: ['POST','GET','PUT','PATCH','DELETE','OPTIONS'],
+	allowHeaders: [ 'Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin'],
 	maxAge: 86400,
-	origin: '*'
+	origin: '*',
+	runHandlerOnOptionsRequest: true
 });
 
 const rateLimitMiddleware = rateLimit.bind(rateLimit, {

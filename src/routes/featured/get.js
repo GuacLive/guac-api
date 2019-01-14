@@ -18,7 +18,11 @@ module.exports = compose(
 					title: item.title,
 					live: parseInt(item.live, 10),
 					views: parseInt(item.views, 10),
-					url: `//stream.${global.nconf.get('server:domain')}/live/${item.name}/index.m3u8`,
+					urls: {
+						hls: `/live/${item.name}/index.m3u8`,
+						flv: `/live/${item.name}/index.flv`
+					},
+					servers: global.nconf.get('server:streaming_servers'),
 					user: {
 						id: item.user_id,
 						name: item.username

@@ -17,7 +17,7 @@ module.exports = fn => async (req, res) => {
 
 	const token = req.headers.authorization.replace('Bearer ', '');
 
-	return jwt.verify(token, global.nconf.get('jwtSecret'), async (err, decoded) => {
+	return jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
 		if (err) {
 			res.status(401);
 			reject(next(err));

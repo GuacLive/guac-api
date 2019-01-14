@@ -31,7 +31,7 @@
     "knex": "^0.15.2",
     "micro": "^9.0.2",
     "micro-boom": "^1.1.0",
-    "micro-cors": "^0.1.0",
+    "micro-cors": "1.0.0-alpha.1",
     "micro-hoofs": "^0.0.5",
     "micro-ratelimit": "^0.3.0",
     "microrouter": "^3.0.0",
