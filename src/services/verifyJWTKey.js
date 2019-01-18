@@ -17,15 +17,17 @@ module.exports = fn => async (req, res) => {
 
 	const token = req.headers.authorization.replace('Bearer ', '');
 
-	return jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-		if (err) {
-			res.status(401);
-			reject(next(err));
-		}
+	try {
+		return jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+			if (err) {
+				return send(res, 401, {
+					statusCode: 401,
+					statusMessage: 'Invalid JWT key'
+				});
+			}
 
-		const userId = decoded.sub;
+			const userId = decoded.sub;
 
-		try {
 			const result = await userModel.findById(userId);
 			if(!result){
 				return send(res, 401, {
@@ -38,12 +40,12 @@ module.exports = fn => async (req, res) => {
 				id: result.user_id,
 				name: result.username
 			};
-		} catch (err) {
-			return send(res, 401, {
-				statusCode: 401,
-				statusMessage: 'Invalid JWT key'
-			});
-		}
-		return await fn(req, res);
-	});
+			return await fn(req, res);
+		});
+	} catch (err) {
+		return send(res, 401, {
+			statusCode: 401,
+			statusMessage: 'Invalid JWT key'
+		});
+	}
 };
