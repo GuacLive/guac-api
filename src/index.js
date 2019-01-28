@@ -78,6 +78,7 @@ module.exports = router(
 	post('/live/publish', middleware(require('./routes/live/publish'))),
 	post('/live/on_publish_done', middleware(require('./routes/live/publishDone'))),
 	post('/*', notfound),
+	get('/edges', middleware(require('./routes/edges'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
 	get('/featured', middleware(require('./routes/featured/get'))),
 	get('/watch/:name', middleware(require('./routes/watch/get'))),
