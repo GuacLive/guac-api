@@ -11,6 +11,9 @@ module.exports = compose(
 )(
 	async (req, res) => {
 		const user = new userModel;
-		send(res, 200, req.user);
+		send(res, 200, {
+			statusCode: 200,
+			...req.user
+		});
 	}
 );

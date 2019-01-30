@@ -17,12 +17,13 @@ class User {
 	checkUser(username, password) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
-				'user_id': id
+				'username': username
 			})
 			.debug(true)
 			.select('users.user_id', 'users.username', 'users.password')
 			.first()
 			.then(async (data) => {
+				if(!data) resolve(false);
 				const match = await bcrypt.compare(password, data.password);
 
 				if(match){

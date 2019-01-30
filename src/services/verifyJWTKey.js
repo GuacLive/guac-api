@@ -16,6 +16,7 @@ module.exports = fn => async (req, res) => {
 	}
 
 	const token = req.headers.authorization.replace('Bearer ', '');
+	const um = new userModel;
 
 	try {
 		return jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
@@ -26,9 +27,8 @@ module.exports = fn => async (req, res) => {
 				});
 			}
 
-			const userId = decoded.sub;
-
-			const result = await userModel.findById(userId);
+			if(!decoded || !decoded.user) throw Error('No user data in decoded JWT');
+			const result = await um.getUserById(decoded.user.user_id);
 			if(!result){
 				return send(res, 401, {
 					statusCode: 401,
