@@ -21,7 +21,8 @@ module.exports = compose(
 
 			send(res, 200, {
 				statusCode: 200,
-				jwtToken
+				jwtToken,
+				user
 			});
 		}else{
 			send(res, 401, {
