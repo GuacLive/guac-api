@@ -17,7 +17,7 @@ module.exports = compose(
 				This is because validation is done locally on the chat server...
 				Change this to JWT at some point?
 			*/
-			const result = await channel.banUser(req.json.channel, req.json.user, 'No reason provided');
+			const result = await channel.unbanUser(req.json.channel, req.json.user, 'No reason provided');
 			return send(res, 200, {
 				statusCode: 200
 			});
