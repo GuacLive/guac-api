@@ -38,4 +38,4 @@ class Channel {
 		});
 	}
 }
-export default Stream;
+export default Channel;
