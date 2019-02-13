@@ -9,37 +9,63 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE TABLE `stream_keys` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stream_key` varchar(128) NOT NULL,
-  `stream_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `categories` (
+  `category_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `stream` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `live` varchar(100) NOT NULL,
-  `views` bigint NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `live` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `views` bigint(20) NOT NULL,
+  `category` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `stream_keys` (
+  `id` int(11) NOT NULL,
+  `stream_key` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stream_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(40) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE `channel_bans` (
-  `ban_id` int(11) NOT NULL AUTO_INCREMENT,
-  `room_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `reason` varchar(200) NULL,
-  PRIMARY KEY (`ban_id`)
+  `username` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category_id`);
+
+ALTER TABLE `stream`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category` (`category`);
+
+ALTER TABLE `stream_keys`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+
+ALTER TABLE `categories`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `stream`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `stream_keys`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `stream`
+  ADD CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

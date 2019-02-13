@@ -31,7 +31,9 @@ class Stream {
 			})
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
-			.select('stream.*', 'u1.user_id', 'u1.username', 'u1.username AS name')
+			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
+			.select('stream.*', 'u1.user_id', 'u1.username', 'u1.username AS name',
+				'c1.category_id AS category_id', 'c1.name AS category_name')
 			.first()
 			.then(resolve)
 			.catch(reject);

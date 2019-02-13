@@ -28,6 +28,8 @@ module.exports = compose(
 					title: result.title,
 					live: parseInt(result.live, 10),
 					views: parseInt(result.views, 10),
+					category_id: result.category_id,
+					category_name: result.category_name,
 					urls: {
 						hls: `/live/${result.name}/index.m3u8`,
 						flv: `/live/${result.name}/index.flv`
