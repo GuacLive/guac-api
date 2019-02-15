@@ -13,7 +13,7 @@ module.exports = compose(
 		const result = await stream.getStreamKey(req.user.id);
 		send(res, 200, {
 			statusCode: 200,
-			key: result.stream_key
+			key: result && result.stream_key
 		});
 	}
 );
