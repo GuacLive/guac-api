@@ -20,7 +20,7 @@ module.exports = compose(
 		}
 
 		const stream = new streamModel;
-		const result = await stream.getStreamKey(streamKey);
+		const result = await stream.isValidStreamKey(streamKey);
 		if(result){
 			await stream.setInactive(result.stream_id);
 			return send(res, 200);

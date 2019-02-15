@@ -39,7 +39,21 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	getStreamKey(streamKey) {
+	getStreamKey(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_keys').where({
+				user_id
+			})
+			.join('stream as s1', 's1.id', '=', 'stream_keys.id')
+			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
+			.debug(true)
+			.select('stream_keys.*', 's1.*', 'u1.username AS name')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	isValidStreamKey(streamKey) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_keys').where({
 				stream_key: streamKey

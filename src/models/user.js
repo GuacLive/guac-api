@@ -20,7 +20,8 @@ class User {
 				'username': username
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username', 'users.password')
+			.select('users.user_id', 'users.username', 'users.password, IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream')
+			.leftJoin('stream', 'ON (users.user_id = stream.user_id)')
 			.first()
 			.then(async (data) => {
 				if(!data) resolve(false);
@@ -29,7 +30,8 @@ class User {
 				if(match){
 					resolve({
 						'user_id': data.user_id,
-						'username': data.username
+						'username': data.username,
+						'can_stream': data.can_stream
 					});
 				}else{
 					resolve(false);

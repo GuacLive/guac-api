@@ -20,7 +20,7 @@ module.exports = compose(
 		}
 
 		const stream = new streamModel;
-		const result = await stream.getStreamKey(streamKey);
+		const result = await stream.isValidStreamKey(streamKey);
 		console.log(result);
 		if(result){
 			// Set stream as live
