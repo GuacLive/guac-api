@@ -42,7 +42,7 @@ class Stream {
 	getStreamKey(user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_keys').where({
-				user_id
+				's1.user_id': user_id
 			})
 			.join('stream as s1', 's1.id', '=', 'stream_keys.id')
 			.join('users as u1', 'u1.user_id', '=', 's1.user_id')

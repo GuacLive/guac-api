@@ -82,6 +82,7 @@ module.exports = router(
 	get('/channel/userBan', middleware(require('./routes/channel/userBan'))),
 	get('/channel/userUnban', middleware(require('./routes/channel/userUnban'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
+	get('/streaming', middleware(require('./routes/streaming/get'))),
 	get('/featured', middleware(require('./routes/featured/get'))),
 	get('/watch/:name', middleware(require('./routes/watch/get'))),
 	get('/', middleware(require('./routes/index/get'))),

@@ -20,8 +20,8 @@ class User {
 				'username': username
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username', 'users.password, IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream')
-			.leftJoin('stream', 'ON (users.user_id = stream.user_id)')
+			.select('users.user_id', 'users.username', 'users.password', dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'))
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(async (data) => {
 				if(!data) resolve(false);

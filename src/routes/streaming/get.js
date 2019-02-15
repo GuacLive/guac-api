@@ -9,13 +9,8 @@ module.exports = compose(
 	verifyJWTKey
 )(
 	async (req, res) => {
-		if(!req.user){
-			return send(res, 403, {
-				statusCode: 403
-			})
-		}
 		const stream = new streamModel;
-		const result = await stream.getStreamKey(req.user.user_id);
+		const result = await stream.getStreamKey(req.user.id);
 		send(res, 200, {
 			statusCode: 200,
 			key: result.stream_key
