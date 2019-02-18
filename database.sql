@@ -14,13 +14,20 @@ CREATE TABLE `categories` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `channel_bans` (
+  `ban_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `reason` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `stream` (
   `id` int(11) NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `live` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `views` bigint(20) NOT NULL,
-  `category` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `category` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `stream_keys` (
@@ -39,6 +46,11 @@ CREATE TABLE `users` (
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
+ALTER TABLE `channel_bans`
+  ADD PRIMARY KEY (`ban_id`),
+  ADD KEY `room_id` (`room_id`),
+  ADD KEY `user_id` (`user_id`);
+
 ALTER TABLE `stream`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category` (`category`);
@@ -53,6 +65,9 @@ ALTER TABLE `users`
 ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `channel_bans`
+  MODIFY `ban_id` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `stream`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -62,6 +77,10 @@ ALTER TABLE `stream_keys`
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
+
+ALTER TABLE `channel_bans`
+  ADD CONSTRAINT `channel_bans_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `stream` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `channel_bans_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `stream`
   ADD CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
