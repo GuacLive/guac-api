@@ -79,6 +79,7 @@ module.exports = router(
 	post('/live/on_publish_done', middleware(require('./routes/live/publishDone'))),
 	post('/*', notfound),
 	get('/edges', middleware(require('./routes/edges/get'))),
+	get('/channel/bans', middleware(require('./routes/channel/bans'))),
 	get('/channel/userBan', middleware(require('./routes/channel/userBan'))),
 	get('/channel/userUnban', middleware(require('./routes/channel/userUnban'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
