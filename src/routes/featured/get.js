@@ -22,6 +22,13 @@ module.exports = compose(
 						hls: `/live/${item.name}/index.m3u8`,
 						flv: `/live/${item.name}/index.flv`
 					},
+					qualities: {
+						'source': '_src',
+						'720p': '_high',
+						'480p': '_medium',
+						'360p': '_low',
+						//'240p': '_mobile'
+					},
 					servers: global.nconf.get('server:streaming_servers'),
 					user: {
 						id: item.user_id,
