@@ -14,6 +14,20 @@ class User {
 		});
 	}
 
+	getUserByUsername(username) {
+		return new Promise((resolve, reject) => {
+			dbInstance('users').where({
+				'username': username
+			})
+			.debug(true)
+			.select('users.user_id', 'users.username')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+
+
 	checkUser(username, password) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
