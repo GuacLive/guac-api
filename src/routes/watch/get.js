@@ -35,7 +35,8 @@ module.exports = compose(
 						flv: `/live/${result.name}/index.flv`
 					},
 					qualities: {
-						'source': '_src',
+						//'source': '_src',
+						'source': '',
 						'720p': '_high',
 						'480p': '_medium',
 						'360p': '_low',

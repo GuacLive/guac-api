@@ -1,25 +1,46 @@
-import { send } from 'micro';
-import { compose, parseJSONInput } from 'micro-hoofs';
+import { send,json } from 'micro';
+import { compose } from 'micro-hoofs';
 
 import channelModel from '../../models/channel';
+
+import userModel from '../../models/user';
 
 import verifySecretKey from '../../services/verifySecretKey';
 
 module.exports = compose(
-	verifySecretKey,
-	parseJSONInput
+	verifySecretKey
 )(
 	async (req, res) => {
 		const channel = new channelModel;
-		if(req.json && req.json.channel && req.json.user){
+		const user = new userModel;
+		const jsonData = await json(req);
+		if(jsonData && jsonData.channel){
 			/*
 				Authentication is done through secret key.
 				This is because validation is done locally on the chat server...
 				Change this to JWT at some point?
 			*/
-			const result = await channel.unbanUser(req.json.channel, req.json.user, 'No reason provided');
+			if(typeof jsonData.user_id === 'number' && jsonData.username){
+				return send(res, 401, {
+					statusCode: 401,
+					statusMessage: 'This endpoint takes either an user_id or username, not both'
+				});
+			}
+			if(jsonData.username){
+				let user = await user.getUserByUsername(jsonData.username);
+			}else if(typeof jsonData.user_id !== 'number'){
+				return send(res, 401, {
+					statusCode: 401,
+					statusMessage: 'This endpoint takes either an user_id or username'
+				});
+			}
+			let user_id = user && typeof user.id == 'number' ? user.id : jsonData.user_id;
+			const result = await channel.unbanUser(
+				jsonData.channel,
+				user_id
+			);
 			return send(res, 200, {
-				statusCode: 200
+				statusCode: 200,
 			});
 		}else{
 			// ???
