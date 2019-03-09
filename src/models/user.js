@@ -4,10 +4,11 @@ class User {
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
-				'user_id': id
+				'users.user_id': id
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username')
+			.select('users.user_id', 'users.username', dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'))
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(resolve)
 			.catch(reject);
@@ -17,10 +18,11 @@ class User {
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
-				'username': username
+				'users.username': username
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username')
+			.select('users.user_id', 'users.username', dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'))
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(resolve)
 			.catch(reject);
