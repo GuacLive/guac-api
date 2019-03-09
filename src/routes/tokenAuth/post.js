@@ -9,7 +9,7 @@ module.exports = compose(
 	async (req, res) => {
 		send(res, 200, {
 			statusCode: 200,
-			...req.user
+			user: req.user
 		});
 	}
 );
