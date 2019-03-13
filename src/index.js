@@ -58,14 +58,14 @@ const corsMiddleware = microCors({
 
 const rateLimitMiddleware = rateLimit.bind(rateLimit, {
 	window: 10000,
-	limit: 4,
+	limit: 10,
 	headers: true
 });
 
 const middleware = compose(...[
 	//handleErrors,
 	corsMiddleware,
-	rateLimitMiddleware,
+	//rateLimitMiddleware,
 ]);
 
 const notfound = async (req, res) => {

@@ -9,7 +9,12 @@ module.exports = compose(
 	async (req, res) => {
 		send(res, 200, {
 			statusCode: 200,
-			user: req.user
+			token: req.user.token,
+			user: {
+				id: req.user.id,
+				name: req.user.name,
+				can_stream: req.user.can_stream
+			}
 		});
 	}
 );
