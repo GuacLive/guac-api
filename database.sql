@@ -82,6 +82,9 @@ ALTER TABLE `channel_bans`
   ADD CONSTRAINT `channel_bans_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `stream` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `channel_bans_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
+ALTER TABLE `channel_bans`
+  ADD CONSTRAINT `channel_bans_uniq_1` UNIQUE KEY(`room_id`, `user_id`);
+
 ALTER TABLE `stream`
   ADD CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
 COMMIT;
