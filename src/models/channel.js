@@ -6,7 +6,7 @@ class Channel {
 			.where({
 				'room_id': room
 			})
-			.orderBy('id', 'desc')
+			.orderBy('ban_id', 'desc')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
