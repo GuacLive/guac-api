@@ -80,6 +80,7 @@ module.exports = router(
 	post('/channel/bans', middleware(require('./routes/channel/bans'))),
 	post('/channel/userBan', middleware(require('./routes/channel/userBan'))),
 	post('/channel/userUnban', middleware(require('./routes/channel/userUnban'))),
+	post('/channel/setTitle', middleware(require('./routes/channel/setTitle'))),
 	post('/*', notfound),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),

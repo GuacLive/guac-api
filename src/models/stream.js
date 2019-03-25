@@ -1,6 +1,6 @@
 const dbInstance = global.dbInstance;
 class Stream {
-	getChannels(name) {
+	getChannels() {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
 			.orderBy('id', 'desc')
@@ -9,7 +9,7 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	getFeatured(name) {
+	getFeatured() {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
 			.select(['id', 'u1.username AS name'])
@@ -63,6 +63,18 @@ class Stream {
 			.debug(true)
 			.select('stream_keys.*', 's1.*', 'u1.username AS name')
 			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	setTitle(userId, title = '') {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream').where({
+				user_id: userId
+			})
+			.update({
+				title,
+			})
 			.then(resolve)
 			.catch(reject);
 		});
