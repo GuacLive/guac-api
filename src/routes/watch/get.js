@@ -32,7 +32,7 @@ module.exports = compose(
 					category_name: result.category_name,
 					urls: {
 						hls: `/live/${result.name}/index.m3u8`,
-						flv: `/live/${result.name}/index.flv`
+						flv: `/live/${result.name}.flv`
 					},
 					qualities: {
 						//'source': '_src',

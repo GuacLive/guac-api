@@ -20,7 +20,7 @@ module.exports = compose(
 					views: parseInt(item.views, 10),
 					urls: {
 						hls: `/live/${item.name}/index.m3u8`,
-						flv: `/live/${item.name}/index.flv`
+						flv: `/live/${item.name}.flv`
 					},
 					qualities: {
 						//'source': '_src',
