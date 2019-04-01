@@ -18,6 +18,8 @@ class Channel {
 			.where({
 				'from_id': from_id
 			})
+			.select('follows.*, stream.live AS live')
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
@@ -29,6 +31,8 @@ class Channel {
 			.where({
 				'to_id': to_id
 			})
+			.select('follows.*, stream.live AS live')
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
