@@ -42,6 +42,12 @@ CREATE TABLE `users` (
   `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE `followers` (
+  `user_id` int(11) NOT NULL,
+  `following_id` int(11) NOT NULL
+  PRIMARY KEY(`user_id`, `following_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);

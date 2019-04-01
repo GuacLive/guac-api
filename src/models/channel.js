@@ -12,6 +12,28 @@ class Channel {
 			.catch(reject);
 		});
 	}
+	getFollowing(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('followers')
+			.where({
+				'user_id': user_id
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	getFollowers(following_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('followers')
+			.where({
+				'following_id': following_id
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	banUser(room, userToBan, reason = '') {
 		return new Promise((resolve, reject) => {
 			dbInstance('channel_bans')
