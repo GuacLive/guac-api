@@ -12,22 +12,22 @@ class Channel {
 			.catch(reject);
 		});
 	}
-	getFollowing(user_id) {
+	getFollowsFrom(from_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('followers')
+			dbInstance('follows')
 			.where({
-				'user_id': user_id
+				'from_id': from_id
 			})
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
 		});
 	}
-	getFollowers(following_id) {
+	getFollowsTo(to_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('followers')
+			dbInstance('follows')
 			.where({
-				'following_id': following_id
+				'to_id': to_id
 			})
 			.debug(true)
 			.then(resolve)

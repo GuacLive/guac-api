@@ -18,7 +18,8 @@ CREATE TABLE `channel_bans` (
   `ban_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `reason` varchar(100) DEFAULT NULL
+  `reason` varchar(100) DEFAULT NULL,
+  `banned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `stream` (
@@ -39,13 +40,15 @@ CREATE TABLE `stream_keys` (
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `username` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL
+  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `registered_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `followers` (
-  `user_id` int(11) NOT NULL,
-  `following_id` int(11) NOT NULL
-  PRIMARY KEY(`user_id`, `following_id`)
+CREATE TABLE `follows` (
+  `from_id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `followed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  PRIMARY KEY(`from_id`, `to_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
