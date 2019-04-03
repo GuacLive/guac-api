@@ -15,6 +15,8 @@ module.exports = compose(
 			result = await channel.getFollowsFrom(jsonData.from_id);
 		}else if(jsonData.to_id){
 			result = await channel.getFollowsTo(jsonData.to_id);
+		}else if(req.user && req.user.id){
+			result = await channel.getFollowsFrom(req.user.id);
 		}
 		if(!result){
 			return send(res, 400, {

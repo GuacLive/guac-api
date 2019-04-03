@@ -47,7 +47,7 @@ CREATE TABLE `users` (
 CREATE TABLE `follows` (
   `from_id` int(11) NOT NULL,
   `to_id` int(11) NOT NULL,
-  `followed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `followed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(`from_id`, `to_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
