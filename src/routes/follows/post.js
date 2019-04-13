@@ -11,14 +11,13 @@ module.exports = compose(
 		const channel = new channelModel;
 		const jsonData = await json(req);
 		let result;
-		if(jsonData.from_id){
+		if(typeof jsonData.from_id !== 'undefined'){
 			result = await channel.getFollowsFrom(jsonData.from_id);
-		}else if(jsonData.to_id){
+		}else if(typeof jsonData.from_id !== 'undefined'){
 			result = await channel.getFollowsTo(jsonData.to_id);
-		}else if(req.user && req.user.id){
+		}else if(req.user && typeof req.user.id !== 'undefined'){
 			result = await channel.getFollowsFrom(req.user.id);
-		}
-		if(!result){
+		}else{
 			return send(res, 400, {
 				statusCode: 400,
 				statusMessage: 'No from_id or to_id given'
