@@ -26,7 +26,7 @@
     "micro-dev": "^3.0.0"
   },
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcrypt": "3.0.6",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.15.2",
     "micro": "^9.0.2",
