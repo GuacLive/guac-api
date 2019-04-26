@@ -22,6 +22,13 @@ CREATE TABLE `channel_bans` (
   `banned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `channel_mods` (
+  `mod_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `modded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `stream` (
   `id` int(11) NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -93,6 +100,13 @@ ALTER TABLE `channel_bans`
 
 ALTER TABLE `channel_bans`
   ADD CONSTRAINT `channel_bans_uniq_1` UNIQUE KEY(`room_id`, `user_id`);
+
+ALTER TABLE `channel_mods`
+  ADD CONSTRAINT `channel_mods_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `stream` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `channel_mods_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `channel_mods`
+  ADD CONSTRAINT `channel_mods_uniq_1` UNIQUE KEY(`room_id`, `user_id`);
 
 ALTER TABLE `stream`
   ADD CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);

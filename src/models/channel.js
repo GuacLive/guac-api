@@ -40,6 +40,31 @@ class Channel {
 			.catch(reject);
 		});
 	}
+	modUser(room, userToMod) {
+		return new Promise((resolve, reject) => {
+			dbInstance('channel_mods')
+			.insert({
+				'room_id': room,
+				'user_id': userToMod
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	UnmodUser(room, userToMod) {
+		return new Promise((resolve, reject) => {
+			dbInstance('channel_mods')
+			.delete()
+			.where({
+				'room_id': room,
+				'user_id': userToMod
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	banUser(room, userToBan, reason = '') {
 		return new Promise((resolve, reject) => {
 			dbInstance('channel_bans')

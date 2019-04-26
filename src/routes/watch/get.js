@@ -46,7 +46,8 @@ module.exports = compose(
 					user: {
 						id: result.user_id,
 						name: result.username
-					}
+					},
+					mods: typeof result.mods === 'array' ? result.mods : []
 				}
 			});
 		}else{
