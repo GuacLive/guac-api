@@ -12,7 +12,10 @@ nconf.defaults({
 		register_type: 0,
 		streaming_servers: {
 			'eu': '//stream.guac.live'
-		}
+		},
+		whitelist: [
+			/(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)/
+		]
 	},
 	database: {
 		client: 'mysql2',
@@ -45,8 +48,9 @@ import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 import microCors from 'micro-cors';
 import { router, get, post, del } from 'microrouter';
-import rateLimit from 'micro-ratelimit';
+import ratelimit from 'micro-ratelimit2';
 import { handleErrors } from 'micro-boom';
+import Redis from 'ioredis';
 
 const corsMiddleware = microCors({
 	allowMethods: ['POST','GET','PUT','PATCH','DELETE','OPTIONS'],
@@ -56,16 +60,21 @@ const corsMiddleware = microCors({
 	runHandlerOnOptionsRequest: true
 });
 
-const rateLimitMiddleware = rateLimit.bind(rateLimit, {
-	window: 10000,
-	limit: 10,
-	headers: true
+const rateLimitMiddleware = ratelimit.bind(ratelimit, {
+	db: new Redis(),
+	id: (req) => req.headers['x-forwarded-for'],
+	max: 300,
+	duration: 60 * 1000,
+	whitelist: req => {
+		return nconf.get('server:whitelist')
+			.some(r => r.test(req.headers['x-forwarded-for']));
+	}
 });
 
 const middleware = compose(...[
 	//handleErrors,
 	corsMiddleware,
-	//rateLimitMiddleware,
+	rateLimitMiddleware,
 ]);
 
 const notfound = async (req, res) => {
