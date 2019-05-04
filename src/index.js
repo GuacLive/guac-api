@@ -62,12 +62,12 @@ const corsMiddleware = microCors({
 
 const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 	db: new Redis(),
-	id: (req) => req.headers['x-forwarded-for'],
+	id: (req) => req.headers['x-forwarded-for'] || req.connection.remoteAddress.replace(/^.*:/, ''),
 	max: 300,
 	duration: 60 * 1000,
 	whitelist: req => {
 		return nconf.get('server:whitelist')
-			.some(r => r.test(req.headers['x-forwarded-for']));
+			.some(r => req.headers.hasOwnProperty('x-forwarded-for') ? r.test(req.headers['x-forwarded-for']) : r.test(req.connection.remoteAddress.replace(/^.*:/, '')));
 	}
 });
 
