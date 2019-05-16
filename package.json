@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "bcrypt": "3.0.6",
+    "core-js": "2",
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.15.2",
