@@ -22,6 +22,14 @@ CREATE TABLE `channel_bans` (
   `banned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `channel_timeouts` (
+  `timeout_id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `time` BIGINT NOT NULL,
+   PRIMARY KEY(`timeout_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `channel_mods` (
   `mod_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
