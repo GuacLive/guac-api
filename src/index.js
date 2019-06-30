@@ -95,6 +95,7 @@ module.exports = router(
 	post('/channel/userTimeout', middleware(require('./routes/channel/userTimeout'))),
 	post('/channel/setTitle', middleware(require('./routes/channel/setTitle'))),
 	post('/follows', middleware(require('./routes/follows/post'))),
+	post('/fcm', middleware(require('./routes/fcm/post'))),
 	post('/*', notfound),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
