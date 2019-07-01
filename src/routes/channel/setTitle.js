@@ -1,15 +1,14 @@
-import { send } from 'micro';
+import { send, json } from 'micro';
 import { compose } from 'micro-hoofs';
-import parse from 'urlencoded-body-parser';
 
 import streamModel from '../../models/stream';
 import verifyJWTKey from '../../services/verifyJWTKey';
 
 module.exports = compose(
-    verifyJWTKey
+	verifyJWTKey
 )(
 	async (req, res) => {
-		const data = await parse(req);
+		const data = await json(req);
 
 		const streamTitle = data.title;
 		if(!streamTitle){
@@ -21,7 +20,7 @@ module.exports = compose(
 		}
 
 		const stream = new streamModel;
-		const result = await stream.setTitle(req.user.name, streamTitle);
+		const result = await stream.setTitle(req.user.id, streamTitle);
 		console.log(result);
 		if(result){
 			return send(res, 200, {
