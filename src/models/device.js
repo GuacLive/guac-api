@@ -1,5 +1,21 @@
 const dbInstance = global.dbInstance;
 class Device {
+	getFollowTokens(to_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows')
+			.where({
+				'to_id': to_id
+			})
+			.select('devices.token')
+			.join('devices', 'devices.user_id', '=', 'follows.to_id')
+			.debug(true)
+			.map((row) => {
+				return row.token;
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	tokenExists(token) {
 		return new Promise((resolve, reject) => {
 			dbInstance('devices')

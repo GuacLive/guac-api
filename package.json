@@ -31,6 +31,7 @@
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.15.2",
+    "lodash.chunk": "^4.2.0",
     "micro": "^9.0.2",
     "micro-boom": "^1.1.0",
     "micro-cors": "1.0.0-alpha.1",
@@ -39,6 +40,7 @@
     "microrouter": "^3.0.0",
     "mysql2": "^1.5.1",
     "nconf": "^0.10.0",
+    "node-fetch": "^2.6.0",
     "urlencoded-body-parser": "^2.0.1"
   }
 }
