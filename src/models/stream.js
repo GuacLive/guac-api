@@ -1,5 +1,15 @@
 const dbInstance = global.dbInstance;
 class Stream {
+	// getCategories should be a seperate model mayhaps?
+	getCategories() {
+		return new Promise((resolve, reject) => {
+			dbInstance('categories')
+			.orderBy('category_id', 'asc')
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getChannels() {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
@@ -64,6 +74,18 @@ class Stream {
 			.debug(true)
 			.select('stream_keys.*', 's1.*', 'u1.username AS name')
 			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	setCategory(userId, category = '') {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream').where({
+				user_id: userId
+			})
+			.update({
+				category,
+			})
 			.then(resolve)
 			.catch(reject);
 		});
