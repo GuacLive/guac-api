@@ -38,9 +38,11 @@ module.exports = compose(
 				const chunkedTokens = chunk(followTokens, 100);
 				const firebaseMessage = {
 					priority: 'high',
-					data: {
+					notification: {
 						title: `${result.name} went live`,
 						body: `${result.name} is now live on guac.live`,
+					},
+					data: {
 						username: result.name
 					}
 				};
