@@ -29,6 +29,26 @@ class User {
 		});
 	}
 
+	addUser(username, password) {
+		return new Promise(async (resolve, reject) => {
+			const salt = await bcrypt.genSalt(10);
+
+			// hash the password along with our new salt
+			const hashedPassword = await bcrypt.hash(password, salt);
+				
+			dbInstance('users')
+			.insert({
+				'username': username,
+				'password': hashedPassword,
+			})
+			.debug(true)
+			.then(async (data) => {
+				if(!data) resolve(false);
+				resolve(await this.getUserByUsername(username));
+			})
+			.catch(reject);
+		});
+	}
 
 	checkUser(username, password) {
 		return new Promise((resolve, reject) => {

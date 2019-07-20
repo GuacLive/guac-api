@@ -1,7 +1,6 @@
 import { send, json } from 'micro';
 import { compose } from 'micro-hoofs';
 
-import fs from 'fs';
 import userModel from '../../models/user';
 
 import jwt from 'jsonwebtoken';

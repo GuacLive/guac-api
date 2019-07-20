@@ -82,7 +82,8 @@ const notfound = async (req, res) => {
 };
 
 module.exports = router(
-	post('/auth', middleware(require('./routes/auth/post'))),
+	post('/register', middleware(require('./routes/auth/register'))),
+	post('/auth', middleware(require('./routes/auth/login'))),
 	post('/tokenAuth', middleware(require('./routes/tokenAuth/post'))),
 	post('/live/publish', middleware(require('./routes/live/publish'))),
 	post('/live/on_publish_done', middleware(require('./routes/live/publishDone'))),
