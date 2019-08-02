@@ -14,6 +14,9 @@ class Stream {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
 			.orderBy('id', 'desc')
+			.where({
+				'private': 0
+			})
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
@@ -24,7 +27,8 @@ class Stream {
 			dbInstance('stream')
 			.select(['id', 'u1.username AS name'])
 			.where({
-				'live': 1
+				'live': 1,
+				'private': 0
 			})
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
@@ -121,6 +125,18 @@ class Stream {
 			})
 			.update({
 				live: 0
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	setPrivate(streamId, bool) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream').where({
+				id: streamId
+			})
+			.update({
+				private: bool
 			})
 			.then(resolve)
 			.catch(reject);
