@@ -10,53 +10,62 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE `categories` (
-  `category_id` int(11) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL
+  `category_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `channel_bans` (
-  `ban_id` int(11) UNSIGNED NOT NULL,
-  `room_id` int(11) NOT NULL,
+  `ban_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `room_id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
   `reason` varchar(100) DEFAULT NULL,
-  `banned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `banned_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(`ban_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `channel_timeouts` (
   `timeout_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `room_id` int(11) NOT NULL,
+  `room_id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
   `time` BIGINT NOT NULL,
    PRIMARY KEY(`timeout_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `channel_mods` (
-  `mod_id` int(11) UNSIGNED NOT NULL,
-  `room_id` int(11) NOT NULL,
+  `mod_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `room_id` int(11) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
-  `modded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `modded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`mod_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `stream` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `private` BOOLEAN NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `live` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `views` bigint(20) NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
-  `category` int(11) DEFAULT NULL
+  `category` int(11) UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category` (`category`)
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `stream_keys` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `stream_key` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `stream_id` int(11) UNSIGNED NOT NULL
+  `stream_id` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `users` (
-  `user_id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `registered_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `registered_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `follows` (
@@ -76,42 +85,6 @@ CREATE TABLE `devices` (
    FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`category_id`);
-
-ALTER TABLE `channel_bans`
-  ADD PRIMARY KEY (`ban_id`),
-  ADD KEY `room_id` (`room_id`),
-  ADD KEY `user_id` (`user_id`);
-
-ALTER TABLE `stream`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category` (`category`);
-
-ALTER TABLE `stream_keys`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
-
-
-ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `channel_bans`
-  MODIFY `ban_id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `stream`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `stream_keys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
-
-
 ALTER TABLE `channel_bans`
   ADD CONSTRAINT `channel_bans_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `stream` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `channel_bans_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -128,11 +101,6 @@ ALTER TABLE `channel_mods`
 
 ALTER TABLE `stream`
   ADD CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
-COMMIT;
-
-
-ALTER TABLE `stream`
-  ADD  `private` BOOLEAN NOT NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
