@@ -136,7 +136,7 @@ class Stream {
 				id: streamId
 			})
 			.update({
-				private: bool
+				private: !!bool
 			})
 			.then(resolve)
 			.catch(reject);
