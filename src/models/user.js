@@ -7,7 +7,12 @@ class User {
 				'users.user_id': id
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username', dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'))
+			.select(
+				'users.user_id',
+				'users.username',
+				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
+				'users.type'
+			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(resolve)
@@ -21,7 +26,12 @@ class User {
 				'users.username': username
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username', dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'))
+			.select(
+				'users.user_id',
+				'users.username',
+				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
+				'users.type'
+			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(resolve)
@@ -56,7 +66,13 @@ class User {
 				'username': username
 			})
 			.debug(true)
-			.select('users.user_id', 'users.username', 'users.password', dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'))
+			.select(
+				'users.user_id',
+				'users.username',
+				'users.password',
+				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
+				'users.type'
+			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(async (data) => {

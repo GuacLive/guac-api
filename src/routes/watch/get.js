@@ -45,7 +45,8 @@ module.exports = compose(
 					servers: global.nconf.get('server:streaming_servers'),
 					user: {
 						id: result.user_id,
-						name: result.username
+						name: result.username,
+						type: result.type
 					},
 					mods: typeof result.mods === 'array' ? result.mods : []
 				}
