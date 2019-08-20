@@ -20,7 +20,7 @@ module.exports = compose(
 		}
 
 		const stream = new streamModel;
-		const result = await stream.setPrivate(req.user.id, stramprivate);
+		const result = await stream.setPrivate(req.user.id, streamPrivate);
 		console.log(result);
 		if(result){
 			return send(res, 200, {
