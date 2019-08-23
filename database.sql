@@ -85,6 +85,13 @@ CREATE TABLE `devices` (
    FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+CREATE TABLE `user_types` (
+  `type_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` varchar(25) NOT NULL UNIQUE,
+   PRIMARY KEY(`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 ALTER TABLE `channel_bans`
   ADD CONSTRAINT `channel_bans_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `stream` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `channel_bans_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -103,7 +110,8 @@ ALTER TABLE `stream`
   ADD CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
 
 ALTER TABLE `users`
-  ADD `type` varchar(25) IN (`user`, `staff`, `admin`) NOT NULL DEFAULT `user`
+  ADD COLUMN `type` varchar(25) NOT NULL DEFAULT 'user',
+  ADD CONSTRAINT `user_types_ibfk_1` FOREIGN KEY (`type`) REFERENCES `user_types` (`type`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
