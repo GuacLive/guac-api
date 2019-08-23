@@ -83,7 +83,8 @@ class User {
 					resolve({
 						'user_id': data.user_id,
 						'username': data.username,
-						'can_stream': data.can_stream
+						'can_stream': data.can_stream,
+						'type': type
 					});
 				}else{
 					resolve(false);
