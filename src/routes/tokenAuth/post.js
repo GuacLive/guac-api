@@ -13,7 +13,8 @@ module.exports = compose(
 			user: {
 				id: req.user.id,
 				name: req.user.name,
-				can_stream: req.user.can_stream
+				can_stream: req.user.can_stream,
+				type: req.user.type,
 			}
 		});
 	}

@@ -78,7 +78,7 @@ class User {
 			.then(async (data) => {
 				if(!data) resolve(false);
 				const match = await bcrypt.compare(password, data.password);
-
+0
 				if(match){
 					resolve({
 						'user_id': data.user_id,
@@ -89,7 +89,6 @@ class User {
 				}else{
 					resolve(false);
 				}
-				console.log(data)
 			})
 			.catch(reject);
 		});

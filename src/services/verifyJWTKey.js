@@ -39,7 +39,8 @@ module.exports = fn => async (req, res) => {
 				token: token,
 				id: result.user_id,
 				name: result.username,
-				can_stream: result.can_stream
+				can_stream: result.can_stream,
+				type: result.type,
 			};
 			return await fn(req, res);
 		});
