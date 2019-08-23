@@ -84,7 +84,7 @@ class User {
 						'user_id': data.user_id,
 						'username': data.username,
 						'can_stream': data.can_stream,
-						'type': type
+						'type': data.type
 					});
 				}else{
 					resolve(false);
