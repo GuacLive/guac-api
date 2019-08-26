@@ -10,13 +10,15 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	getChannels() {
+	getChannels(onlyLive = false) {
+		let where = {
+			'private': 0
+		};
+		if(onlyLive) where.live = 1;
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
 			.orderBy('id', 'desc')
-			.where({
-				'private': 0
-			})
+			.where(where)
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
