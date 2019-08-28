@@ -13,8 +13,9 @@ module.exports = compose(
 			statusCode: 200,
 			data: results.map((result) => {
 				if(result.live){
-					result.thumbnail = result.user.name + '.png';
+					result.thumbnail = result.name + '.png';
 				}
+				return result;
 			})
 		});
 	}
