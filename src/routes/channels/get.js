@@ -3,6 +3,7 @@ import { compose } from 'micro-hoofs';
 
 import streamModel from '../../models/stream';
 
+const servers = global.nconf.get('server:streaming_servers');
 module.exports = compose(
 )(
 	async (req, res) => {
@@ -13,7 +14,9 @@ module.exports = compose(
 			statusCode: 200,
 			data: results.map((result) => {
 				if(result.live){
-					result.thumbnail = result.name + '.png';
+					result.thumbnail = `${servers['eu']}/live/${result.name}/thumbnail.png`;
+					// TODO: Support more than one server
+					result.servers = servers[0];
 				}
 				return result;
 			})

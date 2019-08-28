@@ -17,10 +17,12 @@ class Stream {
 		if(onlyLive) where.live = 1;
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
-			.select(['stream.*', 'u1.username AS name'])
+			.select('stream.*', 'u1.user_id', 'u1.username', 'u1.username AS name',
+				'c1.category_id AS category_id', 'c1.name AS category_name', 'u1.type')
 			.orderBy('id', 'desc')
 			.where(where)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
+			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
