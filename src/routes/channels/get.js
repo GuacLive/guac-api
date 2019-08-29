@@ -1,13 +1,16 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
+import { parse } from 'url';
+
 import streamModel from '../../models/stream';
 
 const servers = global.nconf.get('server:streaming_servers');
 module.exports = compose(
 )(
 	async (req, res) => {
-		let onlyLive = req.params.live === '1';
+		const { query } = await parse(req.url, true)
+		let onlyLive = query.live === '1';
 		const stream = new streamModel;
 		const results = await stream.getChannels(onlyLive);
 		send(res, 200, {
