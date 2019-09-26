@@ -50,6 +50,7 @@ class User {
 			.insert({
 				'username': username,
 				'password': hashedPassword,
+				'type': 'user'
 			})
 			.debug(true)
 			.then(async (data) => {
