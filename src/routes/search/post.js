@@ -9,7 +9,7 @@ module.exports = compose(
 		const search = new searchModel;
 		const jsonData = await json(req);
 		if(jsonData && jsonData.term){
-			let term = jsonData.fcmToken;
+			let term = jsonData.term;
 			let data = await search.search(term);
 			return send(res, 200, {
 				statusCode: 200,
