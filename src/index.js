@@ -99,6 +99,7 @@ module.exports = router(
 	post('/channel/setCategory', middleware(require('./routes/channel/setCategory'))),
 	post('/follows', middleware(require('./routes/follows/post'))),
 	post('/fcm', middleware(require('./routes/fcm/post'))),
+	post('/search', middleware(require('./routes/search/post'))),
 	post('/*', notfound),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/categories', middleware(require('./routes/categories/get'))),
