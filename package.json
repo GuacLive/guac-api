@@ -30,7 +30,7 @@
     "core-js": "2",
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",
-    "knex": "^0.15.2",
+    "knex": "^0.19.5",
     "lodash.chunk": "^4.2.0",
     "micro": "^9.0.2",
     "micro-boom": "^1.1.0",
