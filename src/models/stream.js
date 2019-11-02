@@ -88,6 +88,21 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	addStreamKey(user_id, stream_key) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_keys')
+			.insert({
+				'user_id': user_id,
+				'stream_key': stream_key,
+			})
+			.debug(true)
+			.then(async (data) => {
+				if(!data) resolve(false);
+				resolve(await this.getUserById(user_id));
+			})
+			.catch(reject);
+		});
+	}
 	setCategory(userId, category = '') {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({

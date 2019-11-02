@@ -26,6 +26,7 @@
     "micro-dev": "^3.0.0"
   },
   "dependencies": {
+    "babel-plugin-transform-regenerator": "^6.26.0",
     "bcrypt": "3.0.6",
     "core-js": "2",
     "ioredis": "^4.9.0",
