@@ -106,6 +106,12 @@ module.exports = router(
 	post('/fcm', middleware(require('./routes/fcm/post'))),
 	post('/search', middleware(require('./routes/search/post'))),
 	post('/*', notfound),
+	// To get NMS streams currently live
+	get('/admin/streams', middleware(require('./routes/admin/getStreams'))),
+	// To stop a NMS stream currently live
+	get('/admin/stopStream/:name', middleware(require('./routes/admin/stopStream'))),
+	// To add a stream to database
+	post('/admin/stream', middleware(require('./routes/admin/createStream'))),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/categories', middleware(require('./routes/categories/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
