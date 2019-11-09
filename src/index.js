@@ -18,7 +18,7 @@ nconf.defaults({
 		]
 	},
 	nms: {
-		host: 'stream.guac.live',
+		host: 'https://stream.guac.live',
 		user: 'nms',
 		password: 'nms'
 	},
