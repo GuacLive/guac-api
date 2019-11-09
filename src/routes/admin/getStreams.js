@@ -1,7 +1,7 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
-import fetch from 'node-fetch';
+import { fetch, Headers} from 'node-fetch';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 import verifyUserStaff from '../../services/verifyUserStaff';
