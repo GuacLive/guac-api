@@ -20,7 +20,7 @@ module.exports = compose(
                 'Content-Type': 'application/json'
             }
         });
-        const data = nms.json();
+        const data = await nms.json();
           
 		return send(res, 200, {
             statusCode: 200,
