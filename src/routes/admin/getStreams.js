@@ -13,13 +13,14 @@ module.exports = compose(
 	async (req, res) => {
         const auth = Buffer.from(`${global.nconf.get('nms:user')}:${global.nconf.get('nms:password')}`)
             .toString('base64');
-        const data = await fetch(global.nconf.get('nms:host') + '/api/streams', {
+        const nms = await fetch(global.nconf.get('nms:host') + '/api/streams', {
             method: 'get',
             headers: {
                 'Authorization': `Basic ${auth}`,
                 'Content-Type': 'application/json'
             }
         });
+        const data = nms.json();
           
 		return send(res, 200, {
             statusCode: 200,

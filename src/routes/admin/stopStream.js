@@ -14,13 +14,14 @@ module.exports = compose(
         const stream = req.params.name;
         const auth = Buffer.from(`${global.nconf.get('nms:user')}:${global.nconf.get('nms:password')}`)
             .toString('base64');
-        const data = await fetch(`${global.nconf.get('nms:host')}/api/live/${stream}`, {
+        const nms = await fetch(`${global.nconf.get('nms:host')}/api/live/${stream}`, {
             method: 'delete',
             headers: new Headers({
                 'Authorization': `Basic ${auth}`,
                 'Content-Type': 'application/json'
             })
         });
+        const data = nms.json();
 
 		return send(res, 200, {
             statusCode: 200,
