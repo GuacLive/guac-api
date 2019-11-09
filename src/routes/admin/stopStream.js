@@ -10,21 +10,29 @@ module.exports = compose(
     verifyJWTKey,
     verifyUserStaff
 )(
-	async (req, res) => {
+	async (req, response) => {
         const stream = req.params.name;
         const auth = Buffer.from(`${global.nconf.get('nms:user')}:${global.nconf.get('nms:password')}`)
             .toString('base64');
-        const data = await fetch(`${global.nconf.get('nms:host')}/api/live/${stream}`, {
+        fetch(`${global.nconf.get('nms:host')}/api/live/${stream}`, {
             method: 'delete',
-            headers: new Headers({
+            headers: {
                 'Authorization': `Basic ${auth}`,
                 'Content-Type': 'application/json'
-            })
-        });
-          
-		send(200, res, {
-            statusCode: 200,
-            data
+            }
+        })
+        .then(res => res.json()) // expecting a json response
+        .then(data => {
+            send(200, response, {
+                statusCode: 200,
+                data
+            });
+        })
+        .catch(e => {
+            send(500, response, {
+                statusCode: 500,
+                error: e
+            });
         });
 	}
 );
