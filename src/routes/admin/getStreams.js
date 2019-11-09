@@ -1,7 +1,7 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
-import { fetch, Headers} from 'node-fetch';
+import fetch from 'node-fetch';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 import verifyUserStaff from '../../services/verifyUserStaff';
@@ -15,10 +15,10 @@ module.exports = compose(
             .toString('base64');
         const data = await fetch(global.nconf.get('nms:host') + '/api/streams', {
             method: 'get',
-            headers: new Headers({
+            headers: {
                 'Authorization': `Basic ${auth}`,
                 'Content-Type': 'application/json'
-            })
+            }
         });
           
 		send(200, res, {
