@@ -14,7 +14,7 @@ module.exports = compose(
         const stream = req.params.name;
         const auth = Buffer.from(`${global.nconf.get('nms:user')}:${global.nconf.get('nms:password')}`)
             .toString('base64');
-        const nms = await fetch(`${global.nconf.get('nms:host')}/api/live/${stream}`, {
+        const nms = await fetch(`${global.nconf.get('nms:host')}/api/streams/live/${stream}`, {
             method: 'delete',
             headers: {
                 'Authorization': `Basic ${auth}`,
