@@ -27,7 +27,7 @@ module.exports = compose(
 			if (streamResult) {
 				let key = crypto.randomBytes(20).toString('hex');
 				await stream.createKey(streamResult.id, key);
-				return send(200, {
+				return send(res, 200, {
 					statusCode: 200,
 					data: {
 						key,

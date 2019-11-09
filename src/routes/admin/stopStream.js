@@ -22,7 +22,7 @@ module.exports = compose(
             })
         });
 
-		return send(200, res, {
+		return send(res, 200, {
             statusCode: 200,
             data
         });
