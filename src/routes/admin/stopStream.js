@@ -16,10 +16,10 @@ module.exports = compose(
             .toString('base64');
         const nms = await fetch(`${global.nconf.get('nms:host')}/api/live/${stream}`, {
             method: 'delete',
-            headers: new Headers({
+            headers: new {
                 'Authorization': `Basic ${auth}`,
                 'Content-Type': 'application/json'
-            })
+            }
         });
         const data = await nms.json();
 
