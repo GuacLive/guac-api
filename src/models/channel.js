@@ -52,6 +52,47 @@ class Channel {
 			.catch(reject);
 		});
 	}
+	follows(from_id, to_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows')
+			.where({
+				'from_id': from_id,
+				'to_id': to_id
+			})
+			.select('follows.*')
+			.limit(1)
+			.debug(true)
+			.then((data) => {
+				resolve(data.length > 0);
+			})
+			.catch(reject);
+		});
+	}
+	follow(from_id, to_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows')
+			.insert({
+				'from_id': from_id,
+				'to_id': to_id
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	unfollow(from_id, to_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows')
+			.delete()
+			.where({
+				'from_id': from_id,
+				'to_id': to_id
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	modUser(room, userToMod) {
 		return new Promise((resolve, reject) => {
 			dbInstance('channel_mods')

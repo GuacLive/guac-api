@@ -102,6 +102,7 @@ module.exports = router(
 	post('/channel/setTitle', middleware(require('./routes/channel/setTitle'))),
 	post('/channel/setPrivate', middleware(require('./routes/channel/setPrivate'))),
 	post('/channel/setCategory', middleware(require('./routes/channel/setCategory'))),
+	post('/follow', middleware(require('./routes/follow/post'))),
 	post('/follows', middleware(require('./routes/follows/post'))),
 	post('/fcm', middleware(require('./routes/fcm/post'))),
 	post('/search', middleware(require('./routes/search/post'))),
