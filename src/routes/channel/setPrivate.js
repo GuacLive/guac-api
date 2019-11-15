@@ -11,7 +11,7 @@ module.exports = compose(
 		const data = await json(req);
 
 		const streamPrivate = data.private;
-		if(!streamPrivate){
+		if(typeof streamPrivate == 'undefined'){
 			send(res, 403, {
 				statusCode: 403,
 				statusMessage: 'No stream private flag'
