@@ -154,7 +154,7 @@ class Stream {
 	setPrivate(streamId, bool) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({
-				id: streamId
+				user_id: streamId
 			})
 			.update({
 				private: bool ? 1 : 0
