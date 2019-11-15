@@ -14,7 +14,8 @@ module.exports = compose(
 		send(res, 200, {
 			statusCode: 200,
 			key: result && result.stream_key,
-			title: result && result.title
+			title: result && result.title,
+			private: result && result.private,
 		});
 	}
 );
