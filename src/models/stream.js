@@ -4,7 +4,7 @@ class Stream {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_panels')
 			.where({
-				'user_id': user_id
+				'stream_panels.user_id': user_id
 			})
 			.select('stream_panels.*', 'u1.username')
 			.orderBy('panel_id', 'desc')
