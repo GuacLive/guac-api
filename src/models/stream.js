@@ -6,8 +6,9 @@ class Stream {
 			.where({
 				'user_id': user_id
 			})
-			.select('stream_panels.*', 'users.username')
+			.select('stream_panels.*', 'u1.username')
 			.orderBy('panel_id', 'desc')
+			.join('users as u1', 'u1.user_id', '=', 'stream_panels.user_id')
 			.join('stream', 'stream.user_id', '=', 'stream_panels.user_id')
 			.debug(true)
 			.then(resolve)
