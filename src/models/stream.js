@@ -1,5 +1,19 @@
 const dbInstance = global.dbInstance;
 class Stream {
+	getPanels(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_panels')
+			.where({
+				'user_id': user_Id
+			})
+			.select('stream_panels.*', 'users.username')
+			.orderBy('panel_id', 'desc')
+			.join('stream', 'stream.user_id', '=', 'stream_panels.user_id')
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	// getCategories should be a seperate model mayhaps?
 	getCategories() {
 		return new Promise((resolve, reject) => {

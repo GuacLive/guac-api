@@ -48,7 +48,8 @@ module.exports = compose(
 						name: result.name,
 						type: result.type
 					},
-					mods: typeof result.mods === 'array' ? result.mods : []
+					mods: typeof result.mods === 'array' ? result.mods : [],
+					panels: await stream.getPanels(result.user_id)
 				}
 			});
 		}else{
