@@ -20,7 +20,6 @@ class Channel {
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'channel_mods.user_id')
 			.select('u1.user_id', 'u1.username AS name', 'u1.type')
-			.first()
 			.then(resolve)
 			.catch(reject);
 		});
