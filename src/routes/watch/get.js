@@ -20,7 +20,7 @@ module.exports = compose(
 		const result = await stream.getStream(req.params.name);
 		console.log(req.params, result);
 		if(result && result.id){
-			const mods = await channel.getMods(req.result.id);
+			const mods = await channel.getMods(result.id);
 			await stream.increaseView(result.id);
 			send(res, 200, {
 				statusCode: 200,
