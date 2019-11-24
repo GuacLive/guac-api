@@ -1,7 +1,7 @@
 import { send } from 'micro';
-import { compose, parseJSONInput } from 'micro-hoofs';
+import { compose } from 'micro-hoofs';
 
-import fs from 'fs';
+import channelModel from '../../models/channel';
 import streamModel from '../../models/stream';
 
 const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
@@ -15,10 +15,12 @@ module.exports = compose(
 				statusMessage: 'No stream name given'
 			});
 		}
+		const channel = new channelModel;
 		const stream = new streamModel;
 		const result = await stream.getStream(req.params.name);
 		console.log(req.params, result);
 		if(result && result.id){
+			const mods = await channel.getMods(req.result.id);
 			await stream.increaseView(result.id);
 			send(res, 200, {
 				statusCode: 200,
@@ -48,7 +50,7 @@ module.exports = compose(
 						name: result.name,
 						type: result.type
 					},
-					mods: typeof result.mods === 'array' ? result.mods : [],
+					mods: typeof mods !== 'undefined' ? mods : [],
 					panels: await stream.getPanels(result.user_id)
 				}
 			});

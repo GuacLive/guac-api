@@ -12,6 +12,19 @@ class Channel {
 			.catch(reject);
 		});
 	}
+	getMods(room){
+		return new Promise((resolve, reject) => {
+			dbInstance('channel_mods').where({
+				'room_id': room
+			})
+			.debug(true)
+			.join('users as u1', 'u1.user_id', '=', 'channel_mods.user_id')
+			.select('u1.user_id', 'u1.username AS name', 'u1.type')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getTimeouts(room) {
 		return new Promise((resolve, reject) => {
 			dbInstance('channel_timeouts')
