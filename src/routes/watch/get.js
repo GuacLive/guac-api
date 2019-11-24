@@ -50,7 +50,7 @@ module.exports = compose(
 						name: result.name,
 						type: result.type
 					},
-					mods: typeof mods !== 'undefined' ? mods : [],
+					mods: typeof mods == 'array' ? mods.map((m) => {return m && m.user_id}).filter(id => id) : [],
 					panels: await stream.getPanels(result.user_id)
 				}
 			});
