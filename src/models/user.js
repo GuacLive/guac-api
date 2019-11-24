@@ -39,6 +39,26 @@ class User {
 		});
 	}
 
+	getUserByUsername_lower(username) {
+		return new Promise((resolve, reject) => {
+			dbInstance('users')
+			.where(
+			  knex.raw('LOWER(users.username) = ??', [username])
+			)
+			.debug(true)
+			.select(
+				'users.user_id',
+				'users.username',
+				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
+				'users.type'
+			)
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+
 	addUser(username, password) {
 		return new Promise(async (resolve, reject) => {
 			const salt = await bcrypt.genSalt(10);
@@ -79,7 +99,6 @@ class User {
 			.then(async (data) => {
 				if(!data) resolve(false);
 				const match = await bcrypt.compare(password, data.password);
-0
 				if(match){
 					resolve({
 						'user_id': data.user_id,

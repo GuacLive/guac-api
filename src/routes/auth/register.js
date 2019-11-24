@@ -29,7 +29,7 @@ module.exports = compose(
 			}
 
 			// If user is already in database, error out
-			if(await um.getUserByUsername(username)){
+			if(await um.getUserByUsername_lower(username.toLowerCase())){
 				return send(res, 400, {
 					statusCode: 400,
 					statusMessage: 'User already exists'
