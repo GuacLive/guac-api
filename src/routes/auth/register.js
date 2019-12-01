@@ -15,7 +15,7 @@ module.exports = compose(
 			let username = jsonData.username;
 			let password = jsonData.password;
 
-			if(USERNAME_REGEX.test(username)){
+			if(!USERNAME_REGEX.test(username)){
 				return send(res, 400, {
 					statusCode: 400,
 					statusMessage: 'Not a valid username'
