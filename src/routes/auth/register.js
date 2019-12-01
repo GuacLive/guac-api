@@ -5,6 +5,7 @@ import userModel from '../../models/user';
 
 import jwt from 'jsonwebtoken';
 
+const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 module.exports = compose(
 )(
 	async (req, res) => {
@@ -13,6 +14,13 @@ module.exports = compose(
 		if(jsonData && jsonData.username && jsonData.password){
 			let username = jsonData.username;
 			let password = jsonData.password;
+
+			if(USERNAME_REGEX.test(username)){
+				return send(res, 400, {
+					statusCode: 400,
+					statusMessage: 'Not a valid username'
+				});
+			}
 
 			if(username.length < 3){
 				return send(res, 400, {

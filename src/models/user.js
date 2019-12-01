@@ -43,7 +43,7 @@ class User {
 		return new Promise((resolve, reject) => {
 			dbInstance('users')
 			.where(
-				dbInstance.raw('LOWER(users.username) = ??', [username])
+			  dbInstance.raw('LOWER(users.username) = ?', [username])
 			)
 			.debug(true)
 			.select(
