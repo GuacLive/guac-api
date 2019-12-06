@@ -68,7 +68,7 @@ class Stream {
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
 			.leftJoin('channel_mods as m1', 'm1.room_id', '=', 'stream.id')
 			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
-			.select('stream.*', 'u1.user_id', 'u1.username AS name',
+			.select('stream.*', 'stream.type AS stream_type', 'u1.user_id', 'u1.username AS name',
 				'c1.category_id AS category_id', 'c1.name AS category_name', 'u1.type')
 			.first()
 			.then(resolve)

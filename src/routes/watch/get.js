@@ -27,7 +27,7 @@ module.exports = compose(
 				data: {
 					id: result.id,
 					name: result.name,
-					type: result.type,
+					type: result.stream_type,
 					title: result.title,
 					live: parseInt(result.live, 10),
 					views: parseInt(result.views, 10),
