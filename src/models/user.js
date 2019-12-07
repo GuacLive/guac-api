@@ -11,7 +11,8 @@ class User {
 				'users.user_id',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type'
+				'users.type',
+				'users.avatar'
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -30,7 +31,8 @@ class User {
 				'users.user_id',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type'
+				'users.type',
+				'users.avatar'
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -50,7 +52,8 @@ class User {
 				'users.user_id',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type'
+				'users.type',
+				'users.avatar'
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -92,7 +95,8 @@ class User {
 				'users.username',
 				'users.password',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type'
+				'users.type',
+				'users.avatar'
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -104,7 +108,8 @@ class User {
 						'user_id': data.user_id,
 						'username': data.username,
 						'can_stream': data.can_stream,
-						'type': data.type
+						'type': data.type,
+						'avatar': data.avatar
 					});
 				}else{
 					resolve(false);

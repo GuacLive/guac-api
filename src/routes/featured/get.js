@@ -33,7 +33,9 @@ module.exports = compose(
 					servers: global.nconf.get('server:streaming_servers'),
 					user: {
 						id: item.user_id,
-						name: item.username
+						name: item.name,
+						type: item.type,
+						avatar: item.avatar || `//${global.nconf.get('server:domain')}/avatars/unknown.png`
 					}
 				};
 			})

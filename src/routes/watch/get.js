@@ -49,7 +49,8 @@ module.exports = compose(
 					user: {
 						id: result.user_id,
 						name: result.name,
-						type: result.type
+						type: result.type,
+						avatar: result.avatar || `//${global.nconf.get('server:domain')}/avatars/unknown.png`
 					},
 					mods: typeof mods == 'object' ? mods.map((m) => {return m && m.user_id}).filter(id => id) : [],
 					panels: await stream.getPanels(result.user_id)

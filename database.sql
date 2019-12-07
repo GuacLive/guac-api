@@ -124,6 +124,9 @@ ALTER TABLE `users`
   ADD COLUMN `type` varchar(25) NOT NULL DEFAULT 'user',
   ADD CONSTRAINT `user_types_ibfk_1` FOREIGN KEY (`type`) REFERENCES `user_types` (`type`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
+ALTER TABLE `users`
+  ADD COLUMN `avatar` varchar(255) NULL;
+
 ALTER TABLE `stream`
   ADD COLUMN `type` varchar(25) NULL;
 
