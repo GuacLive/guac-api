@@ -8,14 +8,14 @@ import userModel from '../../models/user';
 const sendFile = async (file, res) => {
     let asset = await fs.readFile(`${global.nconf.get('base_dir')}/public/avatars/${file}`, 'binary');
     res.setHeader('Content-Type', `image/png; charset=utf-8`);
-    return send(res, asset ? 200 : 404, asset ? new Buffer(data) : new Buffer())
+    return send(res, asset ? 200 : 404, asset ? new Buffer(data) : '')
 };
 
 module.exports = compose(
 )(
 	async (req, res) => {
 		if(!req.params.id){
-            return send(res, 404, new Buffer());
+            return send(res, 404);
         }
         if(req.params.id === 'unknown'){
             return await sendFile('unknown.png', res);
@@ -27,7 +27,7 @@ module.exports = compose(
             let asset = `${result.id}.png`;
             return await sendFile(asset, res);
         }else{
-			return send(res, 404, new Buffer());
+			return send(res, 404);
 		}
 	}
 );
