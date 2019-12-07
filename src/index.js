@@ -119,7 +119,7 @@ module.exports = router(
 	get('/streaming', middleware(require('./routes/streaming/get'))),
 	get('/featured', middleware(require('./routes/featured/get'))),
 	get('/watch/:name', middleware(require('./routes/watch/get'))),
-	get('/avatars/:name.png', middleware(require('./routes/avatars/get'))),
+	get('/avatars/:id.png', middleware(require('./routes/avatars/get'))),
 	get('/', middleware(require('./routes/index/get'))),
 	get('/*', notfound),
 );
