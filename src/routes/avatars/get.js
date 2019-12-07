@@ -22,7 +22,7 @@ module.exports = compose(
             return await sendFile('unknown.png', res);
         }
 		const user = new userModel;
-		const result = await user.getUserById(req.params.id);
+		const result = await user.getUserById(req.params.id.replace('.png', ''));
 		console.log(req.params, result);
 		if(result && result.id){
             let asset = `${result.id}.png`;
