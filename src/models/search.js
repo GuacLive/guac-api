@@ -4,8 +4,8 @@ class Search {
 		return new Promise((resolve, reject) => {
 			dbInstance()
 			.from(dbInstance.raw('users, stream'))
-            .whereRaw('MATCH (users.username) AGAINST(\'%??%\') AND stream.private = 0', [term])
-            .orWhereRaw('MATCH (stream.title) AGAINST(\'%??%\') AND stream.private = 0', [term])
+            .whereRaw('MATCH (users.username) AGAINST(\'%??*%\' IN BOOLEAN MODE) AND stream.private = 0', [term])
+            .orWhereRaw('MATCH (stream.title) AGAINST(\'%??*%\' IN BOOLEAN MODE) AND stream.private = 0', [term])
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
 			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
