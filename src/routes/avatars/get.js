@@ -6,8 +6,8 @@ const fs = require('fs').promises;
 import userModel from '../../models/user';
 
 const sendFile = async (file, res) => {
-    console.log(`${global.nconf.get('base_dir')}/public/avatars/${file}`);
-    let asset = await fs.readFile(`${global.nconf.get('base_dir')}/public/avatars/${file}`, 'binary');
+    console.log(`${global.nconf.get('base_dir')}/../public/avatars/${file}`);
+    let asset = await fs.readFile(`${global.nconf.get('base_dir')}/../public/avatars/${file}`, 'binary');
     res.setHeader('Content-Type', `image/png; charset=utf-8`);
     return send(res, asset ? 200 : 404, asset ? new Buffer(data) : '')
 };
