@@ -9,7 +9,7 @@ const sendFile = async (file, res) => {
     console.log(`${global.nconf.get('base_dir')}/../public/avatars/${file}`);
     let data = await fs.readFile(`${global.nconf.get('base_dir')}/../public/avatars/${file}`, 'binary');
     res.setHeader('Content-Type', `image/png; charset=utf-8`);
-    return send(res, asset ? 200 : 404, asset ? new Buffer(data) : '')
+    return send(res, data ? 200 : 404, data ? new Buffer(data) : '')
 };
 
 module.exports = compose(
