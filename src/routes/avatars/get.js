@@ -1,6 +1,8 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
+const fs = require('fs').promises;
+
 import userModel from '../../models/user';
 
 const sendFile = (asset, res) => {
