@@ -23,6 +23,9 @@ module.exports = compose(
 				statusMessage: 'No from_id or to_id given'
 			});
 		}
+
+		result.avatar = result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+
 		send(res, 200, {
 			statusCode: 200,
 			data: result
