@@ -2,9 +2,9 @@ const dbInstance = global.dbInstance;
 class Search {
 	search(term) {
 		return new Promise((resolve, reject) => {
-			dbInstance()
-			.from(dbInstance.raw('users, stream'))
-            .whereRaw('MATCH (users.username) AGAINST(\'%??*%\' IN BOOLEAN MODE) AND stream.private = 0', [term])
+			dbInstance('stream')
+			.distinct()
+            .whereRaw('MATCH (u1.username) AGAINST(\'%??*%\' IN BOOLEAN MODE) AND stream.private = 0', [term])
             .orWhereRaw('MATCH (stream.title) AGAINST(\'%??*%\' IN BOOLEAN MODE) AND stream.private = 0', [term])
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
