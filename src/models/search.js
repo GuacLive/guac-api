@@ -3,7 +3,7 @@ class Search {
 	search(term) {
 		return new Promise((resolve, reject) => {
             dbInstance('stream')
-            .whereRaw('MATCH (users.username) AGAINST(\'%??%\') AND stream.private = 0', [term])
+            .whereRaw('MATCH (u1.username) AGAINST(\'%??%\') AND stream.private = 0', [term])
             .orWhereRaw('MATCH (stream.title) AGAINST(\'%??%\') AND stream.private = 0', [term])
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
