@@ -5,6 +5,8 @@ import userModel from '../../models/user';
 
 import jwt from 'jsonwebtoken';
 
+import { isReservedUsername } from '../../utils';
+
 const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 module.exports = compose(
 )(
@@ -15,10 +17,17 @@ module.exports = compose(
 			let username = jsonData.username;
 			let password = jsonData.password;
 
-			if(!USERNAME_REGEX.test(username)){
+			if(!USERNAME_REGEX.test(username.toLowerCase())){
 				return send(res, 400, {
 					statusCode: 400,
 					statusMessage: 'Not a valid username'
+				});
+			}
+
+			if(isReservedUsername(username)){
+				return send(res, 400, {
+					statusCode: 400,
+					statusMessage: 'This username is reserved'
 				});
 			}
 
