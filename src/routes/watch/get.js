@@ -50,7 +50,8 @@ module.exports = compose(
 						id: result.user_id,
 						name: result.name,
 						type: result.type,
-						avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`
+						avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
+						banned: result.banned
 					},
 					mods: typeof mods == 'object' ? mods.map((m) => {return m && m.user_id}).filter(id => id) : [],
 					panels: await stream.getPanels(result.user_id)

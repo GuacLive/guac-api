@@ -35,7 +35,8 @@ module.exports = compose(
 						id: item.user_id,
 						name: item.name,
 						type: item.type,
-						avatar: item.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`
+						avatar: item.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
+						banned: item.banned
 					}
 				};
 			})

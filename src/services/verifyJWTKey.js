@@ -42,6 +42,7 @@ module.exports = fn => async (req, res) => {
 				can_stream: result.can_stream,
 				type: result.type,
 				avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
+				banned: result.banned,
 			};
 			return await fn(req, res);
 		});

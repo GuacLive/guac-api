@@ -46,7 +46,7 @@ class Stream {
 	getFeatured() {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
-			.select(['id', 'u1.username AS name', 'u1.type'])
+			.select(['id', 'u1.username AS name', 'u1.type', 'u1.avatar', 'u1.banned'])
 			.where({
 				'live': 1,
 				'private': 0
@@ -69,7 +69,7 @@ class Stream {
 			.leftJoin('channel_mods as m1', 'm1.room_id', '=', 'stream.id')
 			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
 			.select('stream.*', 'stream.type AS stream_type', 'u1.user_id', 'u1.username AS name',
-				'c1.category_id AS category_id', 'c1.name AS category_name', 'u1.type')
+				'c1.category_id AS category_id', 'c1.name AS category_name', 'u1.type', 'u1.avatar', 'u1.banned')
 			.first()
 			.then(resolve)
 			.catch(reject);
@@ -97,7 +97,7 @@ class Stream {
 			.join('stream as s1', 's1.id', '=', 'stream_keys.id')
 			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
 			.debug(true)
-			.select('stream_keys.*', 's1.*', 'u1.username AS name')
+			.select('stream_keys.*', 's1.*', 'u1.username AS name', 'u1.banned')
 			.first()
 			.then(resolve)
 			.catch(reject);

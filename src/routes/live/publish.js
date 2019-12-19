@@ -28,6 +28,12 @@ module.exports = compose(
 		const result = await stream.isValidStreamKey(streamKey);
 		console.log(result);
 		if(result){
+			if(result.banned){
+				return send(res, 403, {
+					statusCode: 403,
+					statusMessage: 'User has been banned'
+				});
+			}
 			// Set stream as live
 			await stream.setLive(result.stream_id);
 
