@@ -87,6 +87,45 @@ class User {
 		});
 	}
 
+	ban(user_id, reason) {
+		return new Promise((resolve, reject) => {
+			dbInstance('users').where({
+				user_id
+			})
+			.update({
+				banned: true,
+			})
+			.then(() => {
+				dbInstance('bans')
+				.insert({
+					'user_id': user_id,
+					'reason': reason,
+				})
+				.debug(true)
+				.then(async (data) => {
+					if(!data) resolve(false);
+					resolve(await this.getUserById(user_id));
+				})
+				.then(resolve)
+				.catch(reject);
+			})
+			.catch(reject);
+		});
+	}
+
+	unban(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('users').where({
+				user_id
+			})
+			.update({
+				banned: false,
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+
 	checkUser(username, password) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({

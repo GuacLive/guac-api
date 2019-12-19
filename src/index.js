@@ -113,6 +113,10 @@ module.exports = router(
 	get('/admin/stopStream/:name', middleware(require('./routes/admin/stopStream'))),
 	// To add a stream to database
 	post('/admin/stream', middleware(require('./routes/admin/createStream'))),
+	// Globally ban user (from chat and streaming)
+	post('/admin/user/ban', middleware(require('./routes/admin/banUser'))),
+	// Globally unban user (from chat and streaming)
+	post('/admin/user/ban', middleware(require('./routes/admin/unbanUser'))),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/categories', middleware(require('./routes/categories/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
