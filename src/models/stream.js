@@ -1,5 +1,20 @@
 const dbInstance = global.dbInstance;
 class Stream {
+	getArchives(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_archives')
+			.where({
+				'stream_archives.user_id': user_id
+			})
+			.select('stream_archives.*', 'u1.username')
+			.orderBy('archive_id', 'desc')
+			.join('users as u1', 'u1.user_id', '=', 'stream_archives.user_id')
+			.join('stream', 'stream.user_id', '=', 'stream_archives.user_id')
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getPanels(user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_panels')
@@ -114,6 +129,25 @@ class Stream {
 			.then(async (data) => {
 				if(!data) resolve(false);
 				resolve(await this.getUserById(user_id));
+			})
+			.catch(reject);
+		});
+	}
+	addArchive(user_id, streamName, duration, random, thumbnail, stream) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_archives')
+			.insert({
+				'user_id': user_id,
+				streamName,
+				duration,
+				random,
+				thumbnail,
+				stream
+			})
+			.debug(true)
+			.then(async (data) => {
+				if(!data) resolve(false);
+				resolve(data);
 			})
 			.catch(reject);
 		});

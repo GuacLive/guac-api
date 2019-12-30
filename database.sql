@@ -102,6 +102,18 @@ CREATE TABLE `stream_panels` (
    FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE `stream_archives` (
+  `archive_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `duration` bigint(30) UNSIGNED NOT NULL,
+  `stream` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `random` varchar(40) NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY(`archive_id`),
+   FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `bans` (
   `ban_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
