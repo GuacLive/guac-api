@@ -24,8 +24,12 @@ module.exports = compose(
 			});
 		}
 
-		result.avatar = result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
-
+		result = result.map((r) => {
+			if(r){
+				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+			}
+			return r;
+		});
 		send(res, 200, {
 			statusCode: 200,
 			data: result
