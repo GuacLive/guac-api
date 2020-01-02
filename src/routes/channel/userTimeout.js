@@ -34,13 +34,13 @@ module.exports = compose(
 					statusMessage: 'This endpoint takes either an user_id or username'
 				});
 			}
-			if(typeof jsonData.timeout === 'number'){
+			if(typeof jsonData.timeout !== 'number'){
 				return send(res, 401, {
 					statusCode: 401,
 					statusMessage: 'This endpoint requires timeout to be a number'
 				});
 			}
-			let user_id = user && typeof user.id == 'number' ? user.id : jsonData.user_id;
+			let user_id = user && typeof user.id === 'number' ? user.id : jsonData.user_id;
 			const result = await channel.timeoutUser(
 				jsonData.channel,
 				user_id,
