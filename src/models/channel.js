@@ -161,7 +161,8 @@ class Channel {
 			dbInstance('channel_timeouts')
 			.insert({
 				'room_id': room,
-				'user_id': userToBan
+				'user_id': userToBan,
+				'time': timeout
 			})
 			.debug(true)
 			.then(resolve)
