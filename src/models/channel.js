@@ -30,8 +30,10 @@ class Channel {
 			.where({
 				'room_id': room
 			})
+			.join('users as u1', 'u1.user_id', '=', 'channel_timeouts.user_id')
 			.orderBy('timeout_id', 'desc')
 			.debug(true)
+			.select('channel_timeouts.*', 'u1.username AS name')
 			.then(resolve)
 			.catch(reject);
 		});
