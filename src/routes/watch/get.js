@@ -41,9 +41,9 @@ module.exports = compose(
 					qualities: {
 						//'source': '_src',
 						'source': '',
-						'720p': '_high',
-						'480p': '_medium',
-						'360p': '_low',
+						//'720p': '_high',
+						//'480p': '_medium',
+						//'360p': '_low',
 						//'240p': '_mobile'
 					},
 					servers: global.nconf.get('server:streaming_servers'),
