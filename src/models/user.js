@@ -162,5 +162,22 @@ class User {
 			.catch(reject);
 		});
 	}
+	changePassword(user_id, password) {
+		return new Promise((resolve, reject) => {
+			const salt = await bcrypt.genSalt(10);
+
+			// hash the password along with our new salt
+			const hashedPassword = await bcrypt.hash(password, salt);
+
+			dbInstance('users').where({
+				user_id
+			})
+			.update({
+				password: hashedPassword,
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 }
 export default User;

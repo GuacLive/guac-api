@@ -93,6 +93,7 @@ module.exports = router(
 	post('/live/publish', middleware(require('./routes/live/publish'))),
 	post('/live/on_publish_done', middleware(require('./routes/live/publishDone'))),
 	post('/archive', middleware(require('./routes/archive/post'))),
+	post('/user/password', middleware(require('./routes/user/password'))),
 	post('/channel/bans', middleware(require('./routes/channel/bans'))),
 	post('/channel/timeouts', middleware(require('./routes/channel/timeouts'))),
 	post('/channel/userBan', middleware(require('./routes/channel/userBan'))),
