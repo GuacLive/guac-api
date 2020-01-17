@@ -118,6 +118,20 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	create(user_id){
+		return new Promise((resolve, reject) => {
+			dbInstance('streams')
+			.insert({
+				'user_id': user_id,
+			})
+			.debug(true)
+			.then(async (data) => {
+				if(!data) resolve(false);
+				resolve(data);
+			})
+			.catch(reject);
+		});
+	}
 	addStreamKey(user_id, stream_key) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_keys')
