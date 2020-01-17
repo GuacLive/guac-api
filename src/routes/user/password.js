@@ -18,6 +18,9 @@ module.exports = compose(
                     });
                 }
                 await um.changePassword(req.user.id, jsonData.password);
+                return send(res, 200, {
+                    statusCode: 200,
+                });
             }else{
                 return send(res, 400, {
                     statusCode: 400,
