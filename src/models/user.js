@@ -163,7 +163,7 @@ class User {
 		});
 	}
 	changePassword(user_id, password) {
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			const salt = await bcrypt.genSalt(10);
 
 			// hash the password along with our new salt
