@@ -1,6 +1,8 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
+import userModel from '../../models/user';
+
 import verifyJWTKey from '../../services/verifyJWTKey';
 
 module.exports = compose(
