@@ -36,6 +36,7 @@ module.exports = compose(
 			}
 			// Set stream as live
 			await stream.setLive(result.stream_id);
+			await stream.updateTime();
 
 			// Check if firebase api key is set
 			if(global.nconf.get('firebase:api_key')){

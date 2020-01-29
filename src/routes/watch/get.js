@@ -30,6 +30,7 @@ module.exports = compose(
 					type: result.stream_type,
 					title: result.title,
 					live: parseInt(result.live, 10),
+					liveAt: result.time,
 					views: parseInt(result.views, 10),
 					private: result.private,
 					category_id: result.category_id,

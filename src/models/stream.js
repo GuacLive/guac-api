@@ -214,6 +214,19 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	updateTime(streamId) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream').where({
+				id: streamId
+			})
+			.update({
+				time: dbInstance.fn.now()
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	// CURRENT_TIMESTAMP
 	setPrivate(streamId, bool) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({
