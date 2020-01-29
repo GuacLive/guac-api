@@ -23,7 +23,6 @@ module.exports = compose(
 		const result = await stream.isValidStreamKey(streamKey);
 		if(result){
 			await stream.setInactive(result.stream_id);
-			await stream.updateTime(null);
 			return send(res, 200);
 		}else{
 			return send(res, 403, {
