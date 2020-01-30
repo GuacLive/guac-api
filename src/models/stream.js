@@ -95,9 +95,12 @@ class Stream {
 			dbInstance('follows').where({
 				to_id
 			})
-			.count('to_id')
+			.count('to_id AS count')
 			.first()
-			.then(resolve)
+			.then((result) => {
+				if(result && result.count) return resolve(result.count);
+				return resolve(0);
+			})
 			.catch(reject);
 		});
 	}
