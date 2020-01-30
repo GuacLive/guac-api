@@ -31,6 +31,7 @@ module.exports = compose(
 					title: result.title,
 					live: parseInt(result.live, 10),
 					liveAt: result.time,
+					followers: await stream.getStreamFollowCount(result.id),
 					views: parseInt(result.views, 10),
 					private: result.private,
 					category_id: result.category_id,
