@@ -8,6 +8,7 @@ import {
 	compose
 } from 'micro-hoofs';
 
+import userModel from '../../models/user';
 import streamModel from '../../models/stream';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
@@ -17,13 +18,20 @@ module.exports = compose(
 	verifyUserStaff
 )(
 	async (req, res) => {
+		const user = new userModel;
 		const stream = new streamModel;
 		const jsonData = await json(req);
 		if (
-			jsonData &&
-			jsonData.user_id
+			jsonData
 		) {
-			let streamResult = await stream.create(jsonData.user_id);
+			let u = null;
+			if(jsonData.user_id){
+				u = await user.getUserById(jsonData.user_id);
+			}else if(jsonData.username){
+				u = await user.getUserByUsername_lower(jsonData.username);
+			}
+			if(!u) return;
+			let streamResult = await stream.create(u.user_id);
 			if (streamResult) {
 				let key = crypto.randomBytes(20).toString('hex');
 				await stream.addStreamKey(streamResult.id, key);
