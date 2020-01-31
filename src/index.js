@@ -104,6 +104,7 @@ module.exports = router(
 	post('/channel/setTitle', middleware(require('./routes/channel/setTitle'))),
 	post('/channel/setPrivate', middleware(require('./routes/channel/setPrivate'))),
 	post('/channel/setCategory', middleware(require('./routes/channel/setCategory'))),
+	post('/admin/createStream', middleware(require('./routes/channel/setCategory'))),
 	post('/follow', middleware(require('./routes/follow/post'))),
 	post('/follows', middleware(require('./routes/follows/post'))),
 	post('/fcm', middleware(require('./routes/fcm/post'))),
@@ -118,7 +119,7 @@ module.exports = router(
 	// Globally ban user (from chat and streaming)
 	post('/admin/user/ban', middleware(require('./routes/admin/banUser'))),
 	// Globally unban user (from chat and streaming)
-	post('/admin/user/ban', middleware(require('./routes/admin/unbanUser'))),
+	post('/admin/user/unban', middleware(require('./routes/admin/unbanUser'))),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/categories', middleware(require('./routes/categories/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
