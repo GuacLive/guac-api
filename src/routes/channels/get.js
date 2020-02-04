@@ -10,9 +10,8 @@ module.exports = compose(
 )(
 	async (req, res) => {
 		const { query } = await parse(req.url, true)
-		let onlyLive = query.live === '1';
 		const stream = new streamModel;
-		const results = await stream.getChannels(onlyLive);
+		const results = await stream.getChannels(query.only);
 		send(res, 200, {
 			statusCode: 200,
 			data: results.map((result) => {
