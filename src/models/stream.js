@@ -44,8 +44,8 @@ class Stream {
 		let where = {
 			'private': 0
 		};
-		if(only.includes('live')) where.live = 1;
-		if(only.includes('category')) where.category_id = parseInt(only.category, 10);
+		if(only.live) where.live = 1;
+		if(only.category) where.category_id = parseInt(only.category, 10);
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
 			.select('stream.*', 'u1.user_id', 'u1.username AS name',
