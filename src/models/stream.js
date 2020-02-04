@@ -91,6 +91,20 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getStreamFollowCount(to_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows').where({
+				to_id
+			})
+			.count('to_id AS count')
+			.first()
+			.then((result) => {
+				if(result && result.count) return resolve(result.count);
+				return resolve(0);
+			})
+			.catch(reject);
+		});
+	}
 	getStreamKey(user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_keys').where({
