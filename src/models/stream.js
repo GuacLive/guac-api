@@ -138,7 +138,7 @@ class Stream {
 			dbInstance('stream_webhooks').where({
 				user_id
 			})
-			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
+			.join('users as u1', 'u1.user_id', '=', 'stream_webhooks.user_id')
 			.debug(true)
 			.select('stream_webhooks.*', 'u1.username AS name')
 			.then(resolve)
