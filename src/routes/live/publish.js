@@ -3,6 +3,8 @@ import {compose} from 'micro-hoofs';
 import parse from 'urlencoded-body-parser';
 import chunk from 'lodash.chunk';
 
+const { Webhook, MessageBuilder } = require('discord-webhook-node');
+
 import fetch from 'node-fetch';
 
 import streamModel from '../../models/stream';
@@ -28,6 +30,7 @@ module.exports = compose(
 		const result = await stream.isValidStreamKey(streamKey);
 		console.log(result);
 		if(result){
+			const hooks = await stream.getWebHooks(result.user_id);
 			if(result.banned){
 				return send(res, 403, {
 					statusCode: 403,
@@ -74,6 +77,24 @@ module.exports = compose(
 					});
 				});
 			}
+
+			// If stream has webhooks, run them
+			if(hooks){
+				hooks.forEach((hook) => {
+					const Hook = new Webhook(hook.url);
+
+					const msg = new MessageBuilder()
+						.setTitle(result.title)
+						.setName(result.name)
+						.setDescription('Just went live on guac')
+						.setUrl('https://guac.live/c/' + result.name)
+						.setImage(result.thumbnail)
+						.setTime();
+					
+					Hook.send(msg);
+				});
+			}
+
 
 			// Redirect the private stream key to the user's public stream
 			res.statusCode = 304;

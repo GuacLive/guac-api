@@ -92,6 +92,14 @@ CREATE TABLE `user_types` (
    PRIMARY KEY(`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE `stream_webhooks` (
+  `hook_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `url` varchar(255) NOT NULL,
+   PRIMARY KEY(`hook_id`),
+   FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `stream_panels` (
   `panel_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,

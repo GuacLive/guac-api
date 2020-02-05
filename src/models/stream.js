@@ -133,6 +133,18 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getWebHooks(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_webhooks').where({
+				user_id
+			})
+			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
+			.debug(true)
+			.select('stream_webhooks.*', 'u1.username AS name')
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	create(user_id){
 		return new Promise((resolve, reject) => {
 			dbInstance('streams')
