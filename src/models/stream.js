@@ -136,7 +136,7 @@ class Stream {
 	getWebHooks(user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_webhooks').where({
-				'streams_webhooks.user_id': user_id,
+				'stream_webhooks.user_id': user_id,
 			})
 			.join('users as u1', 'u1.user_id', '=', 'stream_webhooks.user_id')
 			.debug(true)
