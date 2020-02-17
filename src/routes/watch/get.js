@@ -6,6 +6,17 @@ import streamModel from '../../models/stream';
 
 const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 
+function getFromViewerAPI(name){
+	return new Promise((resolve, reject) => {
+		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`)
+		.then(r => r.json())
+		.then(response => {
+			resolve(response && response.viewers ? response.viewers : 0);
+		})
+		.catch(reject);
+	})
+}
+
 module.exports = compose(
 )(
 	async (req, res) => {
@@ -32,6 +43,7 @@ module.exports = compose(
 					live: parseInt(result.live, 10),
 					liveAt: result.time,
 					followers: await stream.getStreamFollowCount(result.user_id),
+					viewers: await getFromViewerAPI(result.name),
 					views: parseInt(result.views, 10),
 					private: result.private,
 					category_id: result.category_id,
