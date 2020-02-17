@@ -1,5 +1,6 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
+import fetch from 'node-fetch';
 
 import channelModel from '../../models/channel';
 import streamModel from '../../models/stream';
