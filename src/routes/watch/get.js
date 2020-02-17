@@ -14,7 +14,9 @@ function getFromViewerAPI(name){
 		.then(response => {
 			resolve(response && response.viewers ? response.viewers : 0);
 		})
-		.catch(reject);
+		.catch(error => {
+			resolve(0);
+		});
 	})
 }
 
