@@ -95,6 +95,25 @@ module.exports = compose(
 				});
 			}
 
+			// Send live event to those with channel websocket connection open
+			if(global.nconf.get('server:viewer_api_url')){
+				fetch(`${global.nconf.get('server:viewer_api_url')}/admin`, {
+					'method': 'POST',
+					'headers': {
+						'Authorization': global.nconf.get('server:viewer_api_key'),
+						'Content-Type': 'application/json'
+					},
+					'body': JSON.stringify({
+						'action': 'live',
+						'name': result.name,
+						'live': true
+					})
+				})
+				.then(response => {
+				})
+				.catch(error => {
+				});
+			}
 
 			// Redirect the private stream key to the user's public stream
 			res.statusCode = 304;

@@ -10,6 +10,8 @@ nconf.defaults({
 		name: 'guac.live',
 		domain: 'guac.live',
 		register_type: 0,
+		viewer_api_url: 'https://viewer-api.guac.live',
+		viewer_api_key: null,
 		streaming_servers: {
 			'eu': '//stream.guac.live'
 		},

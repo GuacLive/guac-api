@@ -23,6 +23,25 @@ module.exports = compose(
 		const result = await stream.isValidStreamKey(streamKey);
 		if(result){
 			await stream.setInactive(result.stream_id);
+			// Send live event to those with channel websocket connection open
+			if(global.nconf.get('server:viewer_api_url')) {
+				fetch(`${global.nconf.get('server:viewer_api_url')}/admin`, {
+					'method': 'POST',
+					'headers': {
+						'Authorization': global.nconf.get('server:viewer_api_key'),
+						'Content-Type': 'application/json'
+					},
+					'body': JSON.stringify({
+						'action': 'live',
+						'name': result.name,
+						'live': true
+					})
+				})
+				.then(response => {
+				})
+				.catch(error => {
+				});
+			}
 			return send(res, 200);
 		}else{
 			return send(res, 403, {
