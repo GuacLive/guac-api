@@ -2,6 +2,7 @@ import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 import parse from 'urlencoded-body-parser';
 
+import fetch from 'node-fetch';
 import streamModel from '../../models/stream';
 
 module.exports = compose(
