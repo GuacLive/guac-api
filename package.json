@@ -43,7 +43,9 @@
     "mysql2": "^2.0.2",
     "nconf": "^0.10.0",
     "node-fetch": "^2.6.0",
+    "node-mailjet": "^3.3.1",
     "pm2": "^4.2.0",
+    "rand-token": "^0.4.0",
     "regenerator-runtime": "^0.13.3",
     "urlencoded-body-parser": "^3.0.0"
   }

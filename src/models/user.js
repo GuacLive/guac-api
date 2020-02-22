@@ -162,6 +162,61 @@ class User {
 			.catch(reject);
 		});
 	}
+	sendActivationToken(email = ''){
+		const mailjet = require('node-mailjet');
+
+		const mailjetClient = mailjet.connect(
+			global.nconf.get('mailjet:api_key'),
+			global.nconf.get('mailjet:secret'),
+		);
+
+		dbInstance('users')
+		.where({
+			'users.email': email,
+			'users.activated': 0
+		})
+		.debug(true)
+		.select(
+			'users.user_id',
+			'users.email',
+			'users.username'
+		)
+		.first()
+		.then(async (data) => {
+			if(data && data.user_id){
+				const randtoken = require('rand-token');
+				let token = randtoken.generate(48);
+				// add activation token to db
+				dbInstance('activation_tokens')
+				.insert({
+					'email': data.email,
+					'user_id': data.user_id,
+					'token': token
+				});
+				// send e-mail
+				await mailjetClient
+				.post('send', {'version': 'v3.1'})
+				.request({
+					'Messages': [
+						{
+							'From': {
+								'Email': 'verify@guac.live',
+								'Name': 'guac.live'
+							},
+							'To': [
+								{
+									'Email': result.email,
+									'Name': result.username
+								}
+							],
+							'Subject': '[guac.live] Verify your e-mail.',
+							'HTMLPart': `<p>Follow the link underneath to verify your Guac.live-account.</p><a href="https://guac.live/auth/activate/${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`						}
+					]
+				});
+			}
+		})
+		.catch();
+	}
 	changePassword(user_id, password) {
 		return new Promise(async (resolve, reject) => {
 			const salt = await bcrypt.genSalt(10);
