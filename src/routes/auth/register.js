@@ -13,10 +13,10 @@ module.exports = compose(
 	async (req, res) => {
 		const um = new userModel;
 		const jsonData = await json(req);
-		if(jsonData && jsonData.username && jsonData.password){
-			let username = jsonData.username;
-			let password = jsonData.password;
-
+		let username = jsonData.username;
+		let email = jsonData.email;
+		let password = jsonData.password;
+		if(jsonData && username && email && password){
 			if(!USERNAME_REGEX.test(username.toLowerCase())){
 				return send(res, 400, {
 					statusCode: 400,
@@ -46,14 +46,21 @@ module.exports = compose(
 			}
 
 			// If user is already in database, error out
+			if(await um.getUserByEmail(email.toLowerCase())){
+				return send(res, 400, {
+					statusCode: 400,
+					statusMessage: 'E-mail already exists'
+				});
+			}
 			if(await um.getUserByUsername_lower(username.toLowerCase())){
 				return send(res, 400, {
 					statusCode: 400,
-					statusMessage: 'User already exists'
+					statusMessage: 'Username already exists'
 				});
 			}
 			const user = await um.addUser(
 				username,
+				email,
 				password
 			);
 			const jwtToken = jwt.sign({
@@ -61,6 +68,7 @@ module.exports = compose(
 			}, process.env.JWT_SECRET, {
 				algorithm: 'HS256'
 			});
+			await user.sendActivationToken();
 			return send(res, 200, {
 				statusCode: 200,
 				jwtToken,

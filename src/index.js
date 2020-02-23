@@ -24,6 +24,10 @@ nconf.defaults({
 		user: 'nms',
 		password: 'nms'
 	},
+	mailjet: {
+		api_key: '',
+		secret: ''
+	},
 	database: {
 		client: 'mysql2',
 		connection: {
@@ -90,6 +94,7 @@ const notfound = async (req, res) => {
 
 module.exports = router(
 	post('/register', middleware(require('./routes/auth/register'))),
+	post('/activate', middleware(require('./routes/auth/activate'))),
 	post('/auth', middleware(require('./routes/auth/login'))),
 	post('/tokenAuth', middleware(require('./routes/tokenAuth/post'))),
 	post('/live/publish', middleware(require('./routes/live/publish'))),

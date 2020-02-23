@@ -12,6 +12,12 @@ module.exports = compose(
 		const data = await json(req);
 		var user = await um.checkUser(data.username, data.password);
 		if(user){
+			if(!user.activated){
+				return	send(res, 401, {
+					statusCode: 401,
+					error: 'You must activate your account. Check your e-mail.'
+				});
+			}
 			var jwtToken = jwt.sign({
 				user
 			}, process.env.JWT_SECRET, {

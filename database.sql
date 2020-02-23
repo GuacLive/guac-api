@@ -141,7 +141,7 @@ CREATE TABLE `activation_tokens` (
    FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `users` CHANGE `activated` BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE `users` ADD `activated` BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE `channel_bans`
   ADD CONSTRAINT `channel_bans_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `stream` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
@@ -167,10 +167,14 @@ ALTER TABLE `users`
 ALTER TABLE `users`
   ADD COLUMN `avatar` varchar(255) NULL;
 
+ALTER TABLE `users`
+  ADD COLUMN `email` varchar(255) NULL;
+
 ALTER TABLE `stream`
   ADD COLUMN `type` varchar(25) NULL;
 
 ALTER TABLE `users` ADD FULLTEXT(username);
+ALTER TABLE `users` ADD FULLTEXT(email);
 ALTER TABLE `stream` ADD FULLTEXT(title);
 
 ALTER TABLE `users`

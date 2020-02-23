@@ -22,6 +22,28 @@ class User {
 		});
 	}
 
+	getUserByEmail(email) {
+		return new Promise((resolve, reject) => {
+			dbInstance('users')
+			.where(
+			  dbInstance.raw('LOWER(users.email) = ?', [email])
+			)
+			.debug(true)
+			.select(
+				'users.user_id',
+				'users.username',
+				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
+				'users.type',
+				'users.avatar',
+				'users.banned',
+			)
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
@@ -140,6 +162,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'users.activated',
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -153,7 +176,8 @@ class User {
 						'can_stream': data.can_stream,
 						'type': data.type,
 						'avatar': data.avatar,
-						'banned': data.banned
+						'banned': data.banned,
+						'activated': data.activated,
 					});
 				}else{
 					resolve(false);
@@ -161,6 +185,58 @@ class User {
 			})
 			.catch(reject);
 		});
+	}
+	activate(token = ''){
+		return new Promise((resolve, reject) => {
+			dbInstance('activation_tokens')
+			.where({
+				'activation_tokens.token': token
+			})
+			.debug(true)
+			.select(
+				'activation_tokens.email',
+				'activation_tokens.token'
+			)
+			.first()
+			.then(async (data) => {
+				if(data && data.email){
+					dbInstance('users')
+					.where({
+						'users.email': data.email
+					})
+					.debug(true)
+					.select(
+						'users.user_id'
+					)
+					.first()
+					.then((user) => {
+						if(user && user.user_id){
+							await dbInstance('users')
+							.update({
+								'users.activated': 1
+							})
+							.where({
+								'users.user_id': user.user_id
+							});
+							
+							await dbInstance('activation_tokens')
+							.delete()
+							.where({
+								'activation_tokens.email': user.email,
+								'token': token
+							});
+							resolve(true);
+						}else{
+							reject();
+						}
+					})
+					.catch(reject);
+				}else{
+					reject();
+				}
+			})
+			.catch();
+		})
 	}
 	sendActivationToken(email = ''){
 		const mailjet = require('node-mailjet');
@@ -210,7 +286,7 @@ class User {
 								}
 							],
 							'Subject': '[guac.live] Verify your e-mail.',
-							'HTMLPart': `<p>Follow the link underneath to verify your Guac.live-account.</p><a href="https://guac.live/auth/activate/${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`						}
+							'HTMLPart': `<p>Follow the link underneath to verify your Guac.live-account.</p><a href="https://guac.live/auth/activate?token=${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`						}
 					]
 				});
 			}
