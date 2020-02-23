@@ -287,8 +287,8 @@ class User {
 							},
 							'To': [
 								{
-									'Email': result.email,
-									'Name': result.username
+									'Email': data.email,
+									'Name': data.username
 								}
 							],
 							'Subject': '[guac.live] Verify your e-mail.',

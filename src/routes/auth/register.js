@@ -75,7 +75,7 @@ module.exports = compose(
 			}, process.env.JWT_SECRET, {
 				algorithm: 'HS256'
 			});
-			await um.sendActivationToken();
+			um.sendActivationToken();
 			return send(res, 200, {
 				statusCode: 200,
 				jwtToken,
