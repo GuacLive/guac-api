@@ -265,6 +265,7 @@ class User {
 		)
 		.first()
 		.then(async (data) => {
+			console.log('hi', data);
 			if(data && data.user_id){
 				const randtoken = require('rand-token');
 				let token = randtoken.generate(48);
