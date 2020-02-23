@@ -265,12 +265,13 @@ class User {
 		)
 		.first()
 		.then(async (data) => {
-			console.log('hi', data);
 			if(data && data.user_id){
+				console.log('hi', data);
 				const randtoken = require('rand-token');
 				let token = randtoken.generate(48);
 				// add activation token to db
 				dbInstance('activation_tokens')
+				.debug(true)
 				.insert({
 					'email': data.email,
 					'user_id': data.user_id,
@@ -297,8 +298,7 @@ class User {
 					]
 				});
 			}
-		})
-		.catch();
+		});
 	}
 	changePassword(user_id, password) {
 		return new Promise(async (resolve, reject) => {
