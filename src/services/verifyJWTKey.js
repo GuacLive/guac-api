@@ -39,6 +39,7 @@ module.exports = fn => async (req, res) => {
 				token: token,
 				id: result.user_id,
 				name: result.username,
+				activated: result.activated,
 				can_stream: result.can_stream,
 				type: result.type,
 				avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,

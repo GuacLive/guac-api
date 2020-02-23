@@ -9,6 +9,7 @@ class User {
 			.debug(true)
 			.select(
 				'users.user_id',
+				'users.activated',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
 				'users.type',
@@ -31,6 +32,7 @@ class User {
 			.debug(true)
 			.select(
 				'users.user_id',
+				'users.activated',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
 				'users.type',
@@ -52,6 +54,7 @@ class User {
 			.debug(true)
 			.select(
 				'users.user_id',
+				'users.activated',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
 				'users.type',
@@ -74,6 +77,7 @@ class User {
 			.debug(true)
 			.select(
 				'users.user_id',
+				'users.activated',
 				'users.username',
 				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
 				'users.type',
@@ -173,6 +177,7 @@ class User {
 				if(match){
 					resolve({
 						'user_id': data.user_id,
+						'activated': data.activated,
 						'username': data.username,
 						'can_stream': data.can_stream,
 						'type': data.type,
