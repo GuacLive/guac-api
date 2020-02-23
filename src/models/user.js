@@ -209,7 +209,7 @@ class User {
 						'users.user_id'
 					)
 					.first()
-					.then((user) => {
+					.then(async (user) => {
 						if(user && user.user_id){
 							await dbInstance('users')
 							.update({
