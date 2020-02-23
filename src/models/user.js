@@ -227,14 +227,16 @@ class User {
 							})
 							.where({
 								'users.user_id': user.user_id
-							});
+							})
+							.then(() => {});
 							
 							await dbInstance('activation_tokens')
 							.delete()
 							.where({
 								'activation_tokens.email': user.email,
 								'token': token
-							});
+							})
+							.then(() => {});
 							resolve(true);
 						}else{
 							reject();
@@ -278,7 +280,8 @@ class User {
 					'email': data.email,
 					'user_id': data.user_id,
 					'token': token
-				});
+				})
+				.then(() => {});
 				// send e-mail
 				await mailjetClient
 				.post('send', {'version': 'v3.1'})
@@ -298,7 +301,8 @@ class User {
 							'Subject': '[guac.live] Verify your e-mail.',
 							'HTMLPart': `<p>Follow the link underneath to verify your Guac.live-account.</p><a href="https://guac.live/auth/activate?token=${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`						}
 					]
-				});
+				})
+				.then(() => {});
 			}
 		});
 	}
