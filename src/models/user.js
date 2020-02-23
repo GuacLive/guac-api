@@ -1,4 +1,8 @@
 import bcrypt from 'bcrypt';
+
+const randtoken = require('rand-token');
+const mailjet = require('node-mailjet');
+
 const dbInstance = global.dbInstance;
 class User {
 	getUserById(id) {
@@ -245,9 +249,7 @@ class User {
 		})
 	}
 	sendActivationToken(email = ''){
-		const mailjet = require('node-mailjet');
-
-		const mailjetClient = mailjet.connect(
+		let mailjetClient = mailjet.connect(
 			global.nconf.get('mailjet:api_key'),
 			global.nconf.get('mailjet:secret'),
 		);
@@ -267,8 +269,8 @@ class User {
 		.then(async (data) => {
 			if(data && data.user_id){
 				console.log('hi', data);
-				const randtoken = require('rand-token');
 				let token = randtoken.generate(48);
+				console.log('token', token);
 				// add activation token to db
 				dbInstance('activation_tokens')
 				.debug(true)
