@@ -31,7 +31,7 @@ module.exports = compose(
 				});
 			}
 
-			if(!email.test(/^\S+@\S+$/)){
+			if(!email.match(/^\S+@\S+$/)){
 				return send(res, 400, {
 					statusCode: 400,
 					statusMessage: 'This e-mail is invalid'
