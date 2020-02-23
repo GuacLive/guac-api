@@ -31,6 +31,13 @@ module.exports = compose(
 				});
 			}
 
+			if(!email.test(/^\S+@\S+$/)){
+				return send(res, 400, {
+					statusCode: 400,
+					statusMessage: 'This e-mail is invalid'
+				});
+			}
+
 			if(username.length < 3){
 				return send(res, 400, {
 					statusCode: 400,

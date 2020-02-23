@@ -87,7 +87,7 @@ class User {
 		});
 	}
 
-	addUser(username, password) {
+	addUser(username, email, password) {
 		return new Promise(async (resolve, reject) => {
 			const salt = await bcrypt.genSalt(10);
 
@@ -97,6 +97,7 @@ class User {
 			dbInstance('users')
 			.insert({
 				'username': username,
+				'email': email,
 				'password': hashedPassword,
 				'type': 'user'
 			})
