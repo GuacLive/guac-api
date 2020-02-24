@@ -233,8 +233,8 @@ class User {
 							await dbInstance('activation_tokens')
 							.delete()
 							.where({
-								'activation_tokens.email': user.email,
-								'token': token
+								'activation_tokens.email': data.email,
+								'activation_tokens.token': token
 							})
 							.then(() => {});
 							resolve(true);
