@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'API',
-    script: 'src/babel.js',
+    script: 'src/start.js',
     instances : "max",
     exec_mode : "cluster",
     autorestart: true,
