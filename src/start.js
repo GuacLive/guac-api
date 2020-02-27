@@ -1,5 +1,6 @@
-import micro from 'micro'
-import index from './index.js'
+require('@babel/register');
+const micro = require('micro');
+const index = require('./index');
 
-const server = micro(index)
-server.listen(9000)
+const server = micro(index);
+server.listen(9000);
