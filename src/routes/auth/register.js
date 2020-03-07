@@ -24,7 +24,7 @@ module.exports = compose(
 				});
 			}
 
-			if(isReservedUsername(username)){
+			if(isReservedUsername(username.toLowerCase())){
 				return send(res, 400, {
 					statusCode: 400,
 					statusMessage: 'This username is reserved'
