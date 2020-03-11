@@ -19,6 +19,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'HEX(users.color) as color',
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -42,6 +43,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'HEX(users.color) as color',
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -64,6 +66,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'HEX(users.color) as color',
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -87,6 +90,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'HEX(users.color) as color',
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()

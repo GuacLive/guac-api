@@ -18,6 +18,7 @@ module.exports = compose(
 				type: req.user.type,
 				avatar: req.user.avatar || `//${global.nconf.get('server:domain')}/avatars/unknown.png`,
 				banned: req.user.banned,
+				color: req.user.color,
 			}
 		});
 	}
