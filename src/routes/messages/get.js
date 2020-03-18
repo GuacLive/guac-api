@@ -3,7 +3,7 @@ import {compose} from 'micro-hoofs';
 
 import fetch from 'node-fetch';
 
-import AbortController from 'abort-controller')
+import AbortController from 'abort-controller';
 
 const controller = new AbortController();
 const timeout = setTimeout(() => {

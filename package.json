@@ -26,6 +26,7 @@
     "micro-dev": "^3.0.0"
   },
   "dependencies": {
+    "abort-controller": "^3.0.0",
     "babel-plugin-transform-regenerator": "^7.0.0-beta.3",
     "bcrypt": "^3.0.7",
     "core-js": "^3",
