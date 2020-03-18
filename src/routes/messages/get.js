@@ -11,7 +11,7 @@ module.exports = compose(
 	async (req, res) => {
 		console.log('messages', req.params);
 		if(req.params && req.params.name && USERNAME_REGEX.test(req.params.name)){
-			let api = fetch(`${global.nconf.get('server:chat_url')}/messages/${req.params.name}`,
+			let api = await fetch(`${global.nconf.get('server:chat_url')}/messages/${req.params.name}`,
 				{
 					method: 'get',
 					headers: {
