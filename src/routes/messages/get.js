@@ -8,7 +8,7 @@ import AbortController from 'abort-controller';
 const controller = new AbortController();
 const timeout = setTimeout(() => {
 	controller.abort();
-}, 150);
+}, 15000);
 
 const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 module.exports = compose(
