@@ -14,6 +14,7 @@ const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 module.exports = compose(
 )(
 	async (req, res) => {
+		let data = [];
 		if(req.params && req.params.name && USERNAME_REGEX.test(req.params.name)){
 			fetch(`${global.nconf.get('server:chat_url')}/messages/${req.params.name}`,
 				{
@@ -42,9 +43,10 @@ module.exports = compose(
 			.finally(() => {
 				clearTimeout(timeout);
 			});
-		}
-		return send(res, 200, {
-			statusCode: 200,
-		});
+		}else{
+			return send(res, 200, {
+				statusCode: 200,
+			});
+		};
 	}
 );
