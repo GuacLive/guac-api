@@ -34,11 +34,10 @@ module.exports = compose(
 					});
 				},
 				err => {
-					if(err.name === 'AbortError'){
-						return send(res, 500, {
-							statusCode: 500,
-						});
-					}
+					return send(res, 500, {
+						statusCode: 500,
+						statusMessage: err.name === 'AbortError' ? 'Timed out' : null
+					});
 				}
 			)
 			.finally(() => {
