@@ -10,6 +10,7 @@ nconf.defaults({
 		name: 'guac.live',
 		domain: 'guac.live',
 		register_type: 0,
+		chat_url: 'https://chat.guac.live',
 		viewer_api_url: 'https://viewer-api.guac.live',
 		viewer_api_key: null,
 		streaming_servers: {
@@ -135,6 +136,7 @@ module.exports = router(
 	get('/archive/:name', middleware(require('./routes/archive/get'))),
 	get('/watch/:name', middleware(require('./routes/watch/get'))),
 	get('/avatars/:id', middleware(require('./routes/avatars/get'))),
+	get('/messages/:name', middleware(require('./routes/messages/get'))),
 	get('/', middleware(require('./routes/index/get'))),
 	get('/*', notfound),
 );
