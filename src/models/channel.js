@@ -44,9 +44,10 @@ class Channel {
 			.where({
 				'from_id': from_id
 			})
-			.select('follows.*', 'stream.live', 'stream.title', 'users.username', 'users.avatar')
+			.select('follows.*', 'stream.live', 'stream.title', 'users.username', 'users.avatar', 'c1.category_id AS category_id', 'c1.name AS category_name')
 			.join('stream', 'stream.user_id', '=', 'follows.to_id')
 			.join('users', 'users.user_id', '=', 'follows.to_id')
+			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
@@ -58,9 +59,10 @@ class Channel {
 			.where({
 				'to_id': to_id
 			})
-			.select('follows.*', 'stream.live', 'stream.title', 'users.username', 'users.avatar')
+			.select('follows.*', 'stream.live', 'stream.title', 'users.username', 'users.avatar', 'c1.category_id AS category_id', 'c1.name AS category_name')
 			.join('stream', 'stream.user_id', '=', 'follows.to_id')
 			.join('users', 'users.user_id', '=', 'follows.to_id')
+			.join('categories as c1', 'c1.category_id', '=', 'stream.category')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
