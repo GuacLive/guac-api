@@ -16,6 +16,12 @@ const reservedUsernames = [
 	'loltyler1',
 	'iceposeidon',
 	'sodapoppin',
+	'mystixx',
+	'realstiannorway',
+	'stiannorway',
+	'binci',
+	'tappelino',
+	'amouranth',
 	'asmongold',
 	'fortnite',
 	'nintendo',
@@ -25,7 +31,9 @@ const reservedUsernames = [
 	'staff',
 	'mod',
 	'guac',
-	'datagutt'
+	'datagutt',
+	'kinggothalion',
+	'alinity'
 ];
 export const isReservedUsername = (username) => {
 	if(!username) return false;
