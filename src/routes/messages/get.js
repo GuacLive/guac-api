@@ -19,11 +19,18 @@ module.exports = compose(
 					}
 				}
 			);
-			const data = await api.json();
-			return send(res, 200, {
-					statusCode: 200,
-					data
-			});
+			try{
+				const data = await api.json();
+				return send(res, 200, {
+						statusCode: 200,
+						data
+				});
+			}catch(e){
+				return send(res, 200, {
+						statusCode: 200,
+						data: []
+				});
+			}
 		}else{
 			return send(res, 200, {
 				statusCode: 200,
