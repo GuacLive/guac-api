@@ -38,6 +38,7 @@ module.exports = fn => async (req, res) => {
 			req.user = {
 				token: token,
 				id: result.user_id,
+				email: result.email,
 				name: result.username,
 				activated: result.activated,
 				can_stream: result.can_stream,
