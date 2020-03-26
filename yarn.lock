@@ -3712,6 +3712,13 @@ path-root@^0.1.1:
   dependencies:
     path-root-regex "^0.1.0"
 
+paypal-ipn-checker@^1.0.1-dev:
+  version "1.0.1-dev"
+  resolved "https://registry.yarnpkg.com/paypal-ipn-checker/-/paypal-ipn-checker-1.0.1-dev.tgz#5511f991ce8592aa8f07e8cea5d44b7260dc7c03"
+  integrity sha512-wdLLaDyrfkMiBwNlzgmCXJSwTvP8pLpf8St87r+hmXWBL5Xg/My3kTyK6zoLZ3yXn85Erx2VgpsYB7FjCzL5FA==
+  dependencies:
+    underscore "^1.8.3"
+
 pg-connection-string@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.1.0.tgz#e07258f280476540b24818ebb5dca29e101ca502"
@@ -4650,6 +4657,11 @@ unc-path-regex@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
   integrity sha1-5z3T17DXxe2G+6xrCufYxqadUPo=
+
+underscore@^1.8.3:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.2.tgz#0c8d6f536d6f378a5af264a72f7bec50feb7cf2f"
+  integrity sha512-D39qtimx0c1fI3ya1Lnhk3E9nONswSKhnffBI0gME9C99fYOkNi04xs8K6pePLhvl1frbDemkaBQ5ikWllR2HQ==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
