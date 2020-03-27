@@ -75,6 +75,31 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getPlan(plan_id, user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('subscription_plans').where({
+				'plan_id': plan_id,
+				'subscription_plans.user_id': user_id
+			})
+			.debug(true)
+			.select('subscription_plans.*')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	getPlans(name) {
+		return new Promise((resolve, reject) => {
+			dbInstance('subscription_plans').where({
+				'u1.username': name
+			})
+			.debug(true)
+			.join('users as u1', 'u1.user_id', '=', 'subscription_plans.user_id')
+			.select('subscription_plans.*', 'u1.user_id', 'u1.username AS name')
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getStream(name) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({
