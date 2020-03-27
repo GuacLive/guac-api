@@ -141,7 +141,6 @@ CREATE TABLE `activation_tokens` (
    FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
 CREATE TABLE `subscription_plans` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `plan_id` int(11) UNSIGNED NOT NULL,
@@ -156,6 +155,18 @@ CREATE TABLE `subscription_plans` (
   FOREIGN KEY(`stream_id`) REFERENCES stream(`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE `subscriptions` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `subscription_plans_id` int(11) UNSIGNED NOT NULL,
+  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `expiration_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` VARCHAR(15) NOT NULL,
+  `recurring_payment_id` VARCHAR(25) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`user_id`) REFERENCES users(`user_id`),
+  FOREIGN KEY(`subscription_plans_id`) REFERENCES subscription_plans(`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `users` ADD `activated` BOOLEAN NOT NULL DEFAULT FALSE;
 

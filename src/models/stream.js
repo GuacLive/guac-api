@@ -75,6 +75,19 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getPlan(plan_id, user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('subscription_plans').where({
+				'plan_id': plan_id,
+				'subscription_plans.user_id': user_id
+			})
+			.debug(true)
+			.select('subscription_plans.*')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getPlans(name) {
 		return new Promise((resolve, reject) => {
 			dbInstance('subscription_plans').where({

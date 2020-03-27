@@ -333,5 +333,45 @@ class User {
 			.catch(reject);
 		});
 	}
+	updateSubscription(data) {
+		return new Promise(async (resolve, reject) => {
+			dbInstance.transaction(trx => {
+				trx('subscriptions')
+				.where({
+					'user_id': data.user_id,
+					'subscription_plans_id': data.subscription_plans_id,
+				})
+				.then(res => {
+					if(res.length === 0){
+						return trx('subscriptions')
+						.insert(data)
+						.then(() => {
+							return trx('subscriptions')
+							.where({
+								'user_id': data.user_id,
+								'subscription_plans_id': data.subscription_plans_id,
+							});
+						});
+					}else{
+						trx('subscriptions')
+						.where({
+							'user_id': data.user_id,
+							'subscription_plans_id': data.subscription_plans_id,
+						})
+						.update(data)
+						.then(() => {
+							return trx('subscriptions')
+							.where({
+								'user_id': data.user_id,
+								'subscription_plans_id': data.subscription_plans_id,
+							});
+						});
+					}
+				})
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 }
 export default User;
