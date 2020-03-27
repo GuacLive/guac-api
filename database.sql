@@ -152,7 +152,7 @@ CREATE TABLE `subscription_plans` (
   `stream_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY(`user_id`) REFERENCES users(`user_id`),
-  FOREIGN KEY(`stream_id`) REFERENCES stream(`id`),
+  FOREIGN KEY(`stream_id`) REFERENCES stream(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `subscriptions` (
@@ -165,7 +165,7 @@ CREATE TABLE `subscriptions` (
   `user_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY(`user_id`) REFERENCES users(`user_id`),
-  FOREIGN KEY(`subscription_plans_id`) REFERENCES subscription_plans(`id`),
+  FOREIGN KEY(`subscription_plans_id`) REFERENCES subscription_plans(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `users` ADD `activated` BOOLEAN NOT NULL DEFAULT FALSE;
