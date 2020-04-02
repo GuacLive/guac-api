@@ -296,7 +296,7 @@ class User {
 					html: `<p>Follow the link underneath to verify your guac.live-account.</p><a href="https://guac.live/auth/activate?token=${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`
 				  };
 				sgMail
-				send(msg)
+				.send(msg)
 				.then(() => {}, error => {
 					console.error(error);
 				
