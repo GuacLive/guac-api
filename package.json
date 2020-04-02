@@ -26,6 +26,7 @@
     "micro-dev": "^3.0.0"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.0.0",
     "abort-controller": "^3.0.0",
     "babel-plugin-transform-regenerator": "^7.0.0-beta.3",
     "bcrypt": "^3.0.7",
@@ -44,7 +45,6 @@
     "mysql2": "^2.0.2",
     "nconf": "^0.10.0",
     "node-fetch": "^2.6.0",
-    "node-mailjet": "^3.3.1",
     "paypal-ipn-checker": "^1.0.1-dev",
     "pm2": "^4.2.0",
     "rand-token": "^0.4.0",

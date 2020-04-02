@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 
 const randtoken = require('rand-token');
-const mailjet = require('node-mailjet');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
 class User {
@@ -261,11 +262,6 @@ class User {
 		})
 	}
 	sendActivationToken(email = ''){
-		let mailjetClient = mailjet.connect(
-			global.nconf.get('mailjet:api_key'),
-			global.nconf.get('mailjet:secret'),
-		);
-
 		dbInstance('users')
 		.where({
 			'users.email': email,
@@ -293,26 +289,21 @@ class User {
 				})
 				.then(() => {});
 				// send e-mail
-				await mailjetClient
-				.post('send', {'version': 'v3.1'})
-				.request({
-					'Messages': [
-						{
-							'From': {
-								'Email': 'verify@guac.live',
-								'Name': 'guac.live'
-							},
-							'To': [
-								{
-									'Email': data.email,
-									'Name': data.username
-								}
-							],
-							'Subject': '[guac.live] Verify your e-mail.',
-							'HTMLPart': `<p>Follow the link underneath to verify your Guac.live-account.</p><a href="https://guac.live/auth/activate?token=${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`						}
-					]
-				})
-				.then(() => {});
+				const msg = {
+					to: data.email,
+					from: 'verify@guac.live',
+					subject: '[guac.live] Verify your e-mail.',
+					html: `<p>Follow the link underneath to verify your guac.live-account.</p><a href="https://guac.live/auth/activate?token=${token}">Activate your account</a><p><small>If you haven't registered on Guac, please ignore this e-mail.</small></p>`
+				  };
+				sgMail
+				send(msg)
+				.then(() => {}, error => {
+					console.error(error);
+				
+					if(error.response){
+					  console.error(error.response.body)
+					}
+				});
 			}
 		});
 	}

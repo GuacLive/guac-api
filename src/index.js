@@ -25,9 +25,8 @@ nconf.defaults({
 		user: 'nms',
 		password: 'nms'
 	},
-	mailjet: {
-		api_key: '',
-		secret: ''
+	sendgrid: {
+		api_key: ''
 	},
 	database: {
 		client: 'mysql2',
