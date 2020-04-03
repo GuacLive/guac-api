@@ -9,10 +9,16 @@ class Device {
 			.select('devices.token')
 			.join('devices', 'devices.user_id', '=', 'follows.to_id')
 			.debug(true)
-			.map((row) => {
-				return row.token;
+			.then((data, err) => {
+				if(data){
+					const data2 = data.map(row => {
+						return row.token;
+					});
+					resolve(data2);
+				}else{
+					resolve([]);
+				}
 			})
-			.then(resolve)
 			.catch(reject);
 		});
 	}
