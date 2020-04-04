@@ -3,6 +3,7 @@ class Device {
 	getFollowTokens(to_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('follows')
+			.distinct()
 			.where({
 				'to_id': to_id
 			})
