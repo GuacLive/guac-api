@@ -44,11 +44,10 @@ module.exports = compose(
 			// Check if firebase api key is set
 			if(global.nconf.get('firebase:api_key')){
 				// The person is going live, send notifications
-				var followTokens;
+				var followTokens = [];
 				try{
 					followTokens = await device.getFollowTokens(result.user_id);
 				}catch(e){
-					followTokens = [];
 				}
 				const chunkedTokens = chunk(followTokens, 100);
 				const firebaseMessage = {
