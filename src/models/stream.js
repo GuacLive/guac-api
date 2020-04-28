@@ -30,6 +30,21 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getPanel(panel_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_panels')
+			.where({
+				'stream_panels.panel_id': panel_id
+			})
+			.select('stream_panels.*', 'u1.username')
+			.orderBy('panel_id', 'desc')
+			.join('users as u1', 'u1.user_id', '=', 'stream_panels.user_id')
+			.join('stream', 'stream.user_id', '=', 'stream_panels.user_id')
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	// getCategories should be a seperate model mayhaps?
 	getCategories() {
 		return new Promise((resolve, reject) => {
@@ -184,6 +199,22 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	addPanel(title, description, user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_panels')
+			.insert({
+				title,
+				description,
+				user_id
+			})
+			.debug(true)
+			.then(async (data) => {
+				if(!data) resolve(false);
+				resolve(data);
+			})
+			.catch(reject);
+		});
+	}
 	addStreamKey(user_id, stream_key) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_keys')
@@ -215,6 +246,19 @@ class Stream {
 				if(!data) resolve(false);
 				resolve(data);
 			})
+			.catch(reject);
+		});
+	}
+	setPanel(panel_id, title, description) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_panels').where({
+				panel_id
+			})
+			.update({
+				title,
+				description
+			})
+			.then(resolve)
 			.catch(reject);
 		});
 	}
@@ -297,6 +341,16 @@ class Stream {
 				id: streamId
 			})
 			.increment('views', 1)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+	deletePanel(panel_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_panels').where({
+				panel_id
+			})
+			.delete()
 			.then(resolve)
 			.catch(reject);
 		});

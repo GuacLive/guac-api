@@ -115,6 +115,7 @@ module.exports = router(
 	post('/follow', middleware(require('./routes/follow/post'))),
 	post('/follows', middleware(require('./routes/follows/post'))),
 	post('/fcm', middleware(require('./routes/fcm/post'))),
+	post('/panels', middleware(require('./routes/panels/post'))),
 	post('/search', middleware(require('./routes/search/post'))),
 	// To add a stream to database
 	post('/admin/stream', middleware(require('./routes/admin/createStream'))),
