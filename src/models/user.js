@@ -355,14 +355,17 @@ class User {
 	// Updates the patreon json column in users table
 	updatePatreon(user_id, patreon) {
 		return new Promise(async (resolve, reject) => {
+			console.log('updatePatreon');
 			const user = await dbInstance('users')
 				.where({
 					user_id
 				})
+				.debug(true)
 				.first();
 
 			user.patreon = Object.assign(user.patreon ? user.patreon : {}, patreon);
 
+			console.log('updatePatreon 2', user.patreon);;
 			const updatedUser = await dbInstance('users')
 				.where({
 					user_id
@@ -370,6 +373,7 @@ class User {
 				.update({
 					patreon: user.patreon
 				})
+				.debug(true)
 				.returning('*')
 				.then(resolve)
 				.catch(reject);
