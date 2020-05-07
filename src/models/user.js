@@ -361,7 +361,7 @@ class User {
 				})
 				.first();
 
-			user.patreon = Object.assign(user.patreon, patreon);
+			user.patreon = Object.assign(user.patreon ? user.patreon : {}, patreon);
 
 			const updatedUser = await dbInstance('users')
 				.where({
