@@ -25,7 +25,7 @@ module.exports = compose(
 	let oauthGrantCode = query.code;
 	const u = new userModel;
 
-	oauthClient.getTokens(oauthGrantCode, redirectUri)
+	await oauthClient.getTokens(oauthGrantCode, redirectUri)
 	.then(tokenResponse => {
 		if(tokenResponse){
 				u
@@ -47,7 +47,6 @@ module.exports = compose(
 				});
 			}
 	}).catch((e) => {
-		console.log(e.toString());
 		return send(res, 401, {
 			statusCode: 401,
 			statusMessage: 'Patreon error'
