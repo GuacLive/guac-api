@@ -25,25 +25,31 @@ module.exports = compose(
 	let oauthGrantCode = query.code;
 	const u = new userModel;
 
-	let tokenResponse = await oauthClient.getTokens(oauthGrantCode, redirectUri);
-	
-	if(tokenResponse){
-		u
-		.updatePatreon(
-			user.id,
-			{
-				access_token: tokenResponse.access_token,
-				refresh_token: tokenResponse.refresh_token
+	oauthClient.getTokens(oauthGrantCode, redirectUri)
+	.then(tokenResponse => {
+		if(tokenResponse){
+				u
+				.updatePatreon(
+					user.id,
+					{
+						access_token: tokenResponse.access_token,
+						refresh_token: tokenResponse.refresh_token
+					}
+				);
+				return send(res, 200, {
+					statusCode: 200,
+					statusMessage: 'You are now a patron'
+				});
+			}else{
+				return send(res, 401, {
+					statusCode: 401,
+					statusMessage: 'You are currently not a patron'
+				});
 			}
-		);
-		return send(res, 200, {
-			statusCode: 200,
-			statusMessage: 'You are now a patron'
-		});
-	}else{
+	}).catch(() => {
 		return send(res, 401, {
 			statusCode: 401,
-			statusMessage: 'You are currently not a patron'
+			statusMessage: 'Patreon error'
 		});
-	}
+	});
 });
