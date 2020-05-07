@@ -28,6 +28,10 @@ nconf.defaults({
 	sendgrid: {
 		api_key: ''
 	},
+	patreon: {
+		client_id: '',
+		client_secret: ''
+	},
 	database: {
 		client: 'mysql2',
 		connection: {
@@ -127,6 +131,8 @@ module.exports = router(
 	// Users API (used by verify-patreons)
 	patch('/users/:id', middleware(require('./routes/users/patch'))),
 	patch('/*', notfound),
+	// OAuth
+	get('/oauth/patreon', middleware(require('./routes/oauth/patreon'))),
 	// Users API (used by verify-patreons)
 	get('/users/:id', middleware(require('./routes/users/user'))),
 	get('/users', middleware(require('./routes/users/list'))),
