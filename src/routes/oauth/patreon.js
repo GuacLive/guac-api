@@ -46,7 +46,8 @@ module.exports = compose(
 					statusMessage: 'You are currently not a patron'
 				});
 			}
-	}).catch(() => {
+	}).catch((e) => {
+		console.log(e.toString());
 		return send(res, 401, {
 			statusCode: 401,
 			statusMessage: 'Patreon error'
