@@ -58,7 +58,7 @@ function initDb(){
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 import microCors from 'micro-cors';
-import { router, get, post, del } from 'microrouter';
+import { router, get, post, del, patch } from 'microrouter';
 import ratelimit from 'micro-ratelimit2';
 import { handleErrors } from 'micro-boom';
 import Redis from 'ioredis';
@@ -124,6 +124,12 @@ module.exports = router(
 	// Globally unban user (from chat and streaming)
 	post('/admin/user/unban', middleware(require('./routes/admin/unbanUser'))),
 	post('/*', notfound),
+	// Users API (used by verify-patreons)
+	patch('/users/:id', middleware(require('./routes/users/patch'))),
+	patch('/*', notfound),
+	// Users API (used by verify-patreons)
+	get('/users/:id', middleware(require('./routes/users/user'))),
+	get('/users', middleware(require('./routes/users/list'))),
 	// To get NMS streams currently live
 	get('/admin/streams', middleware(require('./routes/admin/getStreams'))),
 	// To stop a NMS stream currently live

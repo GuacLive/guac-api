@@ -6,6 +6,33 @@ sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
 class User {
+	// isPatreon can be null (show all users), true (only patreon) or false (only non-patreon)
+	getUsers(isPatron = null, limit = 100, skip = 0) {
+		return new Promise((resolve, reject) => {
+			var inst = dbInstance('users');
+			if(isPatron){
+				inst = inst.havingNotNull('patreon');
+			}else if(isPatreon === false){
+				inst = inst.havingNull('patreon');
+			}
+			inst = inst
+			.select(
+				'users.user_id',
+				'users.email',
+				'users.activated',
+				'users.username',
+				'users.type',
+				'users.avatar',
+				'users.banned',
+				'users.patreon',
+			)
+			.orderBy('user_id', 'desc')
+			.limit(limit)
+			.offset(skip)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
@@ -22,6 +49,7 @@ class User {
 				'users.avatar',
 				'users.banned',
 				dbInstance.raw('HEX(users.color) as color'),
+				'users.patreon',
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
@@ -322,6 +350,30 @@ class User {
 			})
 			.then(resolve)
 			.catch(reject);
+		});
+	}
+	// Updates the patreon json column in users table
+	updatePatreon(user_id, patreon) {
+		return new Promise(async (resolve, reject) => {
+			const user = await dbInstance('users')
+				.where({
+					user_id
+				})
+				.first();
+
+			user.patreon = Object.assign(user.patreon, patreon);
+
+			const updatedUser = await dbInstance('users')
+				.where({
+					user_id
+				})
+				.update({
+					patreon: user.patreon
+				})
+				.returning('*')
+				.then(resolve)
+				.catch(reject);
+			return updatedUser;
 		});
 	}
 	updateSubscription(data) {
