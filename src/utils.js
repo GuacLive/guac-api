@@ -33,7 +33,24 @@ const reservedUsernames = [
 	'guac',
 	'datagutt',
 	'kinggothalion',
-	'alinity'
+	'alinity',
+	'privacy',
+	'tos',
+	'help',
+	'unfollow',
+	'unsubscribe',
+	'c',
+	'category',
+	'embed',
+	'overlay',
+	'_next',
+	'css',
+	'javascript',
+	'static',
+	'api',
+	'oauth',
+	'patreon',
+	'auth'
 ];
 export const isReservedUsername = (username) => {
 	if(!username) return false;
