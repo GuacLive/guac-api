@@ -1,9 +1,9 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
-import userModel from '../models/user';
+import userModel from '../../models/user';
 
-import verifySecretKey from '.../services/verifySecretKey';
+import verifySecretKey from '../../services/verifySecretKey';
 
 module.exports = compose(
 	verifySecretKey
