@@ -360,12 +360,13 @@ class User {
 				.where({
 					user_id
 				})
+				.select('users.patreon')
 				.debug(true)
 				.first();
 
 			user.patreon = Object.assign(user.patreon ? user.patreon : {}, patreon);
 
-			console.log('updatePatreon 2', user.patreon);;
+			console.log('updatePatreon 2', user.patreon);
 			const updatedUser = await dbInstance('users')
 				.where({
 					user_id
