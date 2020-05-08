@@ -7,7 +7,7 @@ sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 const dbInstance = global.dbInstance;
 class User {
 	// isPatreon can be null (show all users), true (only patreon) or false (only non-patreon)
-	getUsers(isPatron = null, limit = 100, skip = 0) {
+	getUsers(isPatron = null, limit, skip) {
 		return new Promise((resolve, reject) => {
 			var inst = dbInstance('users');
 			if(isPatron){
@@ -26,8 +26,14 @@ class User {
 				'users.banned',
 				'users.patreon',
 			)
-			.orderBy('user_id', 'desc')
-			.limit(limit)
+			.orderBy('user_id', 'desc');
+			if(limit){
+				inst = inst.limit(limit);
+			}
+			if(skip){
+				inst = inst.offset(skip)
+			}
+			inst = inst
 			.offset(skip)
 			.then(resolve)
 			.catch(reject);
