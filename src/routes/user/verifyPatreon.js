@@ -71,7 +71,7 @@ module.exports = compose(
 		.then(response => {
 			if(response.included && typeof response.included[Symbol.iterator] === 'function'){
 				for(const included of response.included){
-					if(included.relationships){
+					if(included && included.relationships){
 						if(campaignID == included.relationships.campaign.data.id){
 							return included;
 						}
