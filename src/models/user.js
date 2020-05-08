@@ -347,7 +347,7 @@ class User {
 				user_id
 			})
 			.update({
-				color: dbInstance.raw('UNHEX(??)', [color]),
+				color: dbInstance.raw('UNHEX(?)', [color]),
 			})
 			.then(resolve)
 			.catch(reject);
