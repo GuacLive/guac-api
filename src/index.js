@@ -30,7 +30,8 @@ nconf.defaults({
 	},
 	patreon: {
 		client_id: '',
-		client_secret: ''
+		client_secret: '',
+		campaign_id: '',
 	},
 	database: {
 		client: 'mysql2',
@@ -104,6 +105,7 @@ module.exports = router(
 	post('/live/publish', middleware(require('./routes/live/publish'))),
 	post('/live/on_publish_done', middleware(require('./routes/live/publishDone'))),
 	post('/archive', middleware(require('./routes/archive/post'))),
+	post('/user/verifyPatreon', middleware(require('./routes/user/verifyPatreon'))),
 	post('/user/password', middleware(require('./routes/user/password'))),
 	post('/channel/bans', middleware(require('./routes/channel/bans'))),
 	post('/channel/timeouts', middleware(require('./routes/channel/timeouts'))),
