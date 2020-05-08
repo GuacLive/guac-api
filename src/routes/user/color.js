@@ -5,7 +5,7 @@ import userModel from '../../models/user';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 
-const HEX_REGEX = /^#([0-9A-F]{3}){1,2}$/;
+const HEX_REGEX = /^#[0-9A-F]{6}$/i;
 module.exports = compose(
 	verifyJWTKey
 )(
