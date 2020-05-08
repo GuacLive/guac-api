@@ -66,7 +66,9 @@ module.exports = compose(
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${userPatreonObject.access_token}`,
 			}
-		}).then(response => {
+		})
+		.then(r => r.json())
+		.then(response => {
 			if(response.data.included && typeof response.data.included[Symbol.iterator] === 'function'){
 				for(const included of response.data.included){
 					if(included.relationships){
@@ -76,7 +78,8 @@ module.exports = compose(
 					}
 				}
 			}
-		}).catch(e => {
+		})
+		.catch(e => {
 			if(e.response.status === 401){
 				return refresh(user.id, userPatreonObject);
 			}
