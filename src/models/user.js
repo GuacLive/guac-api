@@ -347,7 +347,7 @@ class User {
 				user_id
 			})
 			.update({
-				color,
+				color: knex.raw('UNHEX(??)', ['color']),
 			})
 			.then(resolve)
 			.catch(reject);
