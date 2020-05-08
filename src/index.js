@@ -106,6 +106,7 @@ module.exports = router(
 	post('/live/on_publish_done', middleware(require('./routes/live/publishDone'))),
 	post('/archive', middleware(require('./routes/archive/post'))),
 	post('/user/verifyPatreon', middleware(require('./routes/user/verifyPatreon'))),
+	post('/user/color', middleware(require('./routes/user/color'))),
 	post('/user/password', middleware(require('./routes/user/password'))),
 	post('/channel/bans', middleware(require('./routes/channel/bans'))),
 	post('/channel/timeouts', middleware(require('./routes/channel/timeouts'))),

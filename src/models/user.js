@@ -341,6 +341,18 @@ class User {
 			}
 		});
 	}
+	changeColor(user_id, color) {
+		return new Promise(async (resolve, reject) => {
+			dbInstance('users').where({
+				user_id
+			})
+			.update({
+				color,
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	changePassword(user_id, password) {
 		return new Promise(async (resolve, reject) => {
 			const salt = await bcrypt.genSalt(10);
