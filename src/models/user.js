@@ -10,11 +10,6 @@ class User {
 	getUsers(isPatron = null, limit, skip) {
 		return new Promise((resolve, reject) => {
 			var inst = dbInstance('users');
-			if(isPatron){
-				inst = inst.havingNotNull('patreon');
-			}else if(isPatron === false){
-				inst = inst.havingNull('patreon');
-			}
 			inst = inst
 			.select(
 				'users.user_id',
@@ -27,6 +22,11 @@ class User {
 				'users.patreon',
 			)
 			.orderBy('user_id', 'desc');
+			if(isPatron){
+				inst = inst.havingNotNull('users.patreon');
+			}else if(isPatron === false){
+				inst = inst.havingNull('users.patreon');
+			}
 			if(limit){
 				inst = inst.limit(limit);
 			}
