@@ -21,7 +21,7 @@ module.exports = compose(
                     });
                 }
                 if(req.user.patreon && req.user.patreon.isPatron){
-                    await um.changeColor(req.user.id, jsonData.color);
+                    await um.changeColor(req.user.id, jsonData.color.split('#')[1]);
                     return send(res, 200, {
                         statusCode: 200,
                     });
