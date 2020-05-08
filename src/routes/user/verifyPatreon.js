@@ -9,7 +9,7 @@ const clientId = global.nconf.get('patreon:client_id');
 const clientSecret = global.nconf.get('patreon:client_secret');
 const campaignID = global.nconf.get('patreon:campaign_id');
 
-const refresh = (user, userPatreonObject) => {
+const refresh = async (user, userPatreonObject) => {
 	axios({
 		method: 'POST',
 		url: 'https://www.patreon.com/api/oauth2/token',
@@ -147,7 +147,7 @@ module.exports = compose(
 	userPatreonObject.tier = newTier;
 
 	try{
-		u.updatePatreon(
+		await u.updatePatreon(
 			user,
 			userPatreonObject
 		);
