@@ -12,7 +12,7 @@ class User {
 			var inst = dbInstance('users');
 			if(isPatron){
 				inst = inst.havingNotNull('patreon');
-			}else if(isPatreon === false){
+			}else if(isPatron === false){
 				inst = inst.havingNull('patreon');
 			}
 			inst = inst
@@ -375,7 +375,6 @@ class User {
 					patreon: JSON.stringify(user.patreon)
 				})
 				.debug(true)
-				.returning('*')
 				.then(resolve)
 				.catch(reject);
 			return updatedUser;

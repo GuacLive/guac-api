@@ -46,6 +46,7 @@ module.exports = fn => async (req, res) => {
 				avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
 				banned: result.banned,
 				color: result.color,
+				patreon: JSON.parse(result.patreon)
 			};
 			return await fn(req, res);
 		});

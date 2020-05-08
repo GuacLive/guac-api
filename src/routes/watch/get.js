@@ -69,7 +69,11 @@ module.exports = compose(
 						name: result.name,
 						type: result.type,
 						avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
-						banned: result.banned
+						banned: result.banned,
+						patreon: stream.patreon ? {
+							isPatron: stream.patreon.isPatron || false,
+							tier: stream.patreon.tier
+						} : null
 					},
 					mods: typeof mods == 'object' ? mods.map((m) => {return m && m.user_id}).filter(id => id) : [],
 					panels: await stream.getPanels(result.user_id)
