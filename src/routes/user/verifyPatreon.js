@@ -22,7 +22,7 @@ const refresh = async (user, userPatreonObject) => {
 			client_id: clientId,
 			client_secret: clientSecret,
 		})
-	}).then(response => {
+	}).then(async response => {
 		let patreonObject = userPatreonObject;
 		patreonObject.access_token = response.data.access_token;
 		patreonObject.refresh_token = response.data.refresh_token;
