@@ -67,6 +67,13 @@ module.exports = compose(
 				Authorization: `Bearer ${userPatreonObject.access_token}`,
 			}
 		})
+		.then((res) => {
+			if(res.status === 401){
+				Promise.reject(res);
+				return refresh(user, userPatreonObject);
+			}
+			return res;
+		})
 		.then(r => r.json())
 		.then(response => {
 			if(response.included && typeof response.included[Symbol.iterator] === 'function'){
@@ -80,10 +87,7 @@ module.exports = compose(
 			}
 		})
 		.catch(e => {
-			if(e.response.status === 401){
-				return refresh(user, userPatreonObject);
-			}
-			console.error(e.response.data);
+			console.error(e);
 			return send(res, 500, {
 				statusCode: 500,
 				statusMessage: 'Something went wrong fetching patreon api'
