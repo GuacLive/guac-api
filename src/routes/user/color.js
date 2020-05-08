@@ -14,7 +14,7 @@ module.exports = compose(
         const jsonData = await json(req);
 		if(jsonData && jsonData.color){
             if(req.user && req.user.id){
-                if(!HEX_REGEX.test(jsonData.color.length)){
+                if(!HEX_REGEX.test(jsonData.color)){
                     return send(res, 400, {
                         statusCode: 400,
                         statusMessage: 'Not a valid hex color'
