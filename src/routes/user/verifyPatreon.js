@@ -147,7 +147,7 @@ module.exports = compose(
 	userPatreonObject.tier = newTier;
 
 	try{
-		await u.updatePatreon(
+		u.updatePatreon(
 			user,
 			userPatreonObject
 		);
