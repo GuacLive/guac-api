@@ -69,8 +69,8 @@ module.exports = compose(
 		})
 		.then(r => r.json())
 		.then(response => {
-			if(response.data.included && typeof response.data.included[Symbol.iterator] === 'function'){
-				for(const included of response.data.included){
+			if(response.included && typeof response.included[Symbol.iterator] === 'function'){
+				for(const included of response.included){
 					if(included.relationships){
 						if(campaignID == included.relationships.campaign.data.id){
 							return included;
@@ -81,7 +81,7 @@ module.exports = compose(
 		})
 		.catch(e => {
 			if(e.response.status === 401){
-				return refresh(user.id, userPatreonObject);
+				return refresh(user, userPatreonObject);
 			}
 			console.error(e.response.data);
 			return send(res, 500, {
@@ -151,7 +151,7 @@ module.exports = compose(
 
 	try{
 		await u.updatePatreon(
-			user,
+			user.id,
 			userPatreonObject
 		);
 		return send(res, 200, {
