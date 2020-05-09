@@ -10,9 +10,10 @@ const clientSecret = global.nconf.get('patreon:client_secret');
 const campaignID = global.nconf.get('patreon:campaign_id');
 
 const refresh = async (user, userPatreonObject) => {
-	axios({
+	fetch(
+		'https://www.patreon.com/api/oauth2/token',
+		{
 		method: 'POST',
-		url: 'https://www.patreon.com/api/oauth2/token',
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
