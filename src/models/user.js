@@ -38,7 +38,11 @@ class User {
 			.then((data) => {
 				let result = [];
 				data.forEach((d, i) => {
-					if(d.patreon) d.patreon = JSON.parse(d.patreon);
+					if(d.patreon){
+						if(typeof d.patreon === 'string'){
+							d.patreon = JSON.parse(d.patreon);
+						}
+					}
 					result.push(d);
 					if(i === data.length - 1){
 						resolve(data);
