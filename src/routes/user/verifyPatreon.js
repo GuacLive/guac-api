@@ -48,7 +48,14 @@ module.exports = compose(
 	await u
 	.getUserById(user.id)
 	.then(data => {
-		return JSON.parse(data.patreon);
+		// yes this should be twice
+		if(typeof data.patreon === 'string'){
+			data.patreon = JSON.parse(data.patreon);
+		}
+		if(typeof data.patreon === 'string'){
+			data.patreon = JSON.parse(data.patreon);
+		}
+		return data.patreon;
 	}).catch(e => {
 		console.error(e.message)
 	})
