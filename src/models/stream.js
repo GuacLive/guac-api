@@ -41,6 +41,7 @@ class Stream {
 			.join('users as u1', 'u1.user_id', '=', 'stream_panels.user_id')
 			.join('stream', 'stream.user_id', '=', 'stream_panels.user_id')
 			.debug(true)
+			.first()
 			.then(resolve)
 			.catch(reject);
 		});
