@@ -14,7 +14,7 @@ module.exports = compose(
 		const { query } = await parse(req.url, true);
 		const u = new userModel;
 		const users = await u.getUsers(
-			query.patreon ? query['patreon.isPatron'] : null,
+			query['patreon.isPatron'] || null,
 			parseInt(query.$limit, 10),
 			parseInt(query.$skip, 10)
 		);
