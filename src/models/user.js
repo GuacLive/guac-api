@@ -39,6 +39,10 @@ class User {
 				let result = [];
 				data.forEach((d, i) => {
 					if(d.patreon){
+						// yes this should be twice
+						if(typeof d.patreon === 'string'){
+							d.patreon = JSON.parse(d.patreon);
+						}
 						if(typeof d.patreon === 'string'){
 							d.patreon = JSON.parse(d.patreon);
 						}
