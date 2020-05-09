@@ -35,7 +35,16 @@ class User {
 			}
 			inst = inst
 			.offset(skip)
-			.then(resolve)
+			.then((data) => {
+				let result = [];
+				data.forEach((d, i) => {
+					if(d.patreon) d.patreon = JSON.parse(result.patreon);
+					result.push(d);
+					if(i === data.length - 1){
+						resolve(data);
+					}
+				});
+			})
 			.catch(reject);
 		});
 	}
