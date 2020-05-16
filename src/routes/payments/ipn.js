@@ -51,7 +51,7 @@ module.exports = compose(
 					let subscr_date = subscr_date ? new Date(data['subscr_date']) : null;
 
 					var user = await userModel.getUserByEmail(payer_email);
-					var plan = await streamModel.getPlan(item_number, user.id);
+					var plan = await streamModel.getPlan(item_number, receiver_email);
 					if(
 						plan.price === payment_amount
 						&&

@@ -91,11 +91,11 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	getPlan(plan_id, user_id) {
+	getPlan(plan_id, email) {
 		return new Promise((resolve, reject) => {
 			dbInstance('subscription_plans').where({
 				'plan_id': plan_id,
-				'subscription_plans.user_id': user_id
+				'subscription_plans.email': email
 			})
 			.debug(true)
 			.select('subscription_plans.*')
