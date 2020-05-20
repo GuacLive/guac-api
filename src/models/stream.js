@@ -106,7 +106,7 @@ class Stream {
 				'subscriptions.expiration_date',
 				'subscriptions.status',
 				'subscriptions.user_id',
-				'users.id AS user_id',
+				'users.user_id AS user_id',
 				'users.username'
 			)
 			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
