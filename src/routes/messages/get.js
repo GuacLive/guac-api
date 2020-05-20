@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 
 import AbortController from 'abort-controller';
 
-const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
+import { USERNAME_REGEX } from '../../utils';
 module.exports = compose(
 )(
 	async (req, res) => {

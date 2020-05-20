@@ -5,8 +5,7 @@ import fetch from 'node-fetch';
 import channelModel from '../../models/channel';
 import streamModel from '../../models/stream';
 
-const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
-
+import { USERNAME_REGEX } from '../../utils';
 function getFromViewerAPI(name){
 	return new Promise((resolve, reject) => {
 		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`)
