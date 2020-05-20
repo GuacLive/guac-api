@@ -98,7 +98,7 @@ class Stream {
 				'subscription_plans.stream_id': stream_id
 			})
 			.where('subscriptions.expiration_date', '>', 'NOW()')
-			.whereNot('subscription.status', 'inactive')
+			.whereNot('subscriptions.status', 'inactive')
 			.debug(true)
 			.select(
 				'subscriptions.id AS sub_id',
