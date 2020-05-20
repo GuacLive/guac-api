@@ -110,6 +110,7 @@ class Stream {
 				'users.username'
 			)
 			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
+			.leftJoin('users', 'subscriptions.user_id', '=', 'users.user_id')
 			.first()
 			.then(resolve)
 			.catch(reject);
