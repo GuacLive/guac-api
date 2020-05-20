@@ -36,11 +36,21 @@ module.exports = compose(
 					}
 				});
 			}else{
-				send(res, 404, {
-					statusCode: 404,
-					statusMessage: 'Stream not found'
+				
+				return send(res, 200, {
+					statusCode: 200,
+					subscription: null,
+					user: {
+						id: req.user.id,
+						username: req.user.username
+					}
 				});
 			}
+		}else{
+			return send(res, 404, {
+				statusCode: 404,
+				statusMessage: 'Stream not found'
+			});
 		}
 	}
 );
