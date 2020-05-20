@@ -91,6 +91,31 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getSubscriptionToChannel(user_id, stream_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('subscriptions').where({
+				'subscriptions.user_id': user_id,
+				'subscription_plans.stream_id': stream_id
+			})
+			.where('subscriptions.expiration_date', '>', 'NOW()')
+			.whereNot('subscription.status', 'inactive')
+			.debug(true)
+			.select(
+				'subscriptions.id AS sub_id',
+				'subscriptions.start_date',
+				'subscriptions.expiration_date',
+				'subscriptions.status',
+				'subscriptions.user_id',
+				'users.id AS user_id',
+				'users.username',
+				'stream.*'
+			)
+			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getPlan(plan_id, email) {
 		return new Promise((resolve, reject) => {
 			dbInstance('subscription_plans').where({

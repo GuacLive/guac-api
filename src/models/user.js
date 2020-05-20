@@ -258,6 +258,26 @@ class User {
 			.catch(reject);
 		});
 	}
+	getSubscriptions(user_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('subscriptions').where({
+				'subscriptions.user_id': user_id
+			})
+			.where('subscriptions.expiration_date', '>', 'NOW()')
+			.whereNot('subscription.status', 'inactive')
+			.debug(true)
+			.select(
+				'subscriptions.id AS sub_id',
+				'subscriptions.start_date',
+				'subscriptions.expiration_date',
+				'subscriptions.status',
+				'subscriptions.user_id',
+			)
+			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	activate(token = ''){
 		return new Promise((resolve, reject) => {
 			dbInstance('activation_tokens')
