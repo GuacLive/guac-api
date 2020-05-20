@@ -42,7 +42,7 @@ module.exports = compose(
 					subscription: null,
 					user: {
 						id: req.user.id,
-						username: req.user.username
+						username: req.user.name
 					}
 				});
 			}
