@@ -75,7 +75,8 @@ module.exports = compose(
 						} : null
 					},
 					mods: typeof mods == 'object' ? mods.map((m) => {return m && m.user_id}).filter(id => id) : [],
-					panels: await stream.getPanels(result.user_id)
+					panels: await stream.getPanels(result.user_id),
+					subEnabled: await stream.hasSubscriptionPlans(req.params.name)
 				}
 			});
 		}else{

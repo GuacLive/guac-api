@@ -141,6 +141,21 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	hasSubscriptionPlans(name) {
+		return new Promise((resolve, reject) => {
+			dbInstance('subscription_plans').where({
+				'u1.username': name
+			})
+			.debug(true)
+			.join('users as u1', 'u1.user_id', '=', 'subscription_plans.user_id')
+			.count('stream_id')
+			.first()
+			.then((total) => {
+				return total.count > 0;
+			})
+			.catch(reject);
+		});
+	}
 	getStream(name) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({
