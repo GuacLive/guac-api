@@ -151,7 +151,7 @@ class Stream {
 			.count('stream_id')
 			.first()
 			.then((total) => {
-				return total.count > 0;
+				resolve(total.count > 0);
 			})
 			.catch(reject);
 		});
