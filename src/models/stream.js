@@ -147,7 +147,7 @@ class Stream {
 				'stream_id': stream_id
 			})
 			.debug(true)
-			.count('stream_id')
+			.count('stream_id AS count')
 			.first()
 			.then((total) => {
 				resolve(total.count > 0);
