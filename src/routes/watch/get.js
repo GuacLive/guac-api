@@ -76,7 +76,7 @@ module.exports = compose(
 					},
 					mods: typeof mods == 'object' ? mods.map((m) => {return m && m.user_id}).filter(id => id) : [],
 					panels: await stream.getPanels(result.user_id),
-					subEnabled: await stream.hasSubscriptionPlans(req.params.name)
+					subEnabled: await stream.hasSubscriptionPlans(result.id)
 				}
 			});
 		}else{

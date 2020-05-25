@@ -141,13 +141,12 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	hasSubscriptionPlans(name) {
+	hasSubscriptionPlans(stream_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('subscription_plans').where({
-				'u1.username': name
+				'stream_id': stream_id
 			})
 			.debug(true)
-			.join('users as u1', 'u1.user_id', '=', 'subscription_plans.user_id')
 			.count('stream_id')
 			.first()
 			.then((total) => {
