@@ -3,7 +3,7 @@ import { compose } from 'micro-hoofs';
 
 import streamModel from '../../models/stream';
 
-const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
+import { USERNAME_REGEX } from '../../utils';
 
 module.exports = compose(
 )(
