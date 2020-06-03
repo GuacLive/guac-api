@@ -16,22 +16,24 @@ module.exports = compose(
 			});
 		}
 		const u = new userModel;
-		const user = await u.updatePatreon(
-			req.params.id,
-			jsonData.patreon
-		);
-		if(typeof jsonData.color !== 'undefined'){
-			await u.changeColor(req.params.id, jsonData.color);
-		}
-		if(user){
-			return send(res, 200, {
-				statusCode: 200,
-				data: user
-			});
-		}else{
-			return send(res, 400, {
-				statusCode: 400
-			});
-		}
+		try{
+			const user = await u.updatePatreon(
+				req.params.id,
+				JSON.parse(jsonData.patreon)
+			);
+			if(typeof jsonData.color !== 'undefined'){
+				await u.changeColor(req.params.id, jsonData.color);
+			}
+			if(user){
+				return send(res, 200, {
+					statusCode: 200,
+					data: user
+				});
+			}else{
+				return send(res, 400, {
+					statusCode: 400
+				});
+			}
+		}catch(e){}
 	}
 );
