@@ -419,15 +419,13 @@ class User {
 				.debug(true)
 				.first();
 
-			user.patreon = Object.assign(user.patreon ? user.patreon : {}, patreon);
-
 			console.log('updatePatreon 2', user.patreon);
 			const updatedUser = await dbInstance('users')
 				.where({
 					user_id
 				})
 				.update({
-					patreon: typeof user.patreon !== 'string' ? JSON.stringify(user.patreon) : user.patreon
+					patreon: typeof user.patreon === 'string' ? JSON.parse(patreon) : JSON.stringify(patreon)
 				})
 				.debug(true)
 				.then(resolve)
