@@ -20,6 +20,9 @@ module.exports = compose(
 			req.params.id,
 			jsonData.patreon
 		);
+		if(typeof jsonData.color !== 'undefined'){
+			await u.changeColor(req.params.id, jsonData.color);
+		}
 		if(user){
 			return send(res, 200, {
 				statusCode: 200,
