@@ -19,7 +19,7 @@ module.exports = compose(
 		try{
 			const user = await u.updatePatreon(
 				req.params.id,
-				JSON.parse(jsonData.patreon)
+				jsonData.patreon
 			);
 			if(typeof jsonData.color !== 'undefined'){
 				await u.changeColor(req.params.id, jsonData.color);

@@ -427,7 +427,7 @@ class User {
 					user_id
 				})
 				.update({
-					patreon: JSON.stringify(user.patreon)
+					patreon: user.patreon
 				})
 				.debug(true)
 				.then(resolve)
