@@ -425,7 +425,7 @@ class User {
 					user_id
 				})
 				.update({
-					patreon: typeof patreon === 'string' ? patreon : JSON.stringify(patreon)
+					patreon: JSON.stringify(patreon)
 				})
 				.debug(true)
 				.then(resolve)
