@@ -51,7 +51,7 @@ module.exports = compose(
 					category_id: result.category_id,
 					category_name: result.category_name,
 					urls: {
-						hls: `/live/${result.name}/index.m3u8`,
+						hls: `/live/${result.name}/abr.m3u8`,
 						flv: `/live/${result.name}.flv`
 					},
 					qualities: {

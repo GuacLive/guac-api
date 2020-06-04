@@ -19,7 +19,7 @@ module.exports = compose(
 					live: parseInt(item.live, 10),
 					views: parseInt(item.views, 10),
 					urls: {
-						hls: `/live/${item.name}/index.m3u8`,
+						hls: `/live/${item.name}/abr.m3u8`,
 						flv: `/live/${item.name}.flv`
 					},
 					qualities: {
