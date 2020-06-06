@@ -18,7 +18,8 @@ nconf.defaults({
 		},
 		whitelist: [
 			/(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)/
-		]
+		],
+		whitelist_secret: ''
 	},
 	nms: {
 		host: 'https://stream.guac.live',
@@ -82,6 +83,9 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 	max: 300,
 	duration: 60 * 1000,
 	whitelist: req => {
+		if(req.headers['x-guac-bypass'] === nconf.get('server:whitelist_secret')){
+			return true;
+		}
 		return nconf.get('server:whitelist')
 			.some(r => req.headers.hasOwnProperty('x-forwarded-for') ? r.test(req.headers['x-forwarded-for']) : r.test(req.connection.remoteAddress.replace(/^.*:/, '')));
 	}
