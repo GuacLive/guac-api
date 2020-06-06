@@ -15,4 +15,4 @@ module.exports = cache(60 * 1000, compose(
 			}
 		});
 	}
-);
+));
