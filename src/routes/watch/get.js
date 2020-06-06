@@ -1,5 +1,6 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
+import cache from 'micro-cacheable';
 import fetch from 'node-fetch';
 
 import channelModel from '../../models/channel';
@@ -19,7 +20,8 @@ function getFromViewerAPI(name){
 	})
 }
 
-module.exports = compose(
+// Cache response for 1 second
+module.exports = cache(1 * 1000, compose(
 )(
 	async (req, res) => {
 		if(!req.params.name || !USERNAME_REGEX.test(req.params.name)){
@@ -86,4 +88,4 @@ module.exports = compose(
 			});
 		}
 	}
-);
+));

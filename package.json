@@ -38,6 +38,7 @@
     "lodash.chunk": "^4.2.0",
     "micro": "^9.3.5-canary.3",
     "micro-boom": "^1.1.0",
+    "micro-cacheable": "^2.0.1",
     "micro-cors": "^1.0.0-alpha.2",
     "micro-hoofs": "^0.0.5",
     "micro-ratelimit2": "https://github.com/GuacLive/ratelimit.git",

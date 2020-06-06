@@ -1,10 +1,11 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
+import cache from 'micro-cacheable';
 
-import fs from 'fs';
 import streamModel from '../../models/stream';
 
-module.exports = compose(
+// Cache response for 10 seconds
+module.exports = cache(10 * 1000, compose(
 )(
 	async (req, res) => {
 		const stream = new streamModel;
@@ -46,4 +47,4 @@ module.exports = compose(
 			data
 		});
 	}
-);
+));

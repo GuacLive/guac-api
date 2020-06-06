@@ -1,10 +1,9 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
+import cache from 'micro-cacheable';
 
-import fs from 'fs';
-import streamModel from '../../models/stream';
-
-module.exports = compose(
+// Cache response for 1 minute
+module.exports = cache(60 * 1000, compose(
 )(
 	async (req, res) => {
 		send(res, 200, {
