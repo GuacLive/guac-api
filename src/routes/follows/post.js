@@ -26,7 +26,7 @@ module.exports = compose(
 			});
 		}
 
-		result = result.map((r) => {
+		result = result.map(async (r) => {
 			if(r){
 				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
 				if(r.live){
