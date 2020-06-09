@@ -34,7 +34,7 @@ module.exports = cache(1 * 1000, compose(
 					live: parseInt(result.live, 10),
 					liveAt: result.time,
 					followers: await stream.getStreamFollowCount(result.user_id),
-					viewers: parseInt(result.live, 10) ? await getFromViewerAPI(result.name) : 0,
+					viewers: result.live ? await getFromViewerAPI(result.name) : 0,
 					views: parseInt(result.views, 10),
 					private: result.private,
 					category_id: result.category_id,
