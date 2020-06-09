@@ -26,7 +26,7 @@ module.exports = compose(
 			});
 		}
 
-		result = result.map(async (r) => {
+		result = await Promise.map(result, async (r) => {
 			if(r){
 				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
 				if(r.live){
@@ -37,11 +37,9 @@ module.exports = compose(
 			}
 			return r;
 		});
-		Promise.all(result).then((data) => {
-			send(res, 200, {
-				statusCode: 200,
-				data
-			});
+		send(res, 200, {
+			statusCode: 200,
+			data: result
 		});
 	}
 );
