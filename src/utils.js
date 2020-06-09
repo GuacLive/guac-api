@@ -59,3 +59,15 @@ export const isReservedUsername = (username) => {
 	// Check if username is in reserved array
 	return reservedUsernames.indexOf(normalized) !== -1;
 };
+export const getFromViewerAPI = (name) => {
+	return new Promise((resolve, reject) => {
+		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`)
+		.then(r => r.json())
+		.then(response => {
+			resolve(response && response.viewers ? response.viewers : 0);
+		})
+		.catch(error => {
+			resolve(0);
+		});
+	})
+}

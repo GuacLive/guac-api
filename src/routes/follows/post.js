@@ -4,6 +4,8 @@ import { compose } from 'micro-hoofs';
 import channelModel from '../../models/channel';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
+
+import { getFromViewerAPI } from '../../utils';
 module.exports = compose(
 	verifyJWTKey
 )(
@@ -27,6 +29,11 @@ module.exports = compose(
 		result = result.map((r) => {
 			if(r){
 				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+				if(r.live){
+					r.live = await getFromViewerAPI(r.name);
+				}else{
+					r.live = 0;
+				}
 			}
 			return r;
 		});

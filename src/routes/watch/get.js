@@ -6,19 +6,7 @@ import fetch from 'node-fetch';
 import channelModel from '../../models/channel';
 import streamModel from '../../models/stream';
 
-import { USERNAME_REGEX } from '../../utils';
-function getFromViewerAPI(name){
-	return new Promise((resolve, reject) => {
-		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`)
-		.then(r => r.json())
-		.then(response => {
-			resolve(response && response.viewers ? response.viewers : 0);
-		})
-		.catch(error => {
-			resolve(0);
-		});
-	})
-}
+import { USERNAME_REGEX, getFromViewerAPI } from '../../utils';
 
 // Cache response for 1 second
 module.exports = cache(1 * 1000, compose(
@@ -47,7 +35,7 @@ module.exports = cache(1 * 1000, compose(
 					live: parseInt(result.live, 10),
 					liveAt: result.time,
 					followers: await stream.getStreamFollowCount(result.user_id),
-					viewers: await getFromViewerAPI(result.name),
+					viewers: parseInt(result.live, 10) ? await getFromViewerAPI(result.name) : 0,
 					views: parseInt(result.views, 10),
 					private: result.private,
 					category_id: result.category_id,
