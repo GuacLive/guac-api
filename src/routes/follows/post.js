@@ -30,9 +30,9 @@ module.exports = compose(
 			if(r){
 				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
 				if(r.live){
-					r.live = await getFromViewerAPI(r.name);
+					r.viewers = await getFromViewerAPI(r.name);
 				}else{
-					r.live = 0;
+					r.viewers = 0;
 				}
 			}
 			return r;
