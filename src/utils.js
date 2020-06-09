@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 export const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 const reservedUsernames = [
 	'ninja',
