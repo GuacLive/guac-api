@@ -35,7 +35,7 @@ module.exports = compose(
 					r.live = 0;
 				}
 			}
-			return r;
+			Promise.resolve(r);
 		}));
 		send(res, 200, {
 			statusCode: 200,
