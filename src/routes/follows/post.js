@@ -30,7 +30,7 @@ module.exports = compose(
 			if(r){
 				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
 				if(r.live){
-					r.viewers = await getFromViewerAPI(r.name);
+					r.viewers = await getFromViewerAPI(r.username);
 				}else{
 					r.viewers = 0;
 				}
