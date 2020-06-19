@@ -69,6 +69,8 @@ module.exports = cache(1 * 1000, compose(
 				}
 			});
 		}else{
+			console.error('what is going on');
+			console.error(result);
 			send(res, 404, {
 				statusCode: 404,
 				statusMessage: 'Stream not found'

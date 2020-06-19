@@ -168,7 +168,10 @@ class Stream {
 				'c1.category_id AS category_id', 'c1.name AS category_name', 'u1.type', 'u1.avatar', 'u1.banned')
 			.first()
 			.then(resolve)
-			.catch(reject);
+			.catch((e) => {
+				console.error(e);
+				reject(e);
+			});
 		});
 	}
 	getStreamFollowCount(to_id) {
