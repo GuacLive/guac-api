@@ -18,7 +18,7 @@ module.exports = compose(
 			let title = jsonData.title;
 			let description = jsonData.description;
 			// If panel is already in database, update it
-			if(panel = await stream.getPanel(panel_id)){
+			if(panel_id && (panel = await stream.getPanel(panel_id))){
 				if(panel.user_id === userId){
 					if(jsonData.delete){
 						await stream.deletePanel(panel_id);
