@@ -1,5 +1,7 @@
 import path from 'path';
 import nconf from 'nconf';
+import * as Sentry from '@sentry/node';
+
 const ENV = process.env.NODE_ENV || 'production';
 
 nconf.argv().env();
@@ -34,6 +36,9 @@ nconf.defaults({
 		client_secret: '',
 		campaign_id: '',
 	},
+	sentry: {
+		dsn: ''
+	},
 	database: {
 		client: 'mysql2',
 		connection: {
@@ -48,6 +53,7 @@ nconf.defaults({
 
 global.nconf = nconf;
 global.dbInstance = initDb();
+Sentry.init({ dsn: nconf.get('sentry:dsn') });
 
 function initDb(){
 	return require('knex')({
