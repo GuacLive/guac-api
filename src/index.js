@@ -107,7 +107,7 @@ const notfound = async (req, res) => {
 	send(res, 404, await Promise.resolve('Not found route'))
 };
 
-module.exports = router(
+module.exports = router()(
 	post('/register', middleware(require('./routes/auth/register'))),
 	post('/activate', middleware(require('./routes/auth/activate'))),
 	post('/auth', middleware(require('./routes/auth/login'))),
