@@ -70,7 +70,7 @@ function initDb(){
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 import microCors from 'micro-cors';
-import { router, get, post, del, patch } from 'microrouter';
+import { router, get, post, del, patch } from 'micro-fork';
 import ratelimit from 'micro-ratelimit2';
 import { handleErrors } from 'micro-boom';
 import Redis from 'ioredis';
@@ -98,13 +98,12 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 });
 
 const middleware = compose(...[
-	handleErrors,
+	//handleErrors,
 	corsMiddleware,
 	//rateLimitMiddleware,
 ]);
 
 const notfound = async (req, res) => {
-	console.log('notfound', req);
 	send(res, 404, await Promise.resolve('Not found route'))
 };
 
