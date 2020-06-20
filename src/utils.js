@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+const timeoutSignal = require('timeout-signal');
 export const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 const reservedUsernames = [
 	'ninja',
@@ -62,7 +63,9 @@ export const isReservedUsername = (username) => {
 };
 export const getFromViewerAPI = (name) => {
 	return new Promise((resolve, reject) => {
-		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`)
+		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`, {
+			signal: timeoutSignal(5000)
+		})
 		.then(r => r.json())
 		.then(response => {
 			resolve(response && response.viewers ? response.viewers : 0);

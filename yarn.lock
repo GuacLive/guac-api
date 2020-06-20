@@ -4734,6 +4734,13 @@ tildify@2.0.0:
   resolved "https://registry.yarnpkg.com/tildify/-/tildify-2.0.0.tgz#f205f3674d677ce698b7067a99e949ce03b4754a"
   integrity sha512-Cc+OraorugtXNfs50hU9KS369rFXCfgGLpfCfvlc+Ud5u6VWmUQsOAa9HbTvheQdYnrdJqqv1e5oIqXppMYnSw==
 
+timeout-signal@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/timeout-signal/-/timeout-signal-1.0.0.tgz#0b66a4a68e9a5260e9caa31827719d3818fdaa0c"
+  integrity sha512-4NiCwGDOjJNWFWITjVgFRySWkqUEvZZKD+FCk8gWL+310Qzu0Crny6RITQXY7pUkoVDc3W+sY8GUn4Ld7Nha6Q==
+  dependencies:
+    abort-controller "^3.0.0"
+
 to-fast-properties@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
