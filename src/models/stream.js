@@ -169,7 +169,7 @@ class Stream {
 			.first()
 			.then(resolve)
 			.catch((e) => {
-				console.error(e);
+				console.log('getstream db error', e);
 				reject(e);
 			});
 		});
