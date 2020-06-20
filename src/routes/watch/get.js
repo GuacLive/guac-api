@@ -1,5 +1,4 @@
 import { send } from 'micro';
-import { compose } from 'micro-hoofs';
 import cache from 'micro-cacheable';
 
 import channelModel from '../../models/channel';
@@ -8,9 +7,7 @@ import streamModel from '../../models/stream';
 import { USERNAME_REGEX, getFromViewerAPI } from '../../utils';
 
 // Cache response for 1 second
-module.exports = cache(1 * 1000, compose(
-)(
-	async (req, res) => {
+module.exports = cache(1 * 1000, async (req, res) => {
 		if(!req.params.name || !USERNAME_REGEX.test(req.params.name)){
 			return send(res, 400, {
 				statusCode: 400,
@@ -77,4 +74,4 @@ module.exports = cache(1 * 1000, compose(
 			});
 		}
 	}
-));
+);

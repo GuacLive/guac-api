@@ -100,7 +100,7 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 const middleware = compose(...[
 	//handleErrors,
 	corsMiddleware,
-	rateLimitMiddleware,
+	//rateLimitMiddleware,
 ]);
 
 const notfound = async (req, res) => {
