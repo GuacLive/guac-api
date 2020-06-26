@@ -272,6 +272,8 @@ class User {
 				'subscriptions.expiration_date',
 				'subscriptions.status',
 				'subscriptions.user_id',
+				'subscription_plans.user_id AS channel_user_id',
+				'subscription_plans.stream_id AS channel_stream_id'
 			)
 			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
 			.then(resolve)
