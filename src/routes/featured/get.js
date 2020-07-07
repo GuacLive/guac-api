@@ -42,9 +42,9 @@ module.exports = cache(10 * 1000, compose(
 				};
 			})
 		);
-		send(res, 200, {
+		return {
 			statusCode: 200,
 			data
-		});
+		};
 	}
 ));

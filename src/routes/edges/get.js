@@ -6,13 +6,13 @@ import cache from 'micro-cacheable';
 module.exports = cache(60 * 1000, compose(
 )(
 	async (req, res) => {
-		send(res, 200, {
+		return {
 			statusCode: 200,
 			regions: {
 				eu: [
 					'stream'
 				]
 			}
-		});
+		};
 	}
 ));

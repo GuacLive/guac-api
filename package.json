@@ -39,7 +39,7 @@
     "lodash.chunk": "^4.2.0",
     "micro": "^9.3.5-canary.3",
     "micro-boom": "^1.1.0",
-    "micro-cacheable": "^2.0.1",
+    "micro-cacheable": "https://github.com/GuacLive/micro-cacheable.git",
     "micro-cors": "^1.0.0-alpha.2",
     "micro-fork": "^3.0.0",
     "micro-hoofs": "^0.0.5",

@@ -21,7 +21,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 		if(result && result.id){
 			const mods = await channel.getMods(result.id);
 			await stream.increaseView(result.id);
-			send(res, 200, {
+			return {
 				statusCode: 200,
 				data: {
 					id: result.id,
@@ -64,14 +64,14 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					panels: await stream.getPanels(result.user_id),
 					subEnabled: await stream.hasSubscriptionPlans(result.id)
 				}
-			});
+			};
 		}else{
 			console.log('what is going on');
 			console.log(result);
-			send(res, 404, {
+			return {
 				statusCode: 404,
 				statusMessage: 'Stream not found'
-			});
+			};
 		}
 	}
 );
