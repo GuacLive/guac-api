@@ -5,8 +5,8 @@ import cache from 'micro-cacheable';
 import streamModel from '../../models/stream';
 
 // Cache response for 10 seconds
-module.exports = cache(10 * 1000, compose(
-)(
+module.exports = compose(
+)(cache(10 * 1000, (
 	async (req, res) => {
 		const stream = new streamModel;
 		const results = await stream.getFeatured();
@@ -47,4 +47,4 @@ module.exports = cache(10 * 1000, compose(
 			data
 		});
 	}
-));
+)));
