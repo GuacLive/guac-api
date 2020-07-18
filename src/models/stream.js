@@ -75,6 +75,7 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	/* Gets all live non-private streams */
 	getFeatured() {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
@@ -85,7 +86,7 @@ class Stream {
 			})
 			.debug(true)
 			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
-			.limit(5)
+			//.limit(5)
 			.orderBy('views', 'desc')
 			.then(resolve)
 			.catch(reject);

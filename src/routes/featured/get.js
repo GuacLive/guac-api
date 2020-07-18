@@ -1,7 +1,7 @@
-import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 import cache from 'micro-cacheable';
 
+import { getFromViewerAPI } from '../../utils';
 import streamModel from '../../models/stream';
 
 // Cache response for 10 seconds
@@ -18,6 +18,7 @@ module.exports = cache(10 * 1000, compose(
 					name: item.name,
 					title: item.title,
 					live: parseInt(item.live, 10),
+					viewers: item.live ? await getFromViewerAPI(item.name) : 0,
 					views: parseInt(item.views, 10),
 					urls: {
 						hls: `/live/${item.name}/abr.m3u8`,
@@ -41,6 +42,7 @@ module.exports = cache(10 * 1000, compose(
 					}
 				};
 			})
+			.sort((a, b) => {return a.viewers < b.viewers;})
 		);
 		return {
 			statusCode: 200,
