@@ -231,7 +231,7 @@ class Stream {
 	}
 	create(user_id){
 		return new Promise((resolve, reject) => {
-			dbInstance('streams')
+			dbInstance('stream')
 			.insert({
 				'user_id': user_id,
 			})
