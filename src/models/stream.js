@@ -234,6 +234,8 @@ class Stream {
 			dbInstance('stream')
 			.insert({
 				'user_id': user_id,
+				'private': 0,
+				'title': ''
 			})
 			.debug(true)
 			.then(async (data) => {
