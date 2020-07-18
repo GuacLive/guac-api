@@ -33,6 +33,8 @@ module.exports = cache(10 * 1000, compose(
 						//'240p': '_mobile'
 					},
 					servers: global.nconf.get('server:streaming_servers'),
+					category_id: item.category_id,
+					category_name: item.category_name,
 					user: {
 						id: item.user_id,
 						name: item.name,
