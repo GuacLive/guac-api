@@ -235,6 +235,10 @@ class Stream {
 			.insert({
 				'user_id': user_id,
 				'private': 0,
+				'live': 0,
+				'views': 0,
+				'category': 1,
+				'type': 'NONE',
 				'title': ''
 			})
 			.debug(true)
