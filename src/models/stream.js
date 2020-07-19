@@ -265,11 +265,11 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	addStreamKey(user_id, stream_key) {
+	addStreamKey(user_id, stream_id, stream_key) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_keys')
 			.insert({
-				'user_id': user_id,
+				'stream_id': stream_id,
 				'stream_key': stream_key,
 			})
 			.debug(true)
