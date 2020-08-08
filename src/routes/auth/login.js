@@ -10,6 +10,13 @@ module.exports = compose(
 	async (req, res) => {
 		const um = new userModel;
 		const data = await json(req);
+		if(!data.username || !data.password){
+			send(res, 400, {
+				statusCode: 400,
+				error: 'No data provided'
+			});
+			return;
+		}
 		var user = await um.checkUser(data.username, data.password);
 		if(user){
 			if(!user.activated){
