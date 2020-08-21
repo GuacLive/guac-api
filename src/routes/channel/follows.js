@@ -1,6 +1,8 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
+import { parse } from 'url';
+
 import channelModel from '../../models/channel';
 
 import streamModel from '../../models/stream';
@@ -9,6 +11,7 @@ import { USERNAME_REGEX } from '../../utils';
 module.exports = compose(
 )(
 	async (req, res) => {
+		const { query } = await parse(req.url, true);
 		if(!req.params.name || !USERNAME_REGEX.test(req.params.name)){
 			return send(res, 400, {
 				statusCode: 400,
@@ -19,7 +22,11 @@ module.exports = compose(
 		const stream = new streamModel;
 		const streamResult = await stream.getStream(req.params.name);
 		if(streamResult && streamResult.user_id){
-			const data = await channel.getFollowsToWithUser(streamResult.user_id);
+			const data = await channel.getFollowsToWithUser(
+                streamResult.user_id,
+                parseInt(query.$limit, 10),
+                parseInt(query.$skip, 10)
+            );
             const result = await Promise.all(data.map(async (r) => {
                 if(r){
                     r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;

@@ -34,7 +34,6 @@ class User {
 				inst = inst.offset(skip)
 			}
 			inst = inst
-			.offset(skip)
 			.then((data) => {
 				let result = [];
 				data.forEach((d, i) => {

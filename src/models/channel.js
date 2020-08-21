@@ -38,15 +38,23 @@ class Channel {
 			.catch(reject);
 		});
 	}
-	getFollowsToWithUser(to_id) {
+	getFollowsToWithUser(to_id, limit, skip) {
 		return new Promise((resolve, reject) => {
-			dbInstance('follows')
+			const inst = dbInstance('follows')
 			.where({
 				'to_id': to_id
 			})
 			.select('follows.*', 'stream.user_id', 'stream.id', 'users.username', 'users.avatar')
 			.join('stream', 'stream.user_id', '=', 'follows.to_id')
-			.join('users', 'users.user_id', '=', 'follows.from_id')
+			.join('users', 'users.user_id', '=', 'follows.from_id');
+			
+			if(limit){
+				inst = inst.limit(limit);
+			}
+			if(skip){
+				inst = inst.offset(skip)
+			}
+			inst
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
