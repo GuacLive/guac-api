@@ -56,7 +56,7 @@ global.dbInstance = initDb();
 Sentry.init({ dsn: nconf.get('sentry:dsn') });
 
 function initDb(){
-	return require('knex')({
+	const knex = require('knex')({
 		client: nconf.get('database:client'),
 		connection: {
 			host: nconf.get('database:connection:host'),
@@ -65,6 +65,9 @@ function initDb(){
 			database: nconf.get('database:connection:database')
 		}
 	});
+	const { attachPaginate } = require('knex-paginate');
+	attachPaginate();
+	return knex;
 }
 
 import { send } from 'micro';

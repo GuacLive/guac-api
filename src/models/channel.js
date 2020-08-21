@@ -38,7 +38,7 @@ class Channel {
 			.catch(reject);
 		});
 	}
-	getFollowsToWithUser(to_id, limit, skip) {
+	getFollowsToWithUser(to_id, page) {
 		return new Promise((resolve, reject) => {
 			var inst = dbInstance('follows')
 			.where({
@@ -47,15 +47,12 @@ class Channel {
 			.select('follows.*', 'stream.user_id', 'stream.id', 'users.username', 'users.avatar')
 			.join('stream', 'stream.user_id', '=', 'follows.to_id')
 			.join('users', 'users.user_id', '=', 'follows.from_id');
-			
-			if(limit > 100) limit = 100;
-			if(limit){
-				inst = inst.limit(limit);
-			}
-			if(skip){
-				inst = inst.offset(skip)
-			}
+
 			inst
+			.paginate({
+				perPage: 100,
+				currentPage: page
+			})
 			.debug(true)
 			.then(resolve)
 			.catch(reject);

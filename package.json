@@ -36,6 +36,7 @@
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.20.3",
+    "knex-paginate": "^1.2.3",
     "lodash.chunk": "^4.2.0",
     "micro": "^9.3.5-canary.3",
     "micro-boom": "^1.1.0",
