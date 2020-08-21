@@ -153,6 +153,7 @@ module.exports = router()(
 	// To stop a NMS stream currently live
 	get('/admin/stopStream/:name', middleware(require('./routes/admin/stopStream'))),
 	get('/channel/subscription/:name', middleware(require('./routes/channel/subscription'))),
+	get('/channel/follows/:name', middleware(require('./routes/channel/follows'))),
 	get('/user/subscriptions', middleware(require('./routes/user/subscriptions'))),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/categories', middleware(require('./routes/categories/get'))),

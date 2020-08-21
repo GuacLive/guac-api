@@ -38,6 +38,20 @@ class Channel {
 			.catch(reject);
 		});
 	}
+	getFollowsToWithUser(to_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows')
+			.where({
+				'to_id': to_id
+			})
+			.select('follows.*', 'stream.user_id', 'stream.id', 'users.username', 'users.avatar')
+			.join('stream', 'stream.user_id', '=', 'follows.to_id')
+			.join('users', 'users.user_id', '=', 'follows.from_id')
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getFollowsFrom(from_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('follows')
