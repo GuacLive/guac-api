@@ -20,7 +20,7 @@ module.exports = compose(
 		const streamResult = await stream.getStream(req.params.name);
 		if(streamResult && streamResult.user_id){
 			const data = await channel.getFollowsToWithUser(streamResult.user_id);
-            const result = await Promise.all(result.map(async (r) => {
+            const result = await Promise.all(data.map(async (r) => {
                 if(r){
                     r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
                 }
