@@ -7,11 +7,9 @@ import verifyJWTKey from '../../services/verifyJWTKey';
 
 import { getFromViewerAPI } from '../../utils';
 module.exports = compose(
+	verifyJWTKey
 )(
 	async (req, res) => {
-		if(req.headers.authorization){
-			await verifyJWTKey();
-		}
 		const channel = new channelModel;
 		const jsonData = await json(req);
 		let result;
