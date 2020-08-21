@@ -19,10 +19,16 @@ module.exports = compose(
 		const stream = new streamModel;
 		const streamResult = await stream.getStream(req.params.name);
 		if(streamResult && streamResult.user_id){
-			const data = await channel.getFollowsToWithUser(streamResult.user_id);				
+			const data = await channel.getFollowsToWithUser(streamResult.user_id);
+            const result = await Promise.all(result.map(async (r) => {
+                if(r){
+                    r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+                }
+                return r;
+            }));			
 			return send(res, 200, {
                 statusCode: 200,
-                data
+                data: result
 			});
 		}else{
 			return send(res, 404, {
