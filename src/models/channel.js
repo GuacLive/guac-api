@@ -40,7 +40,7 @@ class Channel {
 	}
 	getFollowsToWithUser(to_id, limit, skip) {
 		return new Promise((resolve, reject) => {
-			const inst = dbInstance('follows')
+			var inst = dbInstance('follows')
 			.where({
 				'to_id': to_id
 			})
@@ -48,6 +48,7 @@ class Channel {
 			.join('stream', 'stream.user_id', '=', 'follows.to_id')
 			.join('users', 'users.user_id', '=', 'follows.from_id');
 			
+			if(limit > 100) limit = 100;
 			if(limit){
 				inst = inst.limit(limit);
 			}
