@@ -3,11 +3,11 @@ import { compose } from 'micro-hoofs';
 
 import channelModel from '../../models/channel';
 
-import verifyJWTKey from '../../services/verifyJWTKey';
+import optionalJWT from '../../services/optionalJWT';
 
 import { getFromViewerAPI } from '../../utils';
 module.exports = compose(
-	verifyJWTKey
+	optionalJWT
 )(
 	async (req, res) => {
 		const channel = new channelModel;
