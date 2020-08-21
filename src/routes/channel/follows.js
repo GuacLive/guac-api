@@ -24,8 +24,8 @@ module.exports = compose(
 		if(streamResult && streamResult.user_id){
 			const data = await channel.getFollowsToWithUser(
                 streamResult.user_id,
-                parseInt(query.$limit, 10),
-                parseInt(query.$skip, 10)
+                parseInt(query.$limit || 100, 10),
+                parseInt(query.$skip || 0, 10)
             );
             const result = await Promise.all(data.map(async (r) => {
                 if(r){
