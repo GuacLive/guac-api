@@ -22,11 +22,11 @@ module.exports = compose(
 		const stream = new streamModel;
 		const streamResult = await stream.getStream(req.params.name);
 		if(streamResult && streamResult.user_id){
-			const data = await channel.getFollowsToWithUser(
+			var result = await channel.getFollowsToWithUser(
                 streamResult.user_id,
                 parseInt(query.page || 1, 10),
             );
-            const result = await Promise.all(data.map(async (r) => {
+            result.data = await Promise.all(result.data.map(async (r) => {
                 if(r){
                     r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
                 }
@@ -34,7 +34,7 @@ module.exports = compose(
             }));			
 			return send(res, 200, {
                 statusCode: 200,
-                data: result
+                ...result
 			});
 		}else{
 			return send(res, 404, {
