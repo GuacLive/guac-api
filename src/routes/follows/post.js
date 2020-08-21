@@ -15,7 +15,7 @@ module.exports = compose(
 		let result;
 		if(typeof jsonData.from_id !== 'undefined'){
 			result = await channel.getFollowsFrom(jsonData.from_id);
-		}else if(typeof jsonData.from_id !== 'undefined'){
+		}else if(typeof jsonData.to_id !== 'undefined'){
 			result = await channel.getFollowsTo(jsonData.to_id);
 		}else if(req.user && typeof req.user.id !== 'undefined'){
 			result = await channel.getFollowsFrom(req.user.id);
