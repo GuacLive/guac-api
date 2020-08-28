@@ -2,7 +2,7 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
-import knexConfiguration from './knexfile';
+import knexConfiguration from '../knexfile';
 
 const ENV = process.env.NODE_ENV || 'production';
 
