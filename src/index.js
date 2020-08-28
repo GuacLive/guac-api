@@ -2,6 +2,8 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
+import knexConfiguration from './knexfile';
+
 const ENV = process.env.NODE_ENV || 'production';
 
 nconf.argv().env();
@@ -56,15 +58,7 @@ global.dbInstance = initDb();
 Sentry.init({ dsn: nconf.get('sentry:dsn') });
 
 function initDb(){
-	const knex = require('knex')({
-		client: nconf.get('database:client'),
-		connection: {
-			host: nconf.get('database:connection:host'),
-			user: nconf.get('database:connection:user'),
-			password: nconf.get('database:connection:password'),
-			database: nconf.get('database:connection:database')
-		}
-	});
+	const knex = require('knex')(knexConfiguration[ENV]);
 	const { attachPaginate } = require('knex-paginate');
 	attachPaginate();
 	return knex;
