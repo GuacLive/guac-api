@@ -35,7 +35,7 @@ module.exports = compose(
 					'body': JSON.stringify({
 						'action': 'live',
 						'name': result.name,
-						'live': true
+						'live': false
 					})
 				})
 				.then(response => {
