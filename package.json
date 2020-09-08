@@ -30,7 +30,7 @@
     "@sentry/node": "5.17.0",
     "abort-controller": "^3.0.0",
     "babel-plugin-transform-regenerator": "^7.0.0-beta.3",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "core-js": "^3",
     "discord-webhook-node": "^1.0.4",
     "ioredis": "^4.9.0",
