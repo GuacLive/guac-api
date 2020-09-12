@@ -3,6 +3,7 @@ import cache from 'micro-cacheable';
 
 import channelModel from '../../models/channel';
 import streamModel from '../../models/stream';
+import userModel from '../../models/user';
 
 import { USERNAME_REGEX, getFromViewerAPI } from '../../utils';
 
@@ -16,11 +17,15 @@ module.exports = cache(1 * 1000, async (req, res) => {
 		}
 		const channel = new channelModel;
 		const stream = new streamModel;
+		const user = new userModel;
 		const result = await stream.getStream(req.params.name);
 		console.log(req.params, result);
 		if(result && result.id){
 			const mods = await channel.getMods(result.id);
 			await stream.increaseView(result.id);
+			if(result.banned && result.user){
+				result.user.banReason = await user.getLastBan(result.user_id);
+			}
 			return {
 				statusCode: 200,
 				data: {

@@ -6,6 +6,23 @@ sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
 class User {
+	getLastBan(user_id = null){
+		return new Promise((resolve, reject) => {
+			dbInstance('bans').where({
+				'user_id': user_id
+			})
+			.debug(true)
+			.select(
+				'ban_id',
+				'user_id',
+				'reason',
+				'time'
+			)
+			.last()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	// isPatreon can be null (show all users), true (only patreon) or false (only non-patreon)
 	getUsers(isPatron = null, limit, skip) {
 		return new Promise((resolve, reject) => {
