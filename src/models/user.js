@@ -18,7 +18,8 @@ class User {
 				'reason',
 				'time'
 			)
-			.last()
+			.orderBy('ban_id', 'desc')
+			.first()
 			.then(resolve)
 			.catch(reject);
 		});
