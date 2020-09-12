@@ -13,8 +13,6 @@ class User {
 			})
 			.debug(true)
 			.select(
-				'ban_id',
-				'user_id',
 				'reason',
 				'time'
 			)

@@ -25,7 +25,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 			const mods = await channel.getMods(result.id);
 			await stream.increaseView(result.id);
 			if(result.banned && result.user_id){
-				banReason = await user.getLastBan(result.user_id);
+				lastBan = await user.getLastBan(result.user_id);
 			}
 			return {
 				statusCode: 200,
@@ -61,7 +61,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 						type: result.type,
 						avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
 						banned: result.banned,
-						banReason,
+						lastBan,
 						patreon: stream.patreon ? {
 							isPatron: stream.patreon.isPatron || false,
 							tier: stream.patreon.tier
