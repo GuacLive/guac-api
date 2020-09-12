@@ -19,12 +19,13 @@ module.exports = cache(1 * 1000, async (req, res) => {
 		const stream = new streamModel;
 		const user = new userModel;
 		const result = await stream.getStream(req.params.name);
+		var banReason;
 		console.log(req.params, result);
 		if(result && result.id){
 			const mods = await channel.getMods(result.id);
 			await stream.increaseView(result.id);
-			if(result.banned && result.user){
-				result.user.banReason = await user.getLastBan(result.user_id);
+			if(result.banned && result.user_id){
+				banReason = await user.getLastBan(result.user_id);
 			}
 			return {
 				statusCode: 200,
@@ -60,6 +61,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 						type: result.type,
 						avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
 						banned: result.banned,
+						banReason,
 						patreon: stream.patreon ? {
 							isPatron: stream.patreon.isPatron || false,
 							tier: stream.patreon.tier
