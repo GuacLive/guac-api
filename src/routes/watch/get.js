@@ -19,7 +19,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 		const stream = new streamModel;
 		const user = new userModel;
 		const result = await stream.getStream(req.params.name);
-		var banReason;
+		var lastBan;
 		console.log(req.params, result);
 		if(result && result.id){
 			const mods = await channel.getMods(result.id);
