@@ -47,10 +47,14 @@ class Stream {
 		});
 	}
 	// getCategories should be a seperate model mayhaps?
-	getCategories() {
+	getCategories(page) {
 		return new Promise((resolve, reject) => {
 			dbInstance('categories')
 			.orderBy('category_id', 'asc')
+			.paginate({
+				perPage: 50,
+				currentPage: page
+			})
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
