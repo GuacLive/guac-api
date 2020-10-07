@@ -11,7 +11,7 @@ module.exports = compose(
 	async (req, res) => {
 		const stream = new streamModel;
 		const jsonData = await json(req);
-		if(jsonData && jsonData.title && jsonData.description){
+		if(jsonData && jsonData.description){
 			let panel;
 			let userId = req.user.id;
 			let panel_id = jsonData.panel_id;
