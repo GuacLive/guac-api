@@ -52,7 +52,7 @@ class Stream {
 			dbInstance('categories')
 			.orderBy('category_id', 'asc')
 			.paginate({
-				perPage: 50,
+				perPage: 25,
 				currentPage: page
 			})
 			.debug(true)
