@@ -1,6 +1,8 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
+import { parse } from 'url';
+
 import streamModel from '../../models/stream';
 
 module.exports = compose(
