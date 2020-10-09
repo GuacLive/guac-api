@@ -46,6 +46,17 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getCategory(category_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('categories')
+			.where({
+				category_id
+			})
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	// getCategories should be a seperate model mayhaps?
 	getCategories(page) {
 		return new Promise((resolve, reject) => {
