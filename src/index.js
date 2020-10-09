@@ -115,7 +115,7 @@ module.exports = router()(
 	post('/user/verifyPatreon', middleware(require('./routes/user/verifyPatreon'))),
 	post('/user/color', middleware(require('./routes/user/color'))),
 	post('/user/password', middleware(require('./routes/user/password'))),
-	post('/category', middleware(require('./routes/category'))),
+	post('/category', middleware(require('./routes/category/get'))),
 	post('/channel/bans', middleware(require('./routes/channel/bans'))),
 	post('/channel/timeouts', middleware(require('./routes/channel/timeouts'))),
 	post('/channel/userBan', middleware(require('./routes/channel/userBan'))),
