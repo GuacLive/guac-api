@@ -64,7 +64,8 @@ class Stream {
 			.orderBy('category_id', 'asc')
 			.paginate({
 				perPage: 25,
-				currentPage: page
+				currentPage: page,
+				isLengthAware: true
 			})
 			.debug(true)
 			.then(resolve)

@@ -51,7 +51,8 @@ class Channel {
 			inst
 			.paginate({
 				perPage: 100,
-				currentPage: page
+				currentPage: page,
+				isLengthAware: true
 			})
 			.debug(true)
 			.then(resolve)
