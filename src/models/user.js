@@ -292,7 +292,7 @@ class User {
 				'users.username AS channel_user_name'
 			)
 			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
-			.leftJoin('users', 'user.user_id', '=', 'subscription_plans.user_id')
+			.leftJoin('users', 'users.user_id', '=', 'subscription_plans.user_id')
 			.then(resolve)
 			.catch(reject);
 		});
