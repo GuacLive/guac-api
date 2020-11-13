@@ -288,9 +288,11 @@ class User {
 				'subscriptions.status',
 				'subscriptions.user_id',
 				'subscription_plans.user_id AS channel_user_id',
-				'subscription_plans.stream_id AS channel_stream_id'
+				'subscription_plans.stream_id AS channel_stream_id',
+				'users.username AS channel_user_name'
 			)
 			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
+			.leftJoin('users', 'user.user_id', '=', 'subscription_plans.user_id')
 			.then(resolve)
 			.catch(reject);
 		});
