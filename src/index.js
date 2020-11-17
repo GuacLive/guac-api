@@ -131,7 +131,7 @@ module.exports = router()(
 	post('/fcm', middleware(require('./routes/fcm/post'))),
 	post('/panels', middleware(require('./routes/panels/post'))),
 	post('/search', middleware(require('./routes/search/post'))),
-	post('/search/categories', middleware(require('./routes/search/post'))),
+	post('/search/categories', middleware(require('./routes/search/categories'))),
 	// To add a stream to database
 	post('/admin/stream', middleware(require('./routes/admin/createStream'))),
 	// Globally ban user (from chat and streaming)
