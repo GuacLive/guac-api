@@ -11,7 +11,6 @@ module.exports = compose(
 		if(jsonData && jsonData.term){
 			let term = jsonData.term;
 			let data = await search.searchCategories(term);
-			data = data.filter((d) => {return d && d.private == 0});
 			return send(res, 200, {
 				statusCode: 200,
 				data
