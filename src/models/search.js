@@ -20,11 +20,11 @@ class Search {
 	}
 	searchCategories(term) {
 		return new Promise((resolve, reject) => {
-			dbInstance('categories c1')
+			dbInstance('categories')
 			.distinct()
 			.where('categories.name', 'like', `%${term}%`)
 			.debug(true)
-			.select('c1.category_id AS category_id', 'c1.name AS category_name')
+			.select('categories.category_id AS category_id', 'categories.name AS category_name')
 			.then(resolve)
 			.catch(reject);
 		});
