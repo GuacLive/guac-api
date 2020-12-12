@@ -20,7 +20,9 @@ module.exports = compose(
 			req.params.id,
 			jsonData.patreon
 		);
-		if(typeof jsonData.color !== 'undefined'){
+		if(jsonData.patreon.isPatron === false){
+			await u.changeColor(req.params.id, null);
+		}else if(typeof jsonData.color !== 'undefined'){
 			await u.changeColor(req.params.id, jsonData.color);
 		}
 		if(user){
