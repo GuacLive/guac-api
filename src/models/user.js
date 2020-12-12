@@ -23,7 +23,7 @@ class User {
 		});
 	}
 	// isPatreon can be null (show all users), true (only patreon) or false (only non-patreon)
-	getUsers(isPatron = null, limit, skip) {
+	getUsers(isPatron = null, page = ) {
 		return new Promise((resolve, reject) => {
 			var inst = dbInstance('users');
 			inst = inst
@@ -43,13 +43,12 @@ class User {
 			}else if(isPatron === false){
 				inst = inst.havingNull('users.patreon');
 			}
-			if(limit){
-				inst = inst.limit(limit);
-			}
-			if(skip){
-				inst = inst.offset(skip)
-			}
 			inst = inst
+			.paginate({
+				perPage: 25,
+				currentPage: page,
+				isLengthAware: true
+			})
 			.then((data) => {
 				let result = [];
 				data.forEach((d, i) => {

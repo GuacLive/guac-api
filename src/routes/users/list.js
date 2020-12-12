@@ -13,15 +13,14 @@ module.exports = compose(
 	async (req, res) => {
 		const { query } = await parse(req.url, true);
 		const u = new userModel;
-		const users = await u.getUsers(
+		const result = await u.getUsers(
 			query['patreon.isPatron'] || null,
-			parseInt(query.$limit, 10),
-			parseInt(query.$skip, 10)
+			parseInt(query.page, 10)
 		);
-		if(users){
+		if(result){
 			return send(res, 200, {
 				statusCode: 200,
-				data: users
+				...result
 			});
 		}else{
 			return send(res, 400, {
