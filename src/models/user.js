@@ -61,6 +61,7 @@ class User {
 								d.patreon = JSON.parse(d.patreon);
 							}
 						}
+						return d;
 					});
 				}
 				resolve(res);
