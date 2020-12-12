@@ -20,7 +20,7 @@ module.exports = compose(
 			req.params.id,
 			jsonData.patreon
 		);
-		if(jsonData.patreon.isPatron === false){
+		if(jsonData.patreon.isPatron === false && ['admin', 'staff'].indexOf(user.type) === -1){
 			await u.changeColor(req.params.id, null);
 		}else if(typeof jsonData.color !== 'undefined'){
 			await u.changeColor(req.params.id, jsonData.color);
