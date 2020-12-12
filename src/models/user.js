@@ -23,7 +23,7 @@ class User {
 		});
 	}
 	// isPatreon can be null (show all users), true (only patreon) or false (only non-patreon)
-	getUsers(isPatron = null, page = ) {
+	getUsers(isPatron = null, page = 0) {
 		return new Promise((resolve, reject) => {
 			var inst = dbInstance('users');
 			inst = inst
