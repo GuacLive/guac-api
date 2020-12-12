@@ -49,23 +49,21 @@ class User {
 				currentPage: page,
 				isLengthAware: true
 			})
-			.then((data) => {
-				let result = [];
-				data.forEach((d, i) => {
-					if(d.patreon){
-						// yes this should be twice
-						if(typeof d.patreon === 'string'){
-							d.patreon = JSON.parse(d.patreon);
+			.then((res) => {
+				if(res.data){
+					res.data = res.data.map((d, i) => {
+						if(d.patreon){
+							// yes this should be twice
+							if(typeof d.patreon === 'string'){
+								d.patreon = JSON.parse(d.patreon);
+							}
+							if(typeof d.patreon === 'string'){
+								d.patreon = JSON.parse(d.patreon);
+							}
 						}
-						if(typeof d.patreon === 'string'){
-							d.patreon = JSON.parse(d.patreon);
-						}
-					}
-					result.push(d);
-					if(i === data.length - 1){
-						resolve(data);
-					}
-				});
+					});
+				}
+				resolve(res);
 			})
 			.catch(reject);
 		});
