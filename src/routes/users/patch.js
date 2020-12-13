@@ -20,6 +20,21 @@ module.exports = compose(
 			req.params.id,
 			jsonData.patreon
 		);
+
+		const user = await u
+			.getUserById(req.params.id)
+			.then(data => {
+				// yes this should be twice
+				if (typeof data.patreon === 'string') {
+					data.patreon = JSON.parse(data.patreon);
+				}
+				if (typeof data.patreon === 'string') {
+					data.patreon = JSON.parse(data.patreon);
+				}
+				return data.patreon;
+			}).catch(e => {
+				console.error(e.message)
+			});
 		if(jsonData.patreon.isPatron === false && ['admin', 'staff'].indexOf(user.type) === -1){
 			await u.changeColor(req.params.id, null);
 		}else if(typeof jsonData.color !== 'undefined'){
