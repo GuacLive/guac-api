@@ -31,10 +31,11 @@ module.exports = compose(
 				if (typeof data.patreon === 'string') {
 					data.patreon = JSON.parse(data.patreon);
 				}
-				return data.patreon;
+				return data;
 			}).catch(e => {
 				console.error(e.message)
 			});
+		console.log('user', user);
 		if(jsonData.patreon.isPatron === false && ['admin', 'staff'].indexOf(user.type) === -1){
 			await u.changeColor(req.params.id, null);
 		}else if(typeof jsonData.color !== 'undefined'){
