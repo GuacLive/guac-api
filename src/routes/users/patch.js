@@ -16,7 +16,7 @@ module.exports = compose(
 			});
 		}
 		const u = new userModel;
-		const user = await u.updatePatreon(
+		await u.updatePatreon(
 			req.params.id,
 			jsonData.patreon
 		);
