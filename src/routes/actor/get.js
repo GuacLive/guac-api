@@ -25,7 +25,7 @@ module.exports = compose(
 				],
 				icon: {
 					type: 'Image',
-					url: user.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+					url: user.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`
 				},
 				type: 'Person',
 				id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.username}`,
