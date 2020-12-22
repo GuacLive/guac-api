@@ -42,6 +42,6 @@ module.exports = cache(60 * 1000, compose(
 				nodeName: global.nconf.get('server:name'),
 				nodeDescription: 'live streaming platform',
 			}
-		});
+		};
 	}
 ));
