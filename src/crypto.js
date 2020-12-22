@@ -22,7 +22,7 @@ export function setAsyncActorKeys(actor){
 			const u = new userModel;
 			actor.publicKey = publicKey;
 			actor.privateKey = privateKey;
-			await u.updateKeys(actor.name, actor.publicKey, actor.privateKey);
+			await u.updateKeys(actor.username, actor.publicKey, actor.privateKey);
 			return actor;
 		})
 		.catch(err => {
