@@ -5,7 +5,9 @@ class Stream {
 			dbInstance('stream')
 			.count('id')
 			.first()
+			.debug(true)
 			.then(total => {
+				console.log('stream total', total);
 				resolve(total.count);
 			})
 			.catch(reject);
