@@ -20,14 +20,14 @@ module.exports = compose(
 			send(res, 200, {
 				statusCode: 200,
 				type: 'Person',
-				id: `https://${req.getHeader('Host') || 'api.guac.live'}/actor/${user.name}`,
+				id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.name}`,
 				name: user.name,
 				url: `https://${global.nconf.get('server:domain')}/c/${user.name}`,
 				preferredUsername: user.name,
-				inbox: `https://${req.getHeader('Host') || 'api.guac.live'}/inbox`,
+				inbox: `https://${req.headers.host || 'api.guac.live'}/inbox`,
 				publicKey: {
-					id: `https://${req.getHeader('Host') || 'api.guac.live'}/actor/${user.name}#main-key`,
-					owner: `https://${req.getHeader('Host') || 'api.guac.live'}/actor/${user.name}`,
+					id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.name}#main-key`,
+					owner: `https://${req.headers.host || 'api.guac.live'}/actor/${user.name}`,
 					publicKeyPem: user.publicKey
 				}
 			});
