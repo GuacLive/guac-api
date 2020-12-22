@@ -11,10 +11,13 @@ const version = require('../../../package.json').version;
 
 // Cache response for 1 minute
 module.exports = cache(60 * 1000, compose(
+)(
 	async (req, res) => {
 		const { query } = await parse(req.url, true)
 		const user = new userModel;
 		const stream = new streamModel;
+		const totalUsers = await user.getTotal();
+		const totalStreams = await stream.getTotal();
 		return {
 			version: '2.0',
 			software: {
@@ -31,9 +34,9 @@ module.exports = cache(60 * 1000, compose(
 			openRegistrations: true,
 			usage: {
 				users: {
-					total: await user.getTotal()
+					total: totalUsers
 				},
-				localStreamers: await stream.getTotal()
+				localStreamers: totalStreams
 			},
 			metadata: {
 				taxonomy: {
