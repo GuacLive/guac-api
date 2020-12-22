@@ -19,7 +19,10 @@ module.exports = compose(
 				await setAsyncActorKeys(user);
 			}
 			send(res, 200, {
-				statusCode: 200,
+				"@context": [
+					'https://www.w3.org/ns/activitystreams',
+					'https://w3id.org/security/v1'
+				],
 				type: 'Person',
 				id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.username}`,
 				name: user.username,
