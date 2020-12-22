@@ -19,10 +19,14 @@ module.exports = compose(
 				await setAsyncActorKeys(user);
 			}
 			send(res, 200, {
-				"@context": [
+				'@context': [
 					'https://www.w3.org/ns/activitystreams',
 					'https://w3id.org/security/v1'
 				],
+				icon: {
+					type: 'Image',
+					url: user.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+				},
 				type: 'Person',
 				id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.username}`,
 				name: user.username,
