@@ -17,11 +17,11 @@ export async function createPrivateAndPublicKeys(){
 export function setAsyncActorKeys(actor){
 	const userModel = require('./models/user').default;
 	return createPrivateAndPublicKeys()
-		.then(({publicKey, privateKey}) => {
+		.then(async ({publicKey, privateKey}) => {
 			const u = new userModel;
 			actor.publicKey = publicKey;
 			actor.privateKey = privateKey;
-			u.updateKeys(actor.name, actor.publicKey, actor.privateKey);
+			await u.updateKeys(actor.name, actor.publicKey, actor.privateKey);
 			return actor;
 		})
 		.catch(err => {
