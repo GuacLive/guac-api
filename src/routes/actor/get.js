@@ -21,8 +21,12 @@ module.exports = compose(
 			send(res, 200, {
 				'@context': [
 					'https://www.w3.org/ns/activitystreams',
-					'https://w3id.org/security/v1'
+					'https://w3id.org/security/v1',
+					{
+						"manuallyApprovesFollowers":"as:manuallyApprovesFollowers"
+					}
 				],
+				manuallyApprovesFollowers: false,
 				icon: {
 					type: 'Image',
 					url: user.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`
