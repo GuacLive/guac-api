@@ -1,5 +1,16 @@
 const dbInstance = global.dbInstance;
 class Stream {
+	getTotal(){
+		return new Promise((resolve, reject) => {
+			dbInstance('stream')
+			.select('id AS cnt')
+			.then(total => {
+				if(!total || !total[0]) return resolve(0);
+				resolve(total[0].CNT);
+			})
+			.catch(reject);
+		});
+	}
 	getArchives(user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_archives')

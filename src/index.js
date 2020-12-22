@@ -143,6 +143,8 @@ module.exports = router()(
 	patch('/users/:id', middleware(require('./routes/users/patch'))),
 	patch('/*', notfound),
 	// OAuth
+	get('/nodeinfo/2.0', middleware(require('./routes/nodeinfo/2.0'))),
+	// OAuth
 	get('/oauth/patreon', middleware(require('./routes/oauth/patreon'))),
 	// Users API (used by verify-patreons)
 	get('/users/:id', middleware(require('./routes/users/user'))),

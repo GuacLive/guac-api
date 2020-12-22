@@ -6,6 +6,17 @@ sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
 class User {
+	getTotal(){
+		return new Promise((resolve, reject) => {
+			dbInstance('users')
+			.select('user_id AS cnt')
+			.then(total => {
+				if(!total || !total[0]) return resolve(0);
+				resolve(total[0].CNT);
+			})
+			.catch(reject);
+		});
+	}
 	getLastBan(user_id = null){
 		return new Promise((resolve, reject) => {
 			dbInstance('bans').where({
