@@ -211,10 +211,9 @@ class User {
 	updateKeys(username, publicKey, privateKey) {
 		return new Promise((resolve, reject) => {
 			dbInstance('users').where({
-				user_id
+				username
 			})
 			.update({
-				username,
 				publicKey,
 				privateKey
 			})
