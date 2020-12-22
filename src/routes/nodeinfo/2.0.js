@@ -31,9 +31,9 @@ module.exports = cache(60 * 1000, compose(
 			openRegistrations: true,
 			usage: {
 				users: {
-					total: user.getTotal()
+					total: await user.getTotal()
 				},
-				localStreamers: stream.getTotal()
+				localStreamers: await stream.getTotal()
 			},
 			metadata: {
 				taxonomy: {
