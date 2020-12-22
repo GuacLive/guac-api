@@ -3,7 +3,7 @@ class Stream {
 	getTotal(){
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
-			.count('id')
+			.count('id AS count')
 			.first()
 			.debug(true)
 			.then(total => {
