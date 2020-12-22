@@ -3,7 +3,7 @@ class Stream {
 	getTotal(){
 		return new Promise((resolve, reject) => {
 			dbInstance('stream')
-			.select('id AS cnt')
+			.select('id AS CNT')
 			.then(total => {
 				if(!total || !total[0]) return resolve(0);
 				resolve(total[0].CNT);
