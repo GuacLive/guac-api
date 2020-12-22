@@ -15,7 +15,7 @@ module.exports = cache(60 * 1000, compose(
 		const { query } = await parse(req.url, true)
 		const user = new userModel;
 		const stream = new streamModel;
-		send(res, 200,  json = {
+		send(res, 200, {
 			version: '2.0',
 			software: {
 				name: 'guac.live',
@@ -44,4 +44,4 @@ module.exports = cache(60 * 1000, compose(
 			}
 		});
 	}
-);
+));
