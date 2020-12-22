@@ -1,10 +1,18 @@
 import {send, json} from 'micro';
 import {compose} from 'micro-hoofs';
 
+import accepts from 'accepts';
+
 import { setAsyncActorKeys } from '../../crypto';
 
 import userModel from '../../models/user';
-  
+
+const POTENTIAL_ACCEPT_HEADERS = [
+	'application/activity+json',
+	'application/ld+json',
+	'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
+];
+const ACCEPT_HEADERS = 'application/activity+json, application/ld+json';
 module.exports = compose(
 )(
 	async (req, res) => {
@@ -12,6 +20,15 @@ module.exports = compose(
 		const username = req.params.username;
 		var user = await um.getUserByUsername_lower(username);
 
+		var accept = accepts(req);
+		var accepted = accept.types(ACCEPT_HEADERS);
+		if(accepted === false || POTENTIAL_ACCEPT_HEADERS.includes(accepted) === false){
+		  // Redirect to channel apge
+		  res.statusCode = 302;
+		  res.setHeader('Location', `https://${global.nconf.get('server:domain')}/c/${username}`);
+		  res.end();
+		}
+		  
 		if(user){
 			// Not all users have public key
 			if(!user.publicKey){
@@ -29,7 +46,7 @@ module.exports = compose(
 				manuallyApprovesFollowers: false,
 				icon: {
 					type: 'Image',
-					url: user.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`
+					url: user.avatar || `https://api.${global.nconf.get('server:domain')}/avatars/unknown.png`
 				},
 				type: 'Person',
 				id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.username}`,
