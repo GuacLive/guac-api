@@ -9,10 +9,10 @@ class User {
 	getTotal(){
 		return new Promise((resolve, reject) => {
 			dbInstance('users')
-			.select('user_id AS CNT')
+			.count('user_id')
+			.first()
 			.then(total => {
-				if(!total || !total[0]) return resolve(0);
-				resolve(total[0].CNT);
+				resolve(total.count);
 			})
 			.catch(reject);
 		});
