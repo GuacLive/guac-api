@@ -12,7 +12,7 @@ const POTENTIAL_ACCEPT_HEADERS = [
 	'application/ld+json',
 	'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
 ];
-const ACCEPT_HEADERS = 'application/activity+json, application/ld+json';
+const ACCEPT_HEADERS = [ 'html', 'application/json' ].concat(ACTIVITY_PUB.POTENTIAL_ACCEPT_HEADERS)
 module.exports = compose(
 )(
 	async (req, res) => {
