@@ -12,12 +12,12 @@ module.exports = compose(
 		const username = req.params.username;
 		var user = await um.getUserByUsername_lower(username);
 
-		// Not all users have public key
-		if(!user.publicKey){
-			console.log('actor', user);
-			await setAsyncActorKeys(user);
-		}
 		if(user){
+			// Not all users have public key
+			if(!user.publicKey){
+				console.log('actor', user);
+				await setAsyncActorKeys(user);
+			}
 			send(res, 200, {
 				statusCode: 200,
 				type: 'Person',
