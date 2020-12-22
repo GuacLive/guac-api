@@ -48,6 +48,7 @@ class User {
 				'users.avatar',
 				'users.banned',
 				'users.patreon',
+				'users.publicKey',
 			)
 			.orderBy('user_id', 'desc');
 			if(isPatron){
@@ -96,6 +97,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'users.publicKey',
 				dbInstance.raw('HEX(users.color) as color'),
 				'users.patreon',
 			)
@@ -122,6 +124,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'users.publicKey',
 				dbInstance.raw('HEX(users.color) as color'),
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
@@ -146,6 +149,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'users.publicKey',
 				dbInstance.raw('HEX(users.color) as color'),
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
@@ -171,6 +175,7 @@ class User {
 				'users.type',
 				'users.avatar',
 				'users.banned',
+				'users.publicKey',
 				dbInstance.raw('HEX(users.color) as color'),
 			)
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
@@ -199,6 +204,21 @@ class User {
 				if(!data) resolve(false);
 				resolve(await this.getUserByUsername(username));
 			})
+			.catch(reject);
+		});
+	}
+
+	updateKeys(username, publicKey, privateKey) {
+		return new Promise((resolve, reject) => {
+			dbInstance('users').where({
+				user_id
+			})
+			.update({
+				username,
+				publicKey,
+				privateKey
+			})
+			.then(resolve)
 			.catch(reject);
 		});
 	}

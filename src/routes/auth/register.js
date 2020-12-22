@@ -8,6 +8,9 @@ import jwt from 'jsonwebtoken';
 import { isReservedUsername } from '../../utils';
 
 import { USERNAME_REGEX } from '../../utils';
+
+import { setAsyncActorKeys } from '../../crypto';
+
 module.exports = compose(
 )(
 	async (req, res) => {
@@ -75,6 +78,9 @@ module.exports = compose(
 			}, process.env.JWT_SECRET, {
 				algorithm: 'HS256'
 			});
+			try{
+				await setAsyncActorKeys(user);
+			}catch(e){}
 			um.sendActivationToken(email);
 			return send(res, 200, {
 				statusCode: 200,

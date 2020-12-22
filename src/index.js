@@ -151,6 +151,8 @@ module.exports = router()(
 	get('/users', middleware(require('./routes/users/list'))),
 	// Auth username API (used to check if username available)
 	get('/auth/username/:username', middleware(require('./routes/auth/username'))),
+	// Activitypub API
+	get('/actor/:username', middleware(require('./routes/actor/get'))),
 	// To get NMS streams currently live
 	get('/admin/streams', middleware(require('./routes/admin/getStreams'))),
 	// To stop a NMS stream currently live
