@@ -14,6 +14,7 @@ module.exports = compose(
 
 		// Not all users have public key
 		if(!user.publicKey){
+			console.log('actor', user);
 			await setAsyncActorKeys(user);
 		}
 		if(user){

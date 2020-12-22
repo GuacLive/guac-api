@@ -18,6 +18,7 @@ export function setAsyncActorKeys(actor){
 	const userModel = require('./models/user').default;
 	return createPrivateAndPublicKeys()
 		.then(async ({publicKey, privateKey}) => {
+			console.log(publicKey, privateKey, actor);
 			const u = new userModel;
 			actor.publicKey = publicKey;
 			actor.privateKey = privateKey;
