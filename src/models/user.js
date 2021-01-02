@@ -6,6 +6,20 @@ sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
 class User {
+	getUserFollowingCount(from_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('follows').where({
+				from_id
+			})
+			.count('to_id AS count')
+			.first()
+			.then((result) => {
+				if(result && result.count) return resolve(result.count);
+				return resolve(0);
+			})
+			.catch(reject);
+		});
+	}
 	getTotal(){
 		return new Promise((resolve, reject) => {
 			dbInstance('users')

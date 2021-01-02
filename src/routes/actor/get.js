@@ -6,6 +6,7 @@ import accepts from 'accepts';
 import { setAsyncActorKeys } from '../../crypto';
 
 import userModel from '../../models/user';
+import streamModel from '../../models/stream';
 
 const POTENTIAL_ACCEPT_HEADERS = [
 	'application/activity+json',
@@ -16,6 +17,7 @@ const ACCEPT_HEADERS = [ 'html', 'application/json' ].concat(POTENTIAL_ACCEPT_HE
 module.exports = compose(
 )(
 	async (req, res) => {
+		const stream = new streamModel;
 		const um = new userModel;
 		const username = req.params.username;
 		var user = await um.getUserByUsername_lower(username);
@@ -35,6 +37,8 @@ module.exports = compose(
 				console.log('actor', user);
 				await setAsyncActorKeys(user);
 			}
+			let followersCount = user.can_stream ? await stream.getStreamFollowCount(user.user_id) : 0;
+			let followingCount = await user.getUserFollowingCount(user.user_id);
 			send(res, 200, {
 				'@context': [
 					'https://www.w3.org/ns/activitystreams',
@@ -54,6 +58,8 @@ module.exports = compose(
 				url: `https://${global.nconf.get('server:domain')}/c/${user.username}`,
 				preferredUsername: user.username,
 				inbox: `https://${req.headers.host || 'api.guac.live'}/inbox`,
+				followersCount,
+				followingCount,
 				publicKey: {
 					id: `https://${req.headers.host || 'api.guac.live'}/actor/${user.username}#main-key`,
 					owner: `https://${req.headers.host || 'api.guac.live'}/actor/${user.username}`,
