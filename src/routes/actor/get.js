@@ -38,7 +38,7 @@ module.exports = compose(
 				await setAsyncActorKeys(user);
 			}
 			let followersCount = user.can_stream ? await stream.getStreamFollowCount(user.user_id) : 0;
-			let followingCount = await user.getUserFollowingCount(user.user_id);
+			let followingCount = await um.getUserFollowingCount(user.user_id);
 			send(res, 200, {
 				'@context': [
 					'https://www.w3.org/ns/activitystreams',
