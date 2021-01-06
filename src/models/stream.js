@@ -223,7 +223,7 @@ class Stream {
 			dbInstance('stream_keys').where({
 				's1.user_id': user_id
 			})
-			.join('stream as s1', 's1.id', '=', 'stream_keys.id')
+			.join('stream as s1', 's1.id', '=', 'stream_keys.stream_id')
 			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
 			.debug(true)
 			.select('stream_keys.*', 's1.*', 'u1.username AS name')
@@ -237,7 +237,7 @@ class Stream {
 			dbInstance('stream_keys').where({
 				stream_key: streamKey
 			})
-			.join('stream as s1', 's1.id', '=', 'stream_keys.id')
+			.join('stream as s1', 's1.id', '=', 'stream_keys.stream_id')
 			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
 			.debug(true)
 			.select('stream_keys.*', 's1.*', 'u1.username AS name', 'u1.banned')
