@@ -105,7 +105,7 @@ const notfound = async (req, res) => {
 };
 
 module.exports = router()(
-	post('/ipn', middleware(require('./routes/payments/ipn'))),
+	post('/payments/ipn', middleware(require('./routes/payments/ipn'))),
 	post('/register', middleware(require('./routes/auth/register'))),
 	post('/activate', middleware(require('./routes/auth/activate'))),
 	post('/auth', middleware(require('./routes/auth/login'))),
