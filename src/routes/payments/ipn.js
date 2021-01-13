@@ -27,7 +27,7 @@ module.exports = compose(
 		//You can also pass a settings object to the verify function:
 		ipn.verify(data, {
 			'allow_sandbox': process.env.NODE_ENV === 'development'
-		}, callback = (err, msg) => {
+		}, callback = async (err, msg) => {
 			if(err){
 				console.error(err);
 			}else{
