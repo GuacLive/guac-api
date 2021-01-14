@@ -332,6 +332,7 @@ class User {
 				'subscriptions.user_id',
 				'subscription_plans.user_id AS channel_user_id',
 				'subscription_plans.stream_id AS channel_stream_id',
+				'subscription_plans.email AS channel_email',
 				'users.username AS channel_user_name'
 			)
 			.leftJoin('subscription_plans', 'subscriptions.subscription_plans_id', '=', 'subscription_plans.id')
