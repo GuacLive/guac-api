@@ -125,7 +125,7 @@ module.exports = compose(
 						if(subscribed === true){
 							if(payment_status === 'Completed' || initial_payment_status === 'Completed'){
 								um.updateSubscription({
-									'user_id': user.id,
+									'user_id': user.user_id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
 									'expiration_date': addMonths(subscr_date, 1).getTime(),
@@ -134,7 +134,7 @@ module.exports = compose(
 								});
 							}else{
 								um.updateSubscription({
-									'user_id': user.id,
+									'user_id': user.user_id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
 									'expiration_date': addMonths(subscr_date, 1).getTime(),
@@ -144,14 +144,14 @@ module.exports = compose(
 							}
 						}else if(subscribed === false && cancelled === false){
 							um.updateSubscription({
-								'user_id': user.id,
+								'user_id': user.user_id,
 								'subscription_plans_id': plan.id,
 								'status': 'inactive',
 								'recurring_payment_id': recurring_payment_id
 							});
 						}else{
 							um.updateSubscription({
-								'user_id': user.id,
+								'user_id': user.user_id,
 								'subscription_plans_id': plan.id,
 								'recurring_payment_id': recurring_payment_id
 							});
