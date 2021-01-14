@@ -62,7 +62,7 @@ module.exports = compose(
 					console.log(plan.email, receiver_email);
 					console.log(user, user.user_id, user.email, payer_email);
 					if(
-						plan.item_number === item_number
+						plan.plan_id === item_number
 						&&
 						plan.price === payment_amount
 						&&
