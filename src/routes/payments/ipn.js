@@ -58,6 +58,9 @@ module.exports = compose(
 
 					var user = await um.getUserByEmail(payer_email);
 					var plan = await sm.getPlan(item_number, receiver_email);
+					console.log(plan.price, payment_amount, payment_currency);
+					console.log(plan.email, receiver_email);
+					console.log(user, user.user_id, user.email, payer_email);
 					if(
 						plan.price === payment_amount
 						&&
@@ -67,7 +70,7 @@ module.exports = compose(
 						&&
 						user
 						&&
-						user.id
+						user.user_id
 						&&
 						user.email === payer_email
 					){
