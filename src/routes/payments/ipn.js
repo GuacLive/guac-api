@@ -122,9 +122,10 @@ module.exports = compose(
 								break;
 							default: console.log(`Unforseen IPN txn_type field: ${txn_type}`);
 						}
+						console.log(txn_type, subscribed);
 						if(subscribed === true){
 							if(payment_status === 'Completed' || initial_payment_status === 'Completed'){
-								um.updateSubscription({
+								await um.updateSubscription({
 									'user_id': user.user_id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
@@ -133,7 +134,7 @@ module.exports = compose(
 									'recurring_payment_id': recurring_payment_id
 								});
 							}else{
-								um.updateSubscription({
+								await um.updateSubscription({
 									'user_id': user.user_id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
@@ -143,14 +144,14 @@ module.exports = compose(
 								});
 							}
 						}else if(subscribed === false && cancelled === false){
-							um.updateSubscription({
+							await um.updateSubscription({
 								'user_id': user.user_id,
 								'subscription_plans_id': plan.id,
 								'status': 'inactive',
 								'recurring_payment_id': recurring_payment_id
 							});
 						}else{
-							um.updateSubscription({
+							await um.updateSubscription({
 								'user_id': user.user_id,
 								'subscription_plans_id': plan.id,
 								'recurring_payment_id': recurring_payment_id
