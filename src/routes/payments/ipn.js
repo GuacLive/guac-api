@@ -25,7 +25,8 @@ module.exports = compose(
 		const data = await parse(req);
 		send(res, 200);
 		console.log('data', data);
-		
+		const um = new userModel;
+		const sm = new streamModel;
 		//You can also pass a settings object to the verify function:
 		ipn.verify(data, {
 			'allow_sandbox': process.env.NODE_ENV === 'development'
@@ -55,8 +56,8 @@ module.exports = compose(
 					var payer_email = data['payer_email'];
 					let subscr_date = subscr_date ? new Date(data['subscr_date']) : null;
 
-					var user = await userModel.getUserByEmail(payer_email);
-					var plan = await streamModel.getPlan(item_number, receiver_email);
+					var user = await um.getUserByEmail(payer_email);
+					var plan = await sm.getPlan(item_number, receiver_email);
 					if(
 						plan.price === payment_amount
 						&&
@@ -115,7 +116,7 @@ module.exports = compose(
 						}
 						if(subscribed === true){
 							if(payment_status === 'Completed' || initial_payment_status === 'Completed'){
-								userModel.updateSubscription({
+								um.updateSubscription({
 									'user_id': user.id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
@@ -124,7 +125,7 @@ module.exports = compose(
 									'recurring_payment_id': recurring_payment_id
 								});
 							}else{
-								userModel.updateSubscription({
+								um.updateSubscription({
 									'user_id': user.id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
@@ -134,14 +135,14 @@ module.exports = compose(
 								});
 							}
 						}else if(subscribed === false && cancelled === false){
-							userModel.updateSubscription({
+							um.updateSubscription({
 								'user_id': user.id,
 								'subscription_plans_id': plan.id,
 								'status': 'inactive',
 								'recurring_payment_id': recurring_payment_id
 							});
 						}else{
-							userModel.updateSubscription({
+							um.updateSubscription({
 								'user_id': user.id,
 								'subscription_plans_id': plan.id,
 								'recurring_payment_id': recurring_payment_id
