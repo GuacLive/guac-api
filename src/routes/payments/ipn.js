@@ -24,10 +24,15 @@ module.exports = compose(
 	async (req, res) => {
 		const data = await parse(req);
 		send(res, 200);
+		console.log('data', data);
+		
 		//You can also pass a settings object to the verify function:
 		ipn.verify(data, {
 			'allow_sandbox': process.env.NODE_ENV === 'development'
-		}, callback = async (err, msg) => {
+		}, async (err, msg) => {
+			console.log('ipn verify');
+			console.log(msg, err);
+			
 			if(err){
 				console.error(err);
 			}else{
