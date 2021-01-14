@@ -62,6 +62,8 @@ module.exports = compose(
 					console.log(plan.email, receiver_email);
 					console.log(user, user.user_id, user.email, payer_email);
 					if(
+						plan.item_number === item_number
+						&&
 						plan.price === payment_amount
 						&&
 						payment_currency === 'USD'
@@ -87,6 +89,9 @@ module.exports = compose(
 								subscribed = true;
 								break;
 							case 'recurring_payment':
+								subscribed = true;
+								break;
+							case 'web_accept': 
 								subscribed = true;
 								break;
 							case 'recurring_payment_profile_created':
