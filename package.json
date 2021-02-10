@@ -47,6 +47,7 @@
     "micro-fork": "^3.0.0",
     "micro-hoofs": "^0.0.5",
     "micro-ratelimit2": "https://github.com/GuacLive/ratelimit.git",
+    "mime-types": "^2.1.28",
     "multer": "^1.4.2",
     "mysql2": "^2.0.2",
     "nconf": "^0.10.0",
