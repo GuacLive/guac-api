@@ -34,7 +34,8 @@ nconf.defaults({
 		api_key: ''
 	},
 	s3: {
-		endpoint: '',
+		endpoint: 'nyc3.digitaloceanspaces.com',
+		cdn_endpoint: 'https://cdn.guac.live',
 		access_key: '',
 		secret_key: ''
 	},

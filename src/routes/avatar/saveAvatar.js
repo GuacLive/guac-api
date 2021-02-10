@@ -72,7 +72,7 @@ module.exports = compose(
 		}))
 		.on('error', console.error.bind(console))
 		.on('finish', async (file) => {
-			await um.updateAvatar(req.user.id, `${global.nconf.get('s3:endpoint')}/images-guac/profile-avatars/${id}`);
+			await um.updateAvatar(req.user.id, `${global.nconf.get('s3:cdn_endpoint')}/images-guac/profile-avatars/${id}`);
 		})
 		return send(res, 200, {
 			statusCode: 200,
