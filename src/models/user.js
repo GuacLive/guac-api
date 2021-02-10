@@ -470,6 +470,18 @@ class User {
 			.catch(reject);
 		});
 	}
+	updateAvatar(user_id, avatar) {
+		return new Promise(async (resolve, reject) => {
+			dbInstance('users').where({
+				user_id
+			})
+			.update({
+				avatar
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	// Updates the patreon json column in users table
 	updatePatreon(user_id, patreon) {
 		return new Promise(async (resolve, reject) => {

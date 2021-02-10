@@ -33,6 +33,11 @@ nconf.defaults({
 	sendgrid: {
 		api_key: ''
 	},
+	s3: {
+		endpoint: '',
+		access_key: '',
+		secret_key: ''
+	},
 	patreon: {
 		client_id: '',
 		client_secret: '',
@@ -105,6 +110,8 @@ const notfound = async (req, res) => {
 };
 
 module.exports = router()(
+	post('/avatar', middleware(require('./routes/avatar/saveAvatar'))),
+	// PayPal IPN api
 	post('/payments/ipn', middleware(require('./routes/payments/ipn'))),
 	post('/register', middleware(require('./routes/auth/register'))),
 	post('/activate', middleware(require('./routes/auth/activate'))),
@@ -129,6 +136,7 @@ module.exports = router()(
 	post('/channel/setCategory', middleware(require('./routes/channel/setCategory'))),
 	post('/follow', middleware(require('./routes/follow/post'))),
 	post('/follows', middleware(require('./routes/follows/post'))),
+	// Firebase cloud messaging
 	post('/fcm', middleware(require('./routes/fcm/post'))),
 	post('/panels', middleware(require('./routes/panels/post'))),
 	post('/search', middleware(require('./routes/search/post'))),
