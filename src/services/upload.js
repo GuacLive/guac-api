@@ -3,8 +3,6 @@ import store from 's3-blob-store';
 import {Endpoint, S3} from 'aws-sdk';
 
 export default fn => async (req, res) => {
-    const bearerToken = req.headers.authorization;
-    const pathname = url.parse(req.url).pathname;
     const multipartMiddleware = multer();
 
     const s3Endpoints = new Endpoint(global.nconf.get('s3:endpoint'));
