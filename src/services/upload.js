@@ -1,3 +1,5 @@
+import { compose } from 'micro-hoofs';
+
 import multer from 'multer';
 import store from 's3-blob-store';
 import {Endpoint, S3} from 'aws-sdk';
