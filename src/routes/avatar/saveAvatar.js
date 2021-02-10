@@ -6,6 +6,8 @@ const { Readable } = require('stream');
 import userModel from '../../models/user';
 import verifyJWTKey from '../../services/verifyJWTKey';
 import uploadService from '../../services/upload';
+
+import { bufferToHash } from '../../utils';
 module.exports = compose(
 	verifyJWTKey,
 	uploadService
@@ -27,6 +29,20 @@ module.exports = compose(
 		console.log('profilePicBlobStore', profilePicBlobStore);
 		
 		const stream = Readable.from(req.file.buffer.toString());
+
+		let ext = mimeTypes.extension(req.file.mimetype);
+
+		// Unrocognized mime type
+		if(['.png', '.gif', '.jpg', '.jpeg', '.bmp']) {
+			return send(res, 400, {
+				statusCode: 400,
+				statusMessage: 'Image must be a png, gif or jpg'
+			});
+		}
+
+		const hash = bufferToHash(buffer);
+		const id = `${hash}.${ext}`;
+
 		stream.pipe(profilePicBlobStore.createWriteStream({
 			key: req.user.name,
 			params: {
@@ -36,8 +52,7 @@ module.exports = compose(
 		}))
 		.on('error', console.error.bind(console))
 		.on('finish', async (file) => {
-			console.log('finish', file);
-			await um.updateAvatar(req.user.id, `${global.nconf.get('s3:endpoint')}/images-guac/profile-avatars/${file.key}`);
+			await um.updateAvatar(req.user.id, `${global.nconf.get('s3:endpoint')}/images-guac/profile-avatars/${id}`);
 		})
 		return send(res, 200, {
 			statusCode: 200,

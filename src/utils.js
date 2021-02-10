@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+const crypto = require('crypto');
 const timeoutSignal = require('timeout-signal');
 export const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 const reservedUsernames = [
@@ -99,3 +100,9 @@ export function promisify(func) {
         });
     };
 }
+
+exports.bufferToHash = function bufferToHash(buffer) {
+	const hash = crypto.createHash('sha256');
+	hash.update(buffer);
+	return hash.digest('hex');
+};
