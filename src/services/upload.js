@@ -2,7 +2,7 @@ import multer from 'multer';
 import store from 's3-blob-store';
 import {Endpoint, S3} from 'aws-sdk';
 
-export default fn => (req, res) => {
+export default fn => async (req, res) => {
     const multipartMiddleware = multer();
 
     const s3Endpoints = new Endpoint(global.nconf.get('s3:endpoint'));
@@ -29,6 +29,6 @@ export default fn => (req, res) => {
 	
 	const handler = multipartMiddleware.single('uri');
 
-	return new Promise(resolve => handler(req, res, resolve))
-		.then(() => fn(req, res))
+	await new Promise(resolve => handler(req, res, resolve));
+	return fn(req, res);
 }
