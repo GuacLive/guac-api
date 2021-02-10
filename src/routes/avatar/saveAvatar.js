@@ -20,6 +20,13 @@ module.exports = compose(
 				statusCode: 403,
 			});
 		}
+		// For now, only allow streamers/admins/staff to upload avatar
+		if(req.user.type === 'user'){
+			return send(res, 403, {
+				statusCode: 403,
+				statusMessage: 'Avatar upload is only for streamers, admins and staff'
+			});
+		}
 		if(!req.s3 || !req.file || !req.file.buffer){
 			return send(res, 400, {
 				statusCode: 400,
@@ -29,7 +36,6 @@ module.exports = compose(
 		console.log('profilePicBlobStore', profilePicBlobStore);
 
 		// If user already has an avatar, remove it
-		
         const url = req.user.avatar;
         if(url) {
 			var id = url.substring(url.lastIndexOf('/')+1, url.length);
