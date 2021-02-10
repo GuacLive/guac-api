@@ -1,14 +1,10 @@
-import { compose } from 'micro-hoofs';
-
 import multer from 'multer';
 import store from 's3-blob-store';
 import {Endpoint, S3} from 'aws-sdk';
 
-const multipartMiddleware = multer();
-export default compose(
-	multipartMiddleware.single('uri'),
-	fn => async (req, res) => {
-console.log(global.nconf, global.nconf.get('s3:endpoint'),  global.nconf.get('s3:access_key'));
+export default fn => async (req, res) => {
+    const multipartMiddleware = multer();
+
     const s3Endpoints = new Endpoint(global.nconf.get('s3:endpoint'));
     const s3 = new S3({
         accessKeyId: global.nconf.get('s3:access_key'),
@@ -30,6 +26,11 @@ console.log(global.nconf, global.nconf.get('s3:endpoint'),  global.nconf.get('s3
         offlineBlobStore,
         profilePicBlobStore
     };
+	
+	const handler = multipartMiddleware.single('uri');
 
-    return await fn(req, res);
-})
+	return async (req, res) => {
+	  await new Promise(resolve => handler(req, res, resolve));
+		return await fn(req, res);
+	};
+}
