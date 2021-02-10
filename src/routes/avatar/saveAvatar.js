@@ -18,7 +18,7 @@ module.exports = compose(
 				statusCode: 403,
 			});
         }
-        if(!req.s3 || !req.file || !req.file.stream){
+        if(!req.s3 || !req.file || !req.file.buffer){
 			return send(res, 400, {
 				statusCode: 400,
 			});
@@ -26,7 +26,7 @@ module.exports = compose(
         const { profilePicBlobStore } = req.s3;
         console.log('profilePicBlobStore', profilePicBlobStore);
         
-        req.file.stream.pipe(profilePicBlobStore.createWriteStream({
+        fs.createReadStream(req.file.buffer).pipe(profilePicBlobStore.createWriteStream({
             key: req.user.name,
             params: {
                 ACL: 'public-read',
