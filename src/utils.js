@@ -1,4 +1,6 @@
 import fetch from 'node-fetch';
+import stream from 'stream';
+const { Duplex } = stream;
 const crypto = require('crypto');
 const timeoutSignal = require('timeout-signal');
 export const USERNAME_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
@@ -101,8 +103,16 @@ export function promisify(func) {
     };
 }
 
-exports.bufferToHash = function bufferToHash(buffer) {
+export const bufferToHash = function bufferToHash(buffer) {
 	const hash = crypto.createHash('sha256');
 	hash.update(buffer);
 	return hash.digest('hex');
 };
+
+export const bufferToStream = function bufferToStream(buffer) {
+	const duplexStream = new Duplex();
+	duplexStream.push(buffer);
+	duplexStream.push(null);
+	return duplexStream;
+  }
+  

@@ -1,14 +1,13 @@
 import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
-const { Readable } = require('stream');
 const mimeTypes = require('mime-types');
 
 import userModel from '../../models/user';
 import verifyJWTKey from '../../services/verifyJWTKey';
 import uploadService from '../../services/upload';
 
-import { bufferToHash } from '../../utils';
+import { bufferToStream, bufferToHash } from '../../utils';
 module.exports = compose(
 	verifyJWTKey,
 	uploadService
@@ -42,7 +41,7 @@ module.exports = compose(
         }
 	
 		// Turn file buffer data into a stream
-		const stream = Readable.from(req.file.buffer.toString());
+		const stream = bufferToStream(req.file.buffer);
 
 		// Get extension for this mime type
 		let ext = mimeTypes.extension(req.file.mimetype);
