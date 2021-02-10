@@ -30,7 +30,7 @@ module.exports = compose(
             }
         }))
         .on('error', console.error.bind(console))
-        .on('finish', (file) => {
+        .on('finish', async (file) => {
             console.log('finish', file);
             await um.updateAvatar(req.user.id, `${global.nconf.get('s3:endpoint')}/images-guac/profile-avatars/${file.key}`);
         })
