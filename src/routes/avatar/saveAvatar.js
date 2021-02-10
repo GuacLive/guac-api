@@ -21,7 +21,7 @@ module.exports = compose(
 			});
 		}
 		// For now, only allow streamers/admins/staff to upload avatar
-		if(req.user.type === 'user'){
+		if(req.user.type === 'user' && !req.user.can_stream){
 			return send(res, 403, {
 				statusCode: 403,
 				statusMessage: 'Avatar upload is only for streamers, admins and staff'
