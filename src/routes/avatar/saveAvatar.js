@@ -14,10 +14,14 @@ module.exports = compose(
         const um = new userModel;
         console.log(req.s3, req.file);
         if(!req.user.id){
-            return send(res, 403);
+			return send(res, 403, {
+				statusCode: 403,
+			});
         }
         if(!req.s3 || !req.file || !req.file.stream){
-            return send(res, 400);
+			return send(res, 400, {
+				statusCode: 400,
+			});
         }
         const { profilePicBlobStore } = req.s3;
         console.log('profilePicBlobStore', profilePicBlobStore);
@@ -34,6 +38,8 @@ module.exports = compose(
             console.log('finish', file);
             await um.updateAvatar(req.user.id, `${global.nconf.get('s3:endpoint')}/images-guac/profile-avatars/${file.key}`);
         })
-		send(res, 200 , {});
+		return send(res, 200, {
+			statusCode: 200,
+		});
 	}
 );

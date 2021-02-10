@@ -29,8 +29,6 @@ export default fn => (req, res) => {
 	
 	const handler = multipartMiddleware.single('uri');
 
-	return (req, res) => {
-	  return new Promise(resolve => handler(req, res, resolve))
+	return new Promise(resolve => handler(req, res, resolve))
 		.then(() => fn(req, res))
-	};
 }
