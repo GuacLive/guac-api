@@ -35,8 +35,8 @@ module.exports = compose(
         if(url) {
 			var id = url.substring(url.lastIndexOf('/')+1, url.length);
 
-			const params = {Bucket: 'images-guac/profile-avatars', Key: id};
-			req.s3.deleteObject(params, function(err, data) {
+			const params = {key: id};
+			profilePicBlobStore.remove(params, function(err, data) {
 				//if (err) return console.log(err, err.stack);
 			});
         }
