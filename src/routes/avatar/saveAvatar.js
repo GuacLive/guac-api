@@ -29,8 +29,18 @@ module.exports = compose(
 		const { profilePicBlobStore } = req.s3;
 		console.log('profilePicBlobStore', profilePicBlobStore);
 
-		// TODO: If user already has an avatar, remove it
+		// If user already has an avatar, remove it
 		
+        const url = req.user.avatar;
+        if(url) {
+			var id = url.substring(url.lastIndexOf('/')+1, url.length);
+
+			const params = {Bucket: 'images-guac/profile-avatars', Key: id};
+			s3.deleteObject(params, function(err, data) {
+				//if (err) return console.log(err, err.stack);
+			});
+        }
+	
 		// Turn file buffer data into a stream
 		const stream = Readable.from(req.file.buffer.toString());
 
@@ -38,15 +48,15 @@ module.exports = compose(
 		let ext = mimeTypes.extension(req.file.mimetype);
 
 		// Unrocognized mime type
-		if(['.png', '.gif', '.jpg', '.jpeg', '.bmp'].indexOf(ext) !== -1) {
+		if(['.png', '.gif', '.jpg', '.jpeg', '.bmp'].indexOf(ext) === -1) {
 			return send(res, 400, {
 				statusCode: 400,
 				statusMessage: 'Image must be a png, gif or jpg'
 			});
 		}
 
-		const hash = bufferToHash(buffer);
-		const id = `${hash}.${ext}`;
+		var hash = bufferToHash(buffer);
+		var id = `${hash}.${ext}`;
 
 		stream.pipe(profilePicBlobStore.createWriteStream({
 			key: id,
