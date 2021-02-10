@@ -30,5 +30,5 @@ export default fn => async (req, res) => {
 	const handler = multipartMiddleware.single('uri');
 
 	await new Promise(resolve => handler(req, res, resolve));
-	return fn(req, res);
+	return await fn(req, res);
 }
