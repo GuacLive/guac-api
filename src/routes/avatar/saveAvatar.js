@@ -55,7 +55,7 @@ module.exports = compose(
 			});
 		}
 
-		var hash = bufferToHash(buffer);
+		var hash = bufferToHash(req.file.buffer);
 		var id = `${hash}.${ext}`;
 
 		stream.pipe(profilePicBlobStore.createWriteStream({
