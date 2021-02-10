@@ -48,7 +48,7 @@ module.exports = compose(
 		let ext = mimeTypes.extension(req.file.mimetype);
 
 		// Unrocognized mime type
-		if(['.png', '.gif', '.jpg', '.jpeg', '.bmp'].indexOf(ext) === -1) {
+		if(['png', 'gif', 'jpg', 'jpeg', 'bmp'].indexOf(ext) === -1) {
 			return send(res, 400, {
 				statusCode: 400,
 				statusMessage: 'Image must be a png, gif or jpg'
