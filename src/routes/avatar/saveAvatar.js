@@ -49,7 +49,7 @@ module.exports = compose(
 		const id = `${hash}.${ext}`;
 
 		stream.pipe(profilePicBlobStore.createWriteStream({
-			key: req.user.name,
+			key: id,
 			params: {
 				ACL: 'public-read',
 				CacheControl: 'max-age=31536000'
