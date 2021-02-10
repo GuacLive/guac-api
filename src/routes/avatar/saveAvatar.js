@@ -34,5 +34,6 @@ module.exports = compose(
             console.log('finish', file);
             await um.updateAvatar(req.user.id, `${global.nconf.get('s3:endpoint')}/images-guac/profile-avatars/${file.key}`);
         })
+		send(res, 200 , {});
 	}
 );
