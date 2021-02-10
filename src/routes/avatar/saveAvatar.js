@@ -2,6 +2,7 @@ import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
 const { Readable } = require('stream');
+const mimeTypes = require('mime-types');
 
 import userModel from '../../models/user';
 import verifyJWTKey from '../../services/verifyJWTKey';
