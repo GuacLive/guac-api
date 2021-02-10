@@ -27,13 +27,17 @@ module.exports = compose(
 		}
 		const { profilePicBlobStore } = req.s3;
 		console.log('profilePicBlobStore', profilePicBlobStore);
+
+		// TODO: If user already has an avatar, remove it
 		
+		// Turn file buffer data into a stream
 		const stream = Readable.from(req.file.buffer.toString());
 
+		// Get extension for this mime type
 		let ext = mimeTypes.extension(req.file.mimetype);
 
 		// Unrocognized mime type
-		if(['.png', '.gif', '.jpg', '.jpeg', '.bmp']) {
+		if(['.png', '.gif', '.jpg', '.jpeg', '.bmp'].indexOf(ext) === -1) {
 			return send(res, 400, {
 				statusCode: 400,
 				statusMessage: 'Image must be a png, gif or jpg'
