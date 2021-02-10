@@ -14,12 +14,12 @@ export default fn => async (req, res) => {
 
     const offlineBlobStore = store({
         client: s3,
-        bucket: 'images-guac/offline-banners'
+        bucket: 'cdn.guac.live/offline-banners'
     });
 
     const profilePicBlobStore = store({
         client: s3,
-        bucket: 'images-guac/profile-avatars'
+        bucket: 'cdn.guac.live/profile-avatars'
     });
 
     req.s3 = {
