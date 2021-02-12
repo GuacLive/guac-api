@@ -42,6 +42,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					private: result.private,
 					category_id: result.category_id,
 					category_name: result.category_name,
+					banner: result.banner,
 					urls: {
 						hls: `/live/${result.name}/abr.m3u8`,
 						flv: `/live/${result.name}.flv`
