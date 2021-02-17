@@ -15,6 +15,7 @@ module.exports = compose(
 			statusCode: 200,
 			key: result && result.stream_key,
 			title: result && result.title,
+			banner: result && result.banner,
 			private: result && result.private,
 		});
 	}
