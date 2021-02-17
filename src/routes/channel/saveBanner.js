@@ -79,6 +79,7 @@ module.exports = compose(
 		})
 		return send(res, 200, {
 			statusCode: 200,
+			banner: `${global.nconf.get('s3:cdn_endpoint')}/offline-banners/${id}`
 		});
 	}
 );
