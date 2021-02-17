@@ -50,7 +50,7 @@ module.exports = compose(
         }
 	
 		// Turn file buffer data into a stream
-		const stream = bufferToStream(req.file.buffer);
+		const fileStream = bufferToStream(req.file.buffer);
 
 		// Get extension for this mime type
 		let ext = mimeTypes.extension(req.file.mimetype);
@@ -66,7 +66,7 @@ module.exports = compose(
 		var hash = bufferToHash(req.file.buffer);
 		var id = `${hash}.${ext}`;
 
-		stream.pipe(offlineBlobStore.createWriteStream({
+		fileStream.pipe(offlineBlobStore.createWriteStream({
 			key: id,
 			params: {
 				ACL: 'public-read',
