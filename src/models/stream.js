@@ -341,6 +341,18 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	setBanner(userId, banner = '') {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream').where({
+				user_id: userId
+			})
+			.update({
+				banner,
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	setCategory(userId, category = '') {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({

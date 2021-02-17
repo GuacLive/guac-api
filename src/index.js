@@ -133,6 +133,7 @@ module.exports = router()(
 	post('/channel/userUnmod', middleware(require('./routes/channel/userUnmod'))),
 	post('/channel/userTimeout', middleware(require('./routes/channel/userTimeout'))),
 	post('/channel/setTitle', middleware(require('./routes/channel/setTitle'))),
+	post('/channel/banner', middleware(require('./routes/channel/saveBanner'))),
 	post('/channel/setPrivate', middleware(require('./routes/channel/setPrivate'))),
 	post('/channel/setCategory', middleware(require('./routes/channel/setCategory'))),
 	post('/follow', middleware(require('./routes/follow/post'))),
