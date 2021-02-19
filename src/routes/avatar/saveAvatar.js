@@ -76,6 +76,7 @@ module.exports = compose(
 		})
 		return send(res, 200, {
 			statusCode: 200,
+			avatar: `${global.nconf.get('s3:cdn_endpoint')}/profile-avatars/${id}`
 		});
 	}
 );
