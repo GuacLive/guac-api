@@ -28,7 +28,7 @@ module.exports = compose(
 
 		result = await Promise.all(result.map(async (r) => {
 			if(r){
-				r.avatar = r.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`;
+				r.avatar = r.avatar || `${global.nconf.get('s3:cdn_endpoint')}/offline-avatar.png`;
 				if(r.live){
 					r.viewers = await getFromViewerAPI(r.username);
 				}else{
