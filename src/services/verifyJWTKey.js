@@ -43,7 +43,7 @@ module.exports = fn => async (req, res) => {
 				activated: result.activated,
 				can_stream: result.can_stream,
 				type: result.type,
-				avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
+				avatar: result.avatar || `${global.nconf.get('s3:cdn_endpoint')}/profile-avatars/offline-avatar.png`,
 				banned: result.banned,
 				color: result.color,
 				patreon: JSON.parse(result.patreon)

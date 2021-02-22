@@ -60,7 +60,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 						id: result.user_id,
 						name: result.name,
 						type: result.type,
-						avatar: result.avatar || `//api.${global.nconf.get('server:domain')}/avatars/unknown.png`,
+						avatar: result.avatar || `${global.nconf.get('s3:cdn_endpoint')}/profile-avatars/offline-avatar.png`,
 						banned: result.banned,
 						lastBan,
 						patreon: stream.patreon ? {
