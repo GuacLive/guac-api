@@ -65,7 +65,7 @@ module.exports = compose(
 			await stream.setLive(result.stream_id);
 			// Set stream server
 			// TODO: Verify against a list of valid stream-servers (create a stream-server orchestration service?)
-			await stream.setServer(result.stream_id, streamServer);
+			await stream.setServer(result.stream_id, `//${streamServer}`);
 			// Set stream time
 			await stream.updateTime(result.stream_id);
 
