@@ -16,11 +16,19 @@ module.exports = compose(
 		const data = await parse(req);
 
 		const streamKey = data.name;
+		const tcUrl = data.tcUrl;
 		console.log('body', data);
 		if(!streamKey){
 			send(res, 403, {
 				statusCode: 403,
 				statusMessage: 'No stream key'
+			});
+			return;
+		}
+		if(!tcUrl){
+			send(res, 403, {
+				statusCode: 403,
+				statusMessage: 'No tcUrl'
 			});
 			return;
 		}
@@ -30,7 +38,7 @@ module.exports = compose(
 		const result = await stream.isValidStreamKey(streamKey);
 		var followTokens = [];
 		console.log(result);
-		if(result){
+		if(result && tcUrl.toLowerCase() === `/live/${result.name}`){
 			const hooks = await stream.getWebHooks(result.user_id);
 			if(result.banned){
 				return send(res, 403, {
@@ -40,6 +48,7 @@ module.exports = compose(
 			}
 			// Set stream as live
 			await stream.setLive(result.stream_id);
+			// Set stream time
 			await stream.updateTime(result.stream_id);
 
 			// Check if firebase api key is set
