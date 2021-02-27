@@ -426,13 +426,13 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	setServer(streamId, server = '') {
+	setServer(streamId, streamServer = '') {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({
 				id: streamId
 			})
 			.update({
-				server,
+				streamServer,
 			})
 			.then(resolve)
 			.catch(reject);
