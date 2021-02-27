@@ -3,15 +3,19 @@ import { compose } from 'micro-hoofs';
 import parse from 'urlencoded-body-parser';
 
 import fetch from 'node-fetch';
+
+import verifySecretKey from '../../services/verifySecretKey';
+
 import streamModel from '../../models/stream';
 
 module.exports = compose(
+	verifySecretKey
 )(
 	async (req, res) => {
 		const data = await parse(req);
 
 		const streamKey = data.name;
-		
+		console.log('body', data);
 		if(!streamKey){
 			send(res, 403, {
 				statusCode: 403,
@@ -19,10 +23,20 @@ module.exports = compose(
 			});
 			return;
 		}
-
+	
+		const tcUrl = data.tcUrl;
+	
+		if(!tcUrl){
+			send(res, 403, {
+				statusCode: 403,
+				statusMessage: 'No tcUrl'
+			});
+			return;
+		}
+	
 		const stream = new streamModel;
 		const result = await stream.isValidStreamKey(streamKey);
-		if(result){
+		if(result && tcUrl.toLowerCase() === `/live/${result.name}`){
 			await stream.setInactive(result.stream_id);
 			// Send live event to those with channel websocket connection open
 			if(global.nconf.get('server:viewer_api_url')) {
