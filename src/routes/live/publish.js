@@ -7,17 +7,19 @@ const { Webhook, MessageBuilder } = require('discord-webhook-node');
 
 import fetch from 'node-fetch';
 
+import verifySecretKey from '../../services/verifySecretKey';
+
 import streamModel from '../../models/stream';
 import deviceModel from '../../models/device';
 
 module.exports = compose(
+	verifySecretKey
 )(
 	async (req, res) => {
 		const data = await parse(req);
 
-		const streamKey = data.name;
-		const tcUrl = data.tcUrl;
 		console.log('body', data);
+		const streamKey = data.name;
 		if(!streamKey){
 			send(res, 403, {
 				statusCode: 403,
@@ -25,6 +27,9 @@ module.exports = compose(
 			});
 			return;
 		}
+
+		const tcUrl = data.tcUrl;
+	
 		if(!tcUrl){
 			send(res, 403, {
 				statusCode: 403,
