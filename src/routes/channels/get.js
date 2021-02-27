@@ -16,7 +16,7 @@ module.exports = compose(
 			statusCode: 200,
 			data: results.map((result) => {
 				if(result.live){
-					result.thumbnail = `${servers['eu']}/live/${result.name}/thumbnail.png`;
+					result.thumbnail = `//${result.streamServer}/live/${result.name}/thumbnail.jpg`;
 					// TODO: Support more than one server
 					result.servers = servers[0];
 				}

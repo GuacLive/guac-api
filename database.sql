@@ -239,10 +239,14 @@ ALTER TABLE `users`
 ALTER TABLE `stream`
   ADD COLUMN `banner` VARCHAR(255) NULL;
 
+ALTER TABLE `stream`
+  ADD COLUMN `streamServer` VARCHAR(255) DEFAULT 'lon.stream.guac.live';
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 CREATE INDEX stream_index ON stream (id);
+CREATE INDEX stream_server_index ON stream (streamServer);
 CREATE INDEX users_name_index ON users (username);
 CREATE INDEX users_id_index ON users (user_id);
 

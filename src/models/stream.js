@@ -426,6 +426,18 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	setServer(streamId, server = '') {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream').where({
+				id: streamId
+			})
+			.update({
+				server,
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	increaseView(streamId) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream').where({

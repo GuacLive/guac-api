@@ -19,6 +19,16 @@ module.exports = compose(
 		const data = await parse(req);
 
 		console.log('body', data);
+		
+		const streamServer = data.streamServer;
+		if(!streamServer){
+			send(res, 400, {
+				statusCode: 400,
+				statusMessage: 'No stream server'
+			});
+			return;
+		}
+
 		const streamKey = data.name;
 		if(!streamKey){
 			send(res, 403, {
@@ -53,6 +63,9 @@ module.exports = compose(
 			}
 			// Set stream as live
 			await stream.setLive(result.stream_id);
+			// Set stream server
+			// TODO: Verify against a list of valid stream-servers (create a stream-server orchestration service?)
+			await stream.setServer(result.stream_id, streamServer);
 			// Set stream time
 			await stream.updateTime(result.stream_id);
 

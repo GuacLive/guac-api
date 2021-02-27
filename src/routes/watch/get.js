@@ -55,7 +55,9 @@ module.exports = cache(1 * 1000, async (req, res) => {
 						//'360p': '_low',
 						//'240p': '_mobile'
 					},
+					// DEPRECATED - Servers-field (KEEP UNTIL FRONTEND UPDATED)
 					servers: global.nconf.get('server:streaming_servers'),
+					streamServer: result.streamServer,
 					user: {
 						id: result.user_id,
 						name: result.name,
