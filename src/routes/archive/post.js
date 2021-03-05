@@ -32,8 +32,8 @@ module.exports = compose(
 				result.title,
 				jsonData.duration,
 				jsonData.random,
-				jsonData.thumbnail,
-				jsonData.stream
+				decodeURIComponent(jsonData.thumbnail),
+				decodeURIComponent(jsonData.stream)
 			);
 		}else{
 			// ???
