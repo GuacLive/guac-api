@@ -29,7 +29,7 @@ module.exports = compose(
 		){
 			await stream.addArchive(
 				result.user_id,
-				jsonData.streamName,
+				result.title,
 				jsonData.duration,
 				jsonData.random,
 				jsonData.thumbnail,
