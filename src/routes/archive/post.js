@@ -27,7 +27,7 @@ module.exports = compose(
 			&& jsonData.stream
 			&& result
 		){
-			await channel.createArchive(
+			await stream.addArchive(
 				result.user_id,
 				jsonData.streamName,
 				jsonData.duration,
