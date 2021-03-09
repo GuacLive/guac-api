@@ -204,6 +204,23 @@ class Stream {
 			});
 		});
 	}
+	getStreamConfig(name) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_config').where({
+				'u1.username': name
+			})
+			.debug(true)
+			.join('stream as s1', 's1.id', '=', 'stream_config.stream_id')
+			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
+			.select('stream_config.*', 'u1.user_id', 'u1.username AS name', 'u1.banned')
+			.first()
+			.then(resolve)
+			.catch((e) => {
+				console.log('getstreamconfig db error', e);
+				reject(e);
+			});
+		});
+	}
 	getStreamFollowCount(to_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('follows').where({

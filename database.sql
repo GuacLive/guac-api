@@ -168,6 +168,17 @@ CREATE TABLE `subscriptions` (
   FOREIGN KEY(`subscription_plans_id`) REFERENCES subscription_plans(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+CREATE TABLE `stream_config` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `archive` BOOLEAN COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bitrateLimit` int(11) NOT NULL,
+  `stream_id` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`stream_id`) REFERENCES stream(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 ALTER TABLE `users` ADD `activated` BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE `channel_bans`
@@ -249,6 +260,7 @@ ALTER TABLE `stream_archives`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 CREATE INDEX stream_index ON stream (id);
+CREATE INDEX stream_config_index ON stream_config (id);
 CREATE INDEX stream_server_index ON stream (streamServer);
 CREATE INDEX users_name_index ON users (username);
 CREATE INDEX users_id_index ON users (user_id);

@@ -175,6 +175,7 @@ module.exports = router()(
 	get('/categories', middleware(require('./routes/categories/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
 	get('/streaming', middleware(require('./routes/streaming/get'))),
+	get('/streamConfig', middleware(require('./routes/streamConfig/get'))),
 	get('/featured', middleware(require('./routes/featured/get'))),
 	get('/archive/:name', middleware(require('./routes/archive/get'))),
 	get('/product/:name', corsMiddleware(middleware(require('./routes/product/get')))),
