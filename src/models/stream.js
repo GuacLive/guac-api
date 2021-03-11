@@ -211,7 +211,7 @@ class Stream {
 			})
 			.debug(true)
 			.join('stream as s1', 's1.id', '=', 'stream_config.stream_id')
-			.join('users as u1', 'u1.user_id', '=', 'stream.user_id')
+			.join('users as u1', 'u1.user_id', '=', 's1.user_id')
 			.select('stream_config.*', 'u1.user_id', 'u1.username AS name', 'u1.banned')
 			.first()
 			.then(resolve)
