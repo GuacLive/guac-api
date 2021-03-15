@@ -28,6 +28,22 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getArchive(archive_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_archives')
+			.where({
+				'stream_archives.archive_id': archive_id
+			})
+			.select('stream_archives.*', 'u1.username')
+			.orderBy('archive_id', 'desc')
+			.join('users as u1', 'u1.user_id', '=', 'stream_archives.user_id')
+			.join('stream', 'stream.user_id', '=', 'stream_archives.user_id')
+			.debug(true)
+			.first()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getPanels(user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_panels')
