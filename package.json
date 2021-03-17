@@ -37,7 +37,7 @@
     "discord-webhook-node": "^1.0.4",
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",
-    "knex": "^0.20.3",
+    "knex": "^0.95",
     "knex-paginate": "^1.2.3",
     "lodash.chunk": "^4.2.0",
     "micro": "^9.3.5-canary.3",
