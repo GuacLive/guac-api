@@ -370,7 +370,7 @@ class Stream {
 				stream_id: streamId
 			})
 			.onConflict('stream_id')
-			.merge();
+			.merge()
 			.then(resolve)
 			.catch(reject);
 		});
