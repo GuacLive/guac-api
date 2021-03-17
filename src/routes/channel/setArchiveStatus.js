@@ -11,7 +11,7 @@ module.exports = compose(
 	async (req, res) => {
 		const stream = new streamModel;
         const jsonData = await json(req);
-		if(jsonData && typeof jsonData.archive !== 'boolean'){
+		if(jsonData && typeof jsonData.archive === 'boolean'){
             if(req.user && req.user.name){
                 const result = await stream.getStream(req.user.name);
                 await stream.setArchiveStatus(result.id, jsonData.archive);
