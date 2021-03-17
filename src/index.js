@@ -111,6 +111,7 @@ const notfound = async (req, res) => {
 };
 
 module.exports = router()(
+	post('/archive', middleware(require('./routes/archive/post'))),
 	post('/avatar', middleware(require('./routes/avatar/saveAvatar'))),
 	// PayPal IPN api
 	post('/payments/ipn', middleware(require('./routes/payments/ipn'))),

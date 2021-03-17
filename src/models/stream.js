@@ -361,6 +361,19 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	// TODO: Change this to stream id
+	setArchiveStatus(userId, archive = false) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_archives').where({
+				user_id: userId
+			})
+			.update({
+				archive,
+			})
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	setPanel(panel_id, title, description) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_panels').where({
