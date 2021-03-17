@@ -172,7 +172,7 @@ CREATE TABLE `subscriptions` (
 CREATE TABLE `stream_config` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `archive` BOOLEAN COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bitrateLimit` int(11) NOT NULL,
+  `bitrateLimit` int(11),
   `stream_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY(`stream_id`) REFERENCES stream(`id`)
