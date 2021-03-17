@@ -12,8 +12,9 @@ module.exports = compose(
 		const stream = new streamModel;
         const jsonData = await json(req);
 		if(jsonData && jsonData.archive){
-            if(req.user && req.user.id){
-                await stream.setArchiveStatus(req.user.id, jsonData.archive);
+            if(req.user && req.user.name){
+                const result = await stream.getStream(req.user.name);
+                await stream.setArchiveStatus(result.id, jsonData.archive);
                 return send(res, 200, {
                     statusCode: 200,
 					archive: jsonData.archive

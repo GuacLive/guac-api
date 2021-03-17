@@ -362,14 +362,15 @@ class Stream {
 		});
 	}
 	// TODO: Change this to stream id
-	setArchiveStatus(userId, archive = false) {
+	setArchiveStatus(streamId, archive = false) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream_archives').where({
-				user_id: userId
-			})
-			.update({
+			dbInstance('stream_config')
+			.insert({
 				archive,
+				stream_id: streamId
 			})
+			.onConflict('stream_id')
+			.merge();
 			.then(resolve)
 			.catch(reject);
 		});
