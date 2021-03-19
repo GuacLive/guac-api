@@ -11,7 +11,21 @@ module.exports = compose(
 		if(data && data.archive_id){
 			send(res, 200, {
 				statusCode: 200,
-				data
+				data: {
+					archive_id: data.archive_id,
+					duration: data.duration,
+					stream: data.stream,
+					thumbnail: data.thumbnail,
+					time: data.time, 
+					streamName: data.streamName,
+					user: {
+						id: data.user_id,
+						name: data.name,
+						type: data.type,
+						avatar: data.avatar || `${global.nconf.get('s3:cdn_endpoint')}/profile-avatars/offline-avatar.png`,
+						banned: data.banned
+					},
+				}
 			});
 		}else{
 			send(res, 404, {

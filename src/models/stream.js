@@ -34,7 +34,7 @@ class Stream {
 			.where({
 				'stream_archives.archive_id': archive_id
 			})
-			.select('stream_archives.*', 'u1.username')
+			.select('stream_archives.*',  'u1.user_id', 'u1.username AS name', 'u1.type', 'u1.avatar', 'u1.banned')
 			.orderBy('archive_id', 'desc')
 			.join('users as u1', 'u1.user_id', '=', 'stream_archives.user_id')
 			.join('stream', 'stream.user_id', '=', 'stream_archives.user_id')
