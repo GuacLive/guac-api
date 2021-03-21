@@ -3,6 +3,8 @@ import { compose } from 'micro-hoofs';
 import ipn from 'paypal-ipn-checker';
 import parse from 'urlencoded-body-parser';
 
+import { sendViewerAPIEvent } from '../../utils';
+
 import userModel from '../../models/user';
 import streamModel from '../../models/stream';
 
@@ -17,6 +19,13 @@ function addMonths(date, value) {
 	d.setMonth(d.getMonth() + value);
 	d.setDate(Math.min(n, getDaysInMonth(d.getFullYear(), d.getMonth())));
 	return d;
+}
+function monthDiff(d1, d2) {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
 }
 
 module.exports = compose(
@@ -124,21 +133,34 @@ module.exports = compose(
 						}
 						console.log(txn_type, subscribed);
 						if(subscribed === true){
+							let expr_date = addMonths(subscr_date, 1).getTime();
 							if(payment_status === 'Completed' || initial_payment_status === 'Completed'){
 								await um.updateSubscription({
 									'user_id': user.user_id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
-									'expiration_date': addMonths(subscr_date, 1).getTime(),
+									'expiration_date': expr_date,
 									'status': 'active',
 									'recurring_payment_id': recurring_payment_id
 								});
+								try{
+									sendViewerAPIEvent(toUser.username, 'subscription', {
+										time: subscr_date.getTime(),
+										months: monthDiff(subscr_date, expr_date),
+										sub_plan: plan.id,
+										sub_plan_name: plan.name,
+										sub_type: txn_type === 'subscr_signup' ? 'sub': 'resub',
+										user: {
+											name: req.user.name,
+										}
+									});
+								}catch(e){}
 							}else{
 								await um.updateSubscription({
 									'user_id': user.user_id,
 									'subscription_plans_id': plan.id,
 									'start_date': subscr_date.getTime(),
-									'expiration_date': addMonths(subscr_date, 1).getTime(),
+									'expiration_date': expr_date,
 									'status': 'pending',
 									'recurring_payment_id': recurring_payment_id
 								});
