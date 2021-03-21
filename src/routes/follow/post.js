@@ -33,7 +33,7 @@ module.exports = compose(
                 toId,
 			);
 			try{
-				sendViewerAPIEvent(toUser.name, 'follow', {
+				sendViewerAPIEvent(toUser.username, 'follow', {
 					time,
 					user: {
 						name: req.user.name,
