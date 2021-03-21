@@ -2,6 +2,7 @@ import { send,json } from 'micro';
 import { compose } from 'micro-hoofs';
 
 import channelModel from '../../models/channel';
+import userModel from '../../models/user';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 
