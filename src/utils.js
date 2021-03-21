@@ -114,5 +114,30 @@ export const bufferToStream = function bufferToStream(buffer) {
 	duplexStream.push(buffer);
 	duplexStream.push(null);
 	return duplexStream;
-  }
+}
+export const sendViewerAPIEvent = (name, type = 'follow', message = '') => {
+	// Send live event to those with channel websocket connection open
+	if (global.nconf.get('server:viewer_api_url')) {
+		fetch(`${global.nconf.get('server:viewer_api_url')}/admin`, {
+			'method': 'POST',
+			'headers': {
+				'Authorization': global.nconf.get('server:viewer_api_key'),
+				'Content-Type': 'application/json'
+			},
+			'body': JSON.stringify({
+				'action': 'event',
+				'name': name,
+				'event': {
+					type,
+					message
+				}
+			})
+		})
+		.then(response => {
+		})
+		.catch(error => {
+		});
+	}
+
+
   
