@@ -19,7 +19,7 @@ module.exports = compose(
 		if(jsonData && jsonData.to_id){
 			let fromId = req.user.id;
 			let toId = jsonData.to_id;
-			let toUser = u.getUserById(toId);
+			let toUser = await u.getUserById(toId);
 			// If user is already in database, unfollow
 			if(await channel.follows(fromId, toId)){
                 await channel.unfollow(fromId, toId);
