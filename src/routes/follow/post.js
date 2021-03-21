@@ -5,7 +5,7 @@ import channelModel from '../../models/channel';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 
-import { sendViewerAPIEvent } from 'utils/';
+import { sendViewerAPIEvent } from '../../utils';
 
 module.exports = compose(
 	verifyJWTKey
