@@ -5,15 +5,20 @@ import channelModel from '../../models/channel';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 
+import { sendViewerAPIEvent } from 'utils/';
+
 module.exports = compose(
 	verifyJWTKey
 )(
 	async (req, res) => {
 		const channel = new channelModel;
+		const u = new userModel;
 		const jsonData = await json(req);
+		const time = (new Date).toGMTString();
 		if(jsonData && jsonData.to_id){
 			let fromId = req.user.id;
 			let toId = jsonData.to_id;
+			let toUser = u.getUserById(toId);
 			// If user is already in database, unfollow
 			if(await channel.follows(fromId, toId)){
                 await channel.unfollow(fromId, toId);
@@ -26,6 +31,14 @@ module.exports = compose(
                 fromId,
                 toId,
 			);
+			try{
+				sendViewerAPIEvent(toUser.name, 'follow', {
+					time,
+					user: {
+						name: req.user.name,
+					}
+				});
+			}catch(e){}
 			return send(res, 200, {
                 statusCode: 200,
                 statusMessage: 'Person followed'
