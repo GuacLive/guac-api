@@ -138,6 +138,5 @@ export const sendViewerAPIEvent = (name, type = 'follow', message = '') => {
 		.catch(error => {
 		});
 	}
-
-
+}
   
