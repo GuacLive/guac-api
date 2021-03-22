@@ -14,7 +14,7 @@ module.exports = compose(
 		send(res, 200, {
 			statusCode: 200,
 			archive: result ? !!result.archive : false,
-			bitrateLimit: result ? !!result.bitrateLimit : DEFAULT_BITRATE_LIMIT,
+			bitrateLimit: result && result.bitrateLimit ? result.bitrateLimit : DEFAULT_BITRATE_LIMIT,
 		});
 	}
 );
