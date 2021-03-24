@@ -17,7 +17,7 @@ module.exports = compose(
 			title: result && result.title,
 			banner: result && result.banner,
 			private: result && result.private,
-			archive: !!configResult.archive,
+			archive: configResult && !!configResult.archive,
 		});
 	}
 );
