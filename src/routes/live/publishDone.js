@@ -36,7 +36,7 @@ module.exports = compose(
 	
 		const stream = new streamModel;
 		const result = await stream.isValidStreamKey(streamKey);
-		if(result && tcUrl.toLowerCase() === `/live/${result.name}`){
+		if(result && tcUrl.toLowerCase() === `/live/${result.name?.toLowerCase()}`){
 			await stream.setInactive(result.stream_id);
 			// Send live event to those with channel websocket connection open
 			if(global.nconf.get('server:viewer_api_url')) {
