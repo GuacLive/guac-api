@@ -53,7 +53,7 @@ module.exports = compose(
 		const result = await stream.isValidStreamKey(streamKey);
 		var followTokens = [];
 		console.log(result);
-		if(result && tcUrl.toLowerCase() === `/live/${result.name}`){
+		if(result && tcUrl.toLowerCase() === `/live/${result.name?.toLowerCase()}`){
 			const hooks = await stream.getWebHooks(result.user_id);
 			if(result.banned){
 				return send(res, 403, {
