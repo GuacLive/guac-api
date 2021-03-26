@@ -19,6 +19,15 @@ module.exports = compose(
 			return;
 		}
 
+		if(streamTitle && streamTitle.length > 255){
+			send(res, 403, {
+				statusCode: 403,
+				statusMessage: 'Stream title too long'
+			});
+			return;
+
+		}
+
 		const stream = new streamModel;
 		const result = await stream.setTitle(req.user.id, streamTitle);
 		console.log(result);

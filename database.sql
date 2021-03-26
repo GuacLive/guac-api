@@ -43,7 +43,7 @@ CREATE TABLE `channel_mods` (
 CREATE TABLE `stream` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `private` BOOLEAN NOT NULL,
-  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `live` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `views` bigint(20) NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
@@ -258,6 +258,9 @@ ALTER TABLE `stream_archives`
 
 ALTER TABLE `stream_config`
   ADD CONSTRAINT `stream_config_uniq_1` UNIQUE KEY(`stream_id`);
+
+ALTER TABLE `stream`
+  MODIFY `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL;
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
