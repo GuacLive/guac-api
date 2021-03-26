@@ -302,7 +302,7 @@ class Stream {
 				'category': 1,
 				'type': 'NONE',
 				'title': ''
-			})
+			}, 'stream.id')
 			.debug(true)
 			.then(async (data) => {
 				if(!data) resolve(false);
