@@ -254,7 +254,7 @@ ALTER TABLE `stream`
   ADD COLUMN `streamServer` VARCHAR(255) DEFAULT 'lon.stream.guac.live';
 
 ALTER TABLE `stream_archives`
- ADD COLUMN `streamName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL;
+ ADD COLUMN `streamName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL;
 
 ALTER TABLE `stream_config`
   ADD CONSTRAINT `stream_config_uniq_1` UNIQUE KEY(`stream_id`);
