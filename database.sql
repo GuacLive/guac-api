@@ -256,6 +256,9 @@ ALTER TABLE `stream`
 ALTER TABLE `stream_archives`
  ADD COLUMN `streamName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL;
 
+ALTER TABLE `stream_archives`
+ ADD COLUMN `views` bigint(20) NOT NULL;
+
 ALTER TABLE `stream_config`
   ADD CONSTRAINT `stream_config_uniq_1` UNIQUE KEY(`stream_id`);
 
