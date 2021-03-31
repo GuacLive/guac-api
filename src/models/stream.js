@@ -495,6 +495,16 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	deleteArchive(archive_id) {
+		return new Promise((resolve, reject) => {
+			dbInstance('stream_archives').where({
+				archive_id
+			})
+			.delete()
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	deletePanel(panel_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_panels').where({

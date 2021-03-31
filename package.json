@@ -59,6 +59,7 @@
     "rand-token": "^0.4.0",
     "regenerator-runtime": "^0.13.3",
     "s3-blob-store": "^4.1.1",
+    "s3-commons": "^1.0.1",
     "sqlstring": "^2.3.1",
     "timeout-signal": "^1.0.0",
     "urlencoded-body-parser": "^3.0.0"

@@ -29,9 +29,15 @@ export default fn => async (req, res) => {
         bucket: 'cdn.guac.live/profile-avatars'
     });
 
+    const streamVodsBlobStore = store({
+        client: s3,
+        bucket: 'cdn.guac.live/stream-vods'
+    });
+
     req.s3 = {
         offlineBlobStore,
-        profilePicBlobStore
+        profilePicBlobStore,
+        streamVodsBlobStore
     };
 	
 	const handler = multipartMiddleware.single('uri');

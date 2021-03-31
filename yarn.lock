@@ -4470,6 +4470,11 @@ s3-blob-store@^4.1.1:
     s3-download-stream "1.1.1"
     s3-stream-upload "^2.0.1"
 
+s3-commons@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/s3-commons/-/s3-commons-1.0.1.tgz#6664677110a395159a10e7d9040a33222ce6f371"
+  integrity sha512-6L4JgNBfLlCZ8gp6vnxPm7vgh/GtjnSQtlMci+bH2xc/16Y44f1Pq+dty81/Jmfcj9vZHbXADUa9FUmjrlntCg==
+
 s3-download-stream@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/s3-download-stream/-/s3-download-stream-1.1.1.tgz#6e5269d4ab9c8ef9f2c26f84c2a97c83e059c275"
