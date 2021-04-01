@@ -2,7 +2,7 @@ import { send } from 'micro';
 import { compose } from 'micro-hoofs';
 
 import streamModel from '../../models/stream';
-import uploadService from '../../services';
+import uploadService from '../../services/upload';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 const s3c = require('s3-commons')
