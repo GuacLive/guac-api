@@ -24,7 +24,7 @@ module.exports = compose(
 				if(!id) return;
 	
 				const list = await s3c.deleteRecursiveVerbose(
-					streamVodsBlobStore.client,
+					streamVodsBlobStore.s3,
 					'stream-vods',
 					id
 				);
