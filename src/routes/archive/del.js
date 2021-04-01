@@ -12,7 +12,8 @@ module.exports = compose(
 )(
 	async (req, res) => {
 		const stream = new streamModel;	
-		const data = await stream.getArchive(req.params.id);
+		const jsonData = await json(req);
+		const data = await stream.getArchive(jsonData.archive_id);
 		if(data && data.archive_id && data.user_id === req.user.id){
 			const { streamVodsBlobStore } = req.s3;
 			console.log('streamVodsBlobStore', streamVodsBlobStore);
