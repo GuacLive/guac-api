@@ -498,7 +498,7 @@ class Stream {
 	deleteArchive(archive_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_archives').where({
-				archive_id
+				'stream_archives.archive_id': archive_id
 			})
 			.delete()
 			.then(resolve)
