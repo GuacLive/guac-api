@@ -20,12 +20,12 @@ module.exports = compose(
 	
 			const url = data.stream;
 			if(url) {
-				var id = url.split('/').filter(s => s.trim()).slice(4,-1).join('/');
+				var id = url.split('/').filter(s => s.trim()).slice(2,-1).join('/');
 				if(!id) return;
 	
 				const list = await s3c.deleteRecursiveVerbose(
 					streamVodsBlobStore.s3,
-					'cdn.guac.live/stream-vods',
+					'cdn.guac.live',
 					id
 				);
 				console.log(list);
