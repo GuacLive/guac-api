@@ -1,4 +1,4 @@
-import { send } from 'micro';
+import { send, json } from 'micro';
 import { compose } from 'micro-hoofs';
 
 import streamModel from '../../models/stream';
