@@ -25,7 +25,7 @@ module.exports = compose(
 	
 				const list = await s3c.deleteRecursiveVerbose(
 					streamVodsBlobStore.s3,
-					'stream-vods',
+					'cdn.guac.live/stream-vods',
 					id
 				);
 				console.log(list);
