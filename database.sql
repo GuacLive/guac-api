@@ -179,6 +179,20 @@ CREATE TABLE `stream_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+CREATE TABLE `clips` (
+  `clip_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `clip_name` varchar(255) DEFAULT 'Clip',
+  `clipper_id` int(11) UNSIGNED NOT NULL,
+  `stream_id` int(11) UNSIGNED NOT NULL,
+  `video_url` varchar(255) NOT NULL,
+  `views` bigint(20),
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY(`clip_id`),
+   FOREIGN KEY(`stream_id`) REFERENCES stream(`id`),
+   FOREIGN KEY(`clipper_id`) REFERENCES users(`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 ALTER TABLE `users` ADD `activated` BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE `channel_bans`

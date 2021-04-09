@@ -311,6 +311,23 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	createClip(stream_id, clip_name, clipper_id, video_url){
+		return new Promise((resolve, reject) => {
+			dbInstance('clips')
+			.insert({
+				stream_id,
+				clip_name,
+				clipper_id,
+				video_url
+			}, 'clips.clip_id')
+			.debug(true)
+			.then(async (data) => {
+				if(!data) resolve(false);
+				resolve(data);
+			})
+			.catch(reject);
+		});
+	}
 	addPanel(title, description, user_id) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_panels')
