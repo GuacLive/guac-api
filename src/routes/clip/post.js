@@ -14,7 +14,7 @@ module.exports = compose(
 		if (req.user && req.user.name) {
 			if(req.params.name){
 				const result = await stream.getStream(req.params.name);
-				if(!result.live){
+				if(result.live && parseInt(result.live, 10) == 0){
 					return send(res, 400, {
 						statusCode: 400,
 						statusMessage: 'Channel is not live'
@@ -22,7 +22,7 @@ module.exports = compose(
 				}
 				const auth = Buffer.from(`${global.nconf.get('nms:user')}:${global.nconf.get('nms:password')}`)
 					.toString('base64');
-				const nms = await fetch(result.streamServer + '/api/streams', {
+				const nms = await fetch(result.streamServer + '/clip', {
 					'method': 'POST',
 					'headers': {
 						'Authorization': `Basic ${auth}`,
