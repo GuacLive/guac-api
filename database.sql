@@ -266,7 +266,6 @@ ALTER TABLE `stream`
 
 ALTER TABLE `stream`
   ADD COLUMN `streamServer` VARCHAR(255) DEFAULT 'lon.stream.guac.live';
-
 ALTER TABLE `stream_archives`
  ADD COLUMN `streamName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL;
 
@@ -278,6 +277,9 @@ ALTER TABLE `stream_config`
 
 ALTER TABLE `stream`
   MODIFY `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL;
+
+ALTER TABLE `stream`
+  ADD COLUMN `mature` boolean not null default 0;
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

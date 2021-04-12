@@ -43,6 +43,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					category_id: result.category_id,
 					category_name: result.category_name,
 					banner: result.banner,
+					mature: result.mature,
 					urls: {
 						hls: `/live/${result.name}/abr.m3u8`,
 						flv: `/live/${result.name}.flv`
@@ -55,8 +56,6 @@ module.exports = cache(1 * 1000, async (req, res) => {
 						//'360p': '_low',
 						//'240p': '_mobile'
 					},
-					// DEPRECATED - Servers-field (KEEP UNTIL FRONTEND UPDATED)
-					servers: global.nconf.get('server:streaming_servers'),
 					streamServer: result.streamServer,
 					user: {
 						id: result.user_id,

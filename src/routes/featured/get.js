@@ -27,6 +27,7 @@ module.exports = cache(10 * 1000, compose(
 				category_id: item.category_id,
 				category_name: item.category_name,
 				banner: item.banner,
+				mature: item.mature,
 				urls: {
 					hls: `/live/${item.name}/abr.m3u8`,
 					flv: `/live/${item.name}.flv`
@@ -39,8 +40,6 @@ module.exports = cache(10 * 1000, compose(
 					//'360p': '_low',
 					//'240p': '_mobile'
 				},
-				// DEPRECATED - Servers-field (KEEP UNTIL FRONTEND UPDATED)
-				servers: global.nconf.get('server:streaming_servers'),
 				streamServer: item.streamServer,
 				user: {
 					id: item.user_id,
