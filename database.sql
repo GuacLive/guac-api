@@ -185,6 +185,7 @@ CREATE TABLE `clips` (
   `clipper_id` int(11) UNSIGNED NOT NULL,
   `stream_id` int(11) UNSIGNED NOT NULL,
   `video_url` varchar(255) NOT NULL,
+  `uuid` varchar(36) NOT NULL,
   `views` bigint(20),
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(`clip_id`),

@@ -1,6 +1,8 @@
 import {send, json} from 'micro';
 import {compose} from 'micro-hoofs';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import streamModel from '../../models/stream';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
@@ -34,10 +36,18 @@ module.exports = compose(
 					})
 				});
 				const data = await nms.json();
+				const uuid = uuidv4();
 				if(data){
-					await stream.createClip(result.id, `Clipped by ${req.user.name}`, req.user.id, data.url);
+					let clipResult = await stream.createClip(
+						result.id,
+						jsonData.title || `Clipped by ${req.user.name}`,
+						req.user.id,
+						data.url,
+						uuid
+					);
 					return send(res, 200, {
 						statusCode: 200,
+						uuid
 					});
 				}else{
 					return send(res, 500, {
