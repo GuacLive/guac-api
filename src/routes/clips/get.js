@@ -10,7 +10,7 @@ module.exports = compose(
 )(
 	async (req, res) => {
 		// Parse the request URL. Relative URLs require an origin explicitly.
-		const url = new URL(req.url, req.headers.host);
+		const url = new URL(req.url, 'https://' + req.headers.host);
 		// Parse the URL query. The leading '?' has to be removed before this.
 		const query = parseQuery(url.search.substr(1));
 		if(!req.params.name || !USERNAME_REGEX.test(req.params.name)){
