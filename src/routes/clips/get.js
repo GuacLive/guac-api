@@ -6,7 +6,7 @@ import { parse as parseQuery } from 'querystring';
 
 import streamModel from '../../models/stream';
 
-import { USERNAME_REGEX } from 'utils';
+import { USERNAME_REGEX } from '../../utils';
 
 module.exports = compose(
 )(
