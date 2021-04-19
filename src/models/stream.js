@@ -101,6 +101,25 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getClips(name, page) {
+		return new Promise((resolve, reject) => {
+			dbInstance('clips')
+			.where({
+				'u1.username': name
+			})
+			.orderBy('clip_id', 'desc')
+			.paginate({
+				perPage: 25,
+				currentPage: page,
+				isLengthAware: true
+			})
+			.join('stream as s1', 's1.id', '=', 'clips.stream_id')
+			.join('users as u1', 'u1.user_id', '=', 'clips.clipper_id')
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getChannels(only = []) {
 		let where = {
 			'private': 0

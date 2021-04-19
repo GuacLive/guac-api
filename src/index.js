@@ -176,6 +176,7 @@ module.exports = router()(
 	get('/user/subscriptions', middleware(require('./routes/user/subscriptions'))),
 	get('/edges', middleware(require('./routes/edges/get'))),
 	get('/categories', middleware(require('./routes/categories/get'))),
+	get('/clips/:name', middleware(require('./routes/clips/get'))),
 	get('/channels', middleware(require('./routes/channels/get'))),
 	get('/streaming', middleware(require('./routes/streaming/get'))),
 	get('/streamConfig/:name', middleware(require('./routes/streamConfig/get'))),
