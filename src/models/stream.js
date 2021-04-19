@@ -103,18 +103,21 @@ class Stream {
 	}
 	getClips(name, page) {
 		return new Promise((resolve, reject) => {
-			dbInstance('clips')
+			let inst = dbInstance('clips')
+			.select('clips.*', 'su1.username AS name', 'u1.username AS clipper_name')
+			.orderBy('clip_id', 'desc')
 			.where({
 				'u1.username': name
 			})
-			.orderBy('clip_id', 'desc')
+			.join('stream as s1', 's1.id', '=', 'clips.stream_id')
+			.join('users as su1', 'su1.user_id', '=', 's1.user_id')
+			.join('users as u1', 'u1.user_id', '=', 'clips.clipper_id');
+			inst
 			.paginate({
 				perPage: 25,
 				currentPage: page,
 				isLengthAware: true
 			})
-			.join('stream as s1', 's1.id', '=', 'clips.stream_id')
-			.join('users as u1', 'u1.user_id', '=', 'clips.clipper_id')
 			.debug(true)
 			.then(resolve)
 			.catch(reject);
