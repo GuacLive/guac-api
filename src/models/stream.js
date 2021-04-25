@@ -104,7 +104,7 @@ class Stream {
 	getClip(uuid) {
 		return new Promise((resolve, reject) => {
 			dbInstance('clips')
-			.select('clips.*', 'su1.username AS name', 'u1.username AS clipper_name')
+			.select('clips.*', 's1.type AS stream_type', 'u1.user_id AS clipper_id',  'su1.user_id AS streamer_id', 'su1.username AS stream_name', 'u1.username AS clipper_name')
 			.orderBy('clip_id', 'desc')
 			.where({
 				'clips.uuid': uuid
