@@ -101,6 +101,22 @@ class Stream {
 			.catch(reject);
 		});
 	}
+	getClip(uuid) {
+		return new Promise((resolve, reject) => {
+			dbInstance('clips')
+			.select('clips.*', 'su1.username AS name', 'u1.username AS clipper_name')
+			.orderBy('clip_id', 'desc')
+			.where({
+				'clips.uuid': uuid
+			})
+			.join('stream as s1', 's1.id', '=', 'clips.stream_id')
+			.join('users as su1', 'su1.user_id', '=', 's1.user_id')
+			.join('users as u1', 'u1.user_id', '=', 'clips.clipper_id');
+			.debug(true)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 	getClips(name, page) {
 		return new Promise((resolve, reject) => {
 			let inst = dbInstance('clips')
