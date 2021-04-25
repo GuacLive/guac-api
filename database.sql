@@ -282,7 +282,12 @@ ALTER TABLE `stream`
 ALTER TABLE `stream`
   ADD COLUMN `mature` boolean not null default 0;
 
-
+ALTER TABLE `clips`
+  ADD COLUMN `category` int(11) UNSIGNED not null default 0;
+  
+ALTER TABLE `clips`
+  ADD CONSTRAINT `clips_ibfk_3` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
+  
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

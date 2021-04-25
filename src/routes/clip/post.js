@@ -43,7 +43,8 @@ module.exports = compose(
 						jsonData.title || `Clipped by ${req.user.name}`,
 						req.user.id,
 						data.url,
-						uuid
+						uuid,
+						result.category
 					);
 					return send(res, 200, {
 						statusCode: 200,

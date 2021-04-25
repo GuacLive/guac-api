@@ -333,7 +333,7 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	createClip(stream_id, clip_name, clipper_id, video_url, uuid){
+	createClip(stream_id, clip_name, clipper_id, video_url, uuid, category = 0){
 		return new Promise((resolve, reject) => {
 			dbInstance('clips')
 			.insert({
@@ -341,7 +341,8 @@ class Stream {
 				clip_name,
 				clipper_id,
 				video_url,
-				uuid
+				uuid,
+				category
 			}, 'clips.clip_id')
 			.debug(true)
 			.then(async (data) => {
