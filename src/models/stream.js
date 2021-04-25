@@ -113,6 +113,7 @@ class Stream {
 			.join('users as su1', 'su1.user_id', '=', 's1.user_id')
 			.join('users as u1', 'u1.user_id', '=', 'clips.clipper_id')
 			.debug(true)
+			.first()
 			.then(resolve)
 			.catch(reject);
 		});
