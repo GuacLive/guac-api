@@ -124,7 +124,7 @@ class Stream {
 			.select('clips.*', 'su1.username AS name', 'u1.username AS clipper_name')
 			.orderBy('clip_id', 'desc')
 			.where({
-				'u1.username': name
+				'su1.username': name
 			})
 			.join('stream as s1', 's1.id', '=', 'clips.stream_id')
 			.join('users as su1', 'su1.user_id', '=', 's1.user_id')
