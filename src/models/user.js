@@ -216,6 +216,7 @@ class User {
 				'users.banned',
 				dbInstance.raw('HEX(users.color) as color'),
 			)
+			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.then(resolve)
 			.catch(reject);
 		});
