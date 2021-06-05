@@ -164,7 +164,7 @@ module.exports = router()(
 	get('/users/:id', middleware(require('./routes/users/user'))),
 	get('/users', middleware(require('./routes/users/list'))),
 	// Auth username API (used to check if username available)
-	get('/auth/username/:username', middlewarre(equire('./routes/auth/username'))),
+	get('/auth/username/:username', middleware(equire('./routes/auth/username'))),
 	// Activitypub API
 	get('/actor/:username', middleware(require('./routes/actor/get'))),
 	// To get users currently banned
