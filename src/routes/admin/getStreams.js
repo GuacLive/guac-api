@@ -20,7 +20,17 @@ module.exports = compose(
                 'Content-Type': 'application/json'
             }
         });
-        const data = await nms.json();
+        var data = await nms.json();
+        if(data.data.live){
+            data.data.live = data.data.live.map(d => {
+                // Hide IP if not admin
+                if(req.user.type !== 'admin'){
+                    delete d.publisher.ip;
+                }
+                return d;
+            });
+
+        }
           
 		return send(res, 200, {
             statusCode: 200,
