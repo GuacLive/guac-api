@@ -21,8 +21,8 @@ module.exports = compose(
             }
         });
         var data = await nms.json();
-        if(data.data.live){
-            data.data.live = data.data.live.map(d => {
+        if(data.live){
+            data.live = data.live.map(d => {
                 // Hide IP if not admin
                 if(req.user.type !== 'admin'){
                     delete d.publisher.ip;
