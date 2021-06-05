@@ -3,7 +3,11 @@ import { compose } from 'micro-hoofs';
 
 import userModel from '../../models/user';
 
+import verifyJWTKey from '../../services/verifyJWTKey';
+import verifyUserStaff from '../../services/verifyUserStaff';
 module.exports = compose(
+	verifyJWTKey,
+	verifyUserStaff
 )(
 	async (req, res) => {
 		const user = new userModel;	
