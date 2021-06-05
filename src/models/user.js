@@ -199,6 +199,28 @@ class User {
 		});
 	}
 
+	getBanned() {
+		return new Promise((resolve, reject) => {
+			dbInstance('users').where({
+				banned: true
+			})
+			.debug(true)
+			.select(
+				'users.user_id',
+				'users.email',
+				'users.activated',
+				'users.username',
+				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
+				'users.type',
+				'users.avatar',
+				'users.banned',
+				dbInstance.raw('HEX(users.color) as color'),
+			)
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+
 	addUser(username, email, password) {
 		return new Promise(async (resolve, reject) => {
 			const salt = await bcrypt.genSalt(10);
