@@ -104,7 +104,7 @@ CREATE TABLE `stream_panels` (
   `panel_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
   `title` varchar(100) NULL,
-  `description` varchar(255) NOT NULL,
+  `description` TEXT NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY(`panel_id`),
    FOREIGN KEY(`user_id`) REFERENCES users(`user_id`)
@@ -288,6 +288,12 @@ ALTER TABLE `clips`
 ALTER TABLE `clips`
   ADD CONSTRAINT `clips_ibfk_3` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`);
   
+
+
+ALTER TABLE `stream_panels`
+  MODIFY `description` TEXT  COLLATE utf8mb4_unicode_ci NOT NULL;
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
