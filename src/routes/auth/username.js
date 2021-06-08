@@ -13,6 +13,7 @@ module.exports = compose(
 			send(res, 200, {
 				statusCode: 200,
 				user: {
+					user_id: user.user_id,
 					name: user.username,
 					banned: user.banned,
 					activated: user.activated,
