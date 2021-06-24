@@ -117,7 +117,7 @@ module.exports = compose(
 
 					const msg = new MessageBuilder()
 						.setTitle(result.title)
-						.setName(result.name)
+						.setAuthor(result.name)
 						.setDescription('Just went live on guac')
 						.setUrl('https://guac.live/c/' + result.name)
 						.setImage(result.thumbnail)
