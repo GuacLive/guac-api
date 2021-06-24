@@ -119,9 +119,9 @@ module.exports = compose(
 						.setTitle(result.title)
 						.setAuthor(result.name)
 						.setDescription('Just went live on guac')
-						.setUrl('https://guac.live/c/' + result.name)
+						.setURL('https://guac.live/c/' + result.name)
 						.setImage(result.thumbnail)
-						.setTime();
+						.setTimestamp();
 					
 					Hook.send(msg);
 				});
