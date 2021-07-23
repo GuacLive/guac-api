@@ -14,6 +14,6 @@ module.exports = compose(
 		return send(res, 200, {
 			statusCode: 200,
 			data: data || []
-		);
+		});
 	}
 );
