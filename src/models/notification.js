@@ -6,7 +6,7 @@ const CACHE_TIME = 60; // time to cache, in seconds
 class Notification {
 	getNotifications(user_id, page = 1) {
 		return new Promise(async (resolve, reject) => {
-			if(redis.get(`notifications:${user_id}`)){
+			if(redis.get(`notifications:${user_id}:${page}`)){
 				resolve(JSON.parse(await redis.get(`notifications:${user_id}:${page}`)));
 			}else{
 				dbInstance('notifications')
