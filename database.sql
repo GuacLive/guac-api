@@ -194,6 +194,29 @@ CREATE TABLE `clips` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+CREATE TABLE `notifications` (
+  `notification_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `from_user_id` int(11) UNSIGNED NULL DEFAULT NULL,
+  `action` varchar(255) NULL DEFAULT NULL,
+  `message` varchar(255) NULL DEFAULT NULL,
+  `rendered` varchar(255) NULL DEFAULT NULL,
+  `item_type` varchar(255) NULL DEFAULT NULL,
+  `item_id` varchar(255) NULL DEFAULT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+	`created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL,
+   PRIMARY KEY(`notification_id`) USING BTREE,
+   FOREIGN KEY(`user_id`) REFERENCES users(`user_id`),
+   FOREIGN KEY(`from_user_id`) REFERENCES users(`user_id`),
+   
+    INDEX `notifications_user_id_index` (`user_id`) USING BTREE,
+    INDEX `notifications_created_at_index` (`created_at`) USING BTREE,
+    INDEX `notifications_from_user_id_index` (`from_user_id`) USING BTREE,
+    INDEX `notifications_deleted_at_index` (`deleted_at`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 ALTER TABLE `users` ADD `activated` BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE `channel_bans`

@@ -188,6 +188,7 @@ module.exports = router()(
 	get('/getArchive/:id', middleware(require('./routes/archive/id'))),
 	get('/product/:name', corsMiddleware(middleware(require('./routes/product/get')))),
 	get('/watch/:name', middleware(require('./routes/watch/get'))),
+	get('/notifications', middleware(require('./routes/notifications/get'))),
 	get('/messages/:name', middleware(require('./routes/messages/get'))),
 	get('/', middleware(require('./routes/index/get'))),
 	get('/*', notfound),
