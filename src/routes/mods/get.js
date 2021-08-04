@@ -18,8 +18,8 @@ module.exports = compose(
 		const channel = new channelModel;
 		const stream = new streamModel;
 		const streamResult = await stream.getStream(req.params.name);
-		if (streamResult && streamResult.user_id) {
-			const result = await channel.getMods(streamResult.user_id);
+		if (streamResult && streamResult.id) {
+			const result = await channel.getMods(streamResult.id);
 			send(res, 200, {
 				statusCode: 200,
 				...result
