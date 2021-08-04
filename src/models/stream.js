@@ -528,7 +528,7 @@ class Stream {
 					id: streamId
 				},
 				data: {
-					time: new Date().toISOString().slice(0, 19).replace('T', ' ');
+					time: new Date().toISOString().slice(0, 19).replace('T', ' ')
 				}
 			})
 			.then(resolve)
