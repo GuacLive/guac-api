@@ -41,16 +41,18 @@ class User {
 	}
 	getLastBan(user_id = null){
 		return new Promise((resolve, reject) => {
-			dbInstance('bans').where({
-				'user_id': user_id
+			prisma.bans.findMany({
+				where: {
+					user_id: user_id
+				},
+				select: {
+					reason: true,
+					time: true
+				},
+				orderBy: [{
+					ban_id: 'desc'
+				}]
 			})
-			.debug(true)
-			.select(
-				'reason',
-				'time'
-			)
-			.orderBy('ban_id', 'desc')
-			.first()
 			.then(resolve)
 			.catch(reject);
 		});
@@ -105,7 +107,50 @@ class User {
 	}
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
+			const query =
+				'select `users`.`user_id`,\
+				\`users`.`email`,\
+				`users`.`activated`,\
+				\`users`.`username`,\
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+				`users`.`type`, `users`.`avatar`,\
+				`users`.`banned`,\
+				`users`.`publicKey`,\
+				HEX(users.color) as color,\
+				`users`.`patreon` from `users`\
+				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+				where `users`.`user_id` = ? limit ?';
+			prisma.$queryRaw(query, id, 1)
+				.then(resolve)
+				.catch(reject);
+			/*prisma.users.findMany({
+				where: {
+					user_id: id
+				},
+				select: {
+					user_id: true,
+					email: true,
+					activated: true,
+					username: true,
+					type: true,
+					avatar: true,
+					banned: true,
+					publickey: true,
+					patreon: true,
+					color: true,
+					stream: {
+						select: {
+							user_id: true
+						},
+					}
+				}
+			})
+			.then(res => {
+				res.can_stream = res.stream && res.stream.user_id;
+				resolve(res);
+			})
+			.catch(reject);*/
+			/*dbInstance('users').where({
 				'users.user_id': id
 			})
 			.debug(true)
@@ -125,84 +170,70 @@ class User {
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(resolve)
-			.catch(reject);
+			.catch(reject);*/
 		});
 	}
 
 	getUserByEmail(email) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users')
-			.where(
-			  dbInstance.raw('LOWER(users.email) = ?', [email])
-			)
-			.debug(true)
-			.select(
-				'users.user_id',
-				'users.email',
-				'users.activated',
-				'users.username',
-				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type',
-				'users.avatar',
-				'users.banned',
-				'users.publicKey',
-				dbInstance.raw('HEX(users.color) as color'),
-			)
-			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
-			.first()
-			.then(resolve)
-			.catch(reject);
+			const query =
+				'select `users`.`user_id`,\
+				\`users`.`email`,\
+				`users`.`activated`,\
+				\`users`.`username`,\
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+				`users`.`type`, `users`.`avatar`,\
+				`users`.`banned`,\
+				`users`.`publicKey`,\
+				HEX(users.color) as color,\
+				`users`.`patreon` from `users`\
+				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+				where LOWER(users.email) = ? limit ?';
+			prisma.$queryRaw(query, email, 1)
+				.then(resolve)
+				.catch(reject);
 		});
 	}
 
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
-				'users.username': username
-			})
-			.debug(true)
-			.select(
-				'users.user_id',
-				'users.email',
-				'users.activated',
-				'users.username',
-				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type',
-				'users.avatar',
-				'users.banned',
-				'users.publicKey',
-				dbInstance.raw('HEX(users.color) as color'),
-			)
-			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
-			.first()
-			.then(resolve)
-			.catch(reject);
+			const query =
+				'select `users`.`user_id`,\
+					\`users`.`email`,\
+					`users`.`activated`,\
+					\`users`.`username`,\
+					IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+					`users`.`type`, `users`.`avatar`,\
+					`users`.`banned`,\
+					`users`.`publicKey`,\
+					HEX(users.color) as color,\
+					`users`.`patreon` from `users`\
+					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+					where username = ? limit ?';
+			prisma.$queryRaw(query, username, 1)
+				.then(resolve)
+				.catch(reject);
 		});
 	}
 
 	getUserByUsername_lower(username) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users')
-			.where(
-			  dbInstance.raw('LOWER(users.username) = ?', [username])
-			)
-			.debug(true)
-			.select(
-				'users.user_id',
-				'users.email',
-				'users.activated',
-				'users.username',
-				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type',
-				'users.avatar',
-				'users.banned',
-				'users.publicKey',
-				dbInstance.raw('HEX(users.color) as color'),
-			)
-			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
-			.first()
-			.then(resolve)
-			.catch(reject);
+			const query =
+				'select `users`.`user_id`,\
+					\`users`.`email`,\
+					`users`.`activated`,\
+					\`users`.`username`,\
+					IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+					`users`.`type`, `users`.`avatar`,\
+					`users`.`banned`,\
+					`users`.`publicKey`,\
+					HEX(users.color) as color,\
+					`users`.`patreon` from `users`\
+					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+					where LOWER(users.username) = ? limit ?';
+			prisma.$queryRaw(query, username, 1)
+				.then(resolve)
+				.catch(reject);
 		});
 	}
 
