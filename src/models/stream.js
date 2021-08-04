@@ -1,14 +1,17 @@
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 class Stream {
 	getTotal(){
 		return new Promise((resolve, reject) => {
-			dbInstance('stream')
-			.count('id AS count')
-			.first()
-			.debug(true)
-			.then(total => {
-				console.log('stream total', total);
-				resolve(total.count);
+			prisma.stream.aggregate({
+				_count: {
+				  id: true,
+				},
+			  })
+			.then((result) => {
+				console.log('stream total', result._count.id);
+				if(result && result._count && result._count.id) return resolve(result._count.id);
+				return resolve(0);
 			})
 			.catch(reject);
 		});
