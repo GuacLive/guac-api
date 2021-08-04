@@ -168,7 +168,7 @@ class Stream {
 			dbInstance('stream')
 			.select(['id', 'u1.username AS name', 'u1.type', 'u1.avatar', 'u1.banned'])
 			.where({
-				'live': 1,
+				'live': true,
 				'private': 0
 			})
 			.debug(true)
@@ -339,7 +339,7 @@ class Stream {
 			.insert({
 				'user_id': user_id,
 				'private': 0,
-				'live': 0,
+				'live': true,
 				'views': 0,
 				'category': 1,
 				'type': 'NONE',
@@ -500,7 +500,7 @@ class Stream {
 					id: streamId
 				},
 				data: {
-					live: 1
+					live: true
 				}
 			})
 			.then(resolve)
@@ -514,7 +514,7 @@ class Stream {
 					id: streamId
 				},
 				data: {
-					live: 0
+					live: false
 				}
 			})
 			.then(resolve)
@@ -543,7 +543,7 @@ class Stream {
 					id: streamId
 				},
 				data: {
-					private: bool ? 1 : 0
+					private: bool
 				}
 			})
 			.then(resolve)

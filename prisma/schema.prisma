@@ -133,9 +133,9 @@ model notifications {
 
 model stream {
   id                 Int                  @id @default(autoincrement()) @db.UnsignedInt
-  private            Boolean
+  private            Boolean              @default(false)
   title              String               @db.VarChar(255)
-  live               String               @db.VarChar(100)
+  live               Boolean              @default(false)
   views              BigInt
   user_id            Int                  @db.UnsignedInt @unique
   category           Int?                 @db.UnsignedInt
