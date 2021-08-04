@@ -22,7 +22,7 @@ module.exports = compose(
 			const result = await channel.getMods(streamResult.id);
 			send(res, 200, {
 				statusCode: 200,
-				...result
+				data: result
 			});
 		} else {
 			send(res, 404, {
