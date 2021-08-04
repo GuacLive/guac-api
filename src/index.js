@@ -76,7 +76,7 @@ function initDb() {
 	const prisma = new PrismaClient({
 		datasources: {
 			db: {
-				url: `mysql://${config.get('database:connection:user')}:${config.get('database:connection:password')}@${config.get('database:connection:host')}:3306/${config.get('database:connection:database')}`,
+				url: `mysql://${nconf.get('database:connection:user')}:${nconf.get('database:connection:password')}@${nconf.get('database:connection:host')}:3306/${nconf.get('database:connection:database')}`,
 			},
 		},
 	})
