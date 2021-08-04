@@ -121,7 +121,9 @@ class User {
 				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
 				where `users`.`user_id` = ? limit ?';
 			prisma.$queryRaw(query, id, 1)
-				.then(resolve)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
 				.catch(reject);
 			/*prisma.users.findMany({
 				where: {
@@ -190,7 +192,9 @@ class User {
 				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
 				where LOWER(users.email) = ? limit ?';
 			prisma.$queryRaw(query, email, 1)
-				.then(resolve)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
 				.catch(reject);
 		});
 	}
@@ -211,7 +215,9 @@ class User {
 					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
 					where username = ? limit ?';
 			prisma.$queryRaw(query, username, 1)
-				.then(resolve)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
 				.catch(reject);
 		});
 	}
@@ -232,7 +238,9 @@ class User {
 					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
 					where LOWER(users.username) = ? limit ?';
 			prisma.$queryRaw(query, username, 1)
-				.then(resolve)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
 				.catch(reject);
 		});
 	}
