@@ -540,7 +540,7 @@ class Stream {
 		return new Promise((resolve, reject) => {
 			prisma.stream.update({
 				where: {
-					user_id: streamId
+					id: streamId
 				},
 				data: {
 					private: bool ? 1 : 0
