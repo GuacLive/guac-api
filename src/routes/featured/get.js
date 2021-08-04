@@ -18,7 +18,7 @@ module.exports = cache(10 * 1000, compose(
 				name: item.name,
 				type: item.stream_type,
 				title: item.title,
-				live: parseInt(item.live, 10),
+				live: item.live,
 				liveAt: item.time,
 				followers: await stream.getStreamFollowCount(item.user_id),
 				viewers: item.live ? await getFromViewerAPI(item.name) : 0,

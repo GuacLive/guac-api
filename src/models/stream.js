@@ -543,7 +543,7 @@ class Stream {
 					id: streamId
 				},
 				data: {
-					private: bool
+					private: !!bool
 				}
 			})
 			.then(resolve)

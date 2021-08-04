@@ -35,7 +35,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					name: result.name,
 					type: result.stream_type,
 					title: result.title,
-					live: parseInt(result.live, 10),
+					live: result.live,
 					liveAt: result.time,
 					followers: await stream.getStreamFollowCount(result.user_id),
 					viewers: result.live ? await getFromViewerAPI(result.name) : 0,
