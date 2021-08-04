@@ -23,9 +23,10 @@ module.exports = cache(1 * 1000, async (req, res) => {
 		console.log(req.params, result);
 		if(result && result.id){
 			const mods = await channel.getMods(result.id);
-			await stream.increaseView(result.id);
 			if(result.banned && result.user_id){
 				lastBan = await user.getLastBan(result.user_id);
+			}else{
+				await stream.increaseView(result.id);
 			}
 			return {
 				statusCode: 200,
