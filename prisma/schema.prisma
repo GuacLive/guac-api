@@ -137,7 +137,7 @@ model stream {
   title              String               @db.VarChar(255)
   live               String               @db.VarChar(100)
   views              BigInt
-  user_id            Int                  @db.UnsignedInt
+  user_id            Int                  @db.UnsignedInt @unique
   category           Int?                 @db.UnsignedInt
   type               String?              @db.VarChar(25)
   time               DateTime?            @db.Timestamp(0)
