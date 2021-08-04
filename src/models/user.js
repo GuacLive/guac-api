@@ -5,16 +5,20 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 class User {
 	getUserFollowingCount(from_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('follows').where({
-				from_id
-			})
-			.count('to_id AS count')
-			.first()
+			prisma.follows.aggregate({
+				where: {
+					from_id
+				},
+				_count: {
+				  to_id: true,
+				},
+			  })
 			.then((result) => {
-				if(result && result.count) return resolve(result.count);
+				if(result && result._count && result._count.to_id) return resolve(result._count.to_id);
 				return resolve(0);
 			})
 			.catch(reject);
@@ -22,12 +26,15 @@ class User {
 	}
 	getTotal(){
 		return new Promise((resolve, reject) => {
-			dbInstance('users')
-			.count('user_id AS count')
-			.first()
-			.then(total => {
-				console.log('user total', total);
-				resolve(total.count);
+			prisma.users.aggregate({
+				_count: {
+				  user_id: true,
+				},
+			  })
+			.then((result) => {
+				console.log('user total', result._count.user_id);
+				if(result && result._count && result._count.user_id) return resolve(result._count.user_id);
+				return resolve(0);
 			})
 			.catch(reject);
 		});

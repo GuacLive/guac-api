@@ -2,6 +2,7 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
+const {PrismaClient} = require('@prisma/client');
 import knexConfiguration from '../knexfile';
 
 const ENV = process.env.NODE_ENV || 'production';
@@ -60,27 +61,39 @@ nconf.defaults({
 //nconf.save();
 
 global.nconf = nconf;
-global.dbInstance = initDb();
-Sentry.init({ dsn: nconf.get('sentry:dsn') });
+global.dbInstance = initLegacyKnex();
+global.prisma = initDb();
+Sentry.init({dsn: nconf.get('sentry:dsn')});
 
-function initDb(){
+function initLegacyKnex() {
 	const knex = require('knex')(knexConfiguration[ENV]);
-	const { attachPaginate } = require('knex-paginate');
+	const {attachPaginate} = require('knex-paginate');
 	attachPaginate();
 	return knex;
 }
 
-import { send } from 'micro';
-import { compose } from 'micro-hoofs';
+function initDb() {
+	const prisma = new PrismaClient({
+		datasources: {
+			db: {
+				url: `mysql://${config.get('database:connection:user')}:${config.get('database:connection:password')}@${config.get('database:connection:host')}:3306/${config.get('database:connection:database')}`,
+			},
+		},
+	})
+	return prisma;
+}
+
+import {send} from 'micro';
+import {compose} from 'micro-hoofs';
 import microCors from 'micro-cors';
-import { router, get, post, del, patch } from 'micro-fork';
+import {router, get, post, del, patch} from 'micro-fork';
 import ratelimit from 'micro-ratelimit2';
-import { handleErrors } from 'micro-boom';
+import {handleErrors} from 'micro-boom';
 import Redis from 'ioredis';
 
 const corsMiddleware = microCors({
-	allowMethods: ['POST','GET','PUT','PATCH','DELETE','OPTIONS'],
-	allowHeaders: [ 'Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin'],
+	allowMethods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+	allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin'],
 	maxAge: 86400,
 	origin: '*',
 	runHandlerOnOptionsRequest: true
@@ -92,7 +105,7 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 	max: 300,
 	duration: 60 * 1000,
 	whitelist: req => {
-		if(req.headers['x-guac-bypass'] === nconf.get('server:whitelist_secret')){
+		if (req.headers['x-guac-bypass'] === nconf.get('server:whitelist_secret')) {
 			return true;
 		}
 		return nconf.get('server:whitelist')
