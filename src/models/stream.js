@@ -536,11 +536,11 @@ class Stream {
 		});
 	}
 	// CURRENT_TIMESTAMP
-	setPrivate(streamId, bool) {
+	setPrivate(userId, bool) {
 		return new Promise((resolve, reject) => {
 			prisma.stream.update({
 				where: {
-					id: streamId
+					user_id: userId
 				},
 				data: {
 					private: !!bool
