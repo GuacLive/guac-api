@@ -2,6 +2,7 @@ import {send} from 'micro';
 import {compose} from 'micro-hoofs';
 
 import channelModel from '../../models/channel';
+import streamModel from '../../models/stream';
 
 import {USERNAME_REGEX} from '../../utils';
 
@@ -14,10 +15,10 @@ module.exports = compose(
 				statusMessage: 'No stream name given'
 			});
 		}
+		const channel = new channelModel;
 		const stream = new streamModel;
 		const streamResult = await stream.getStream(req.params.name);
 		if (streamResult && streamResult.user_id) {
-			const channel = new channelModel;
 			const result = await channel.getMods(streamResult.user_id);
 			send(res, 200, {
 				statusCode: 200,
