@@ -118,10 +118,10 @@ model notifications {
   rendered                                String?   @db.VarChar(255)
   item_type                               String?   @db.VarChar(255)
   item_id                                 String?   @db.VarChar(255)
-  read_at                                 DateTime? @db.Timestamp(0)
-  created_at                              DateTime? @default(now()) @db.Timestamp(0)
-  updated_at                              DateTime? @db.Timestamp(0)
-  deleted_at                              DateTime? @db.Timestamp(0)
+  read_at                                 DateTime?
+  created_at                              DateTime? @default(now())
+  updated_at                              DateTime? @default(now()) @updatedAt
+  deleted_at                              DateTime?
   users_notifications_from_user_idTousers users?    @relation("notifications_from_user_idTousers", fields: [from_user_id], references: [user_id])
   users_notifications_user_idTousers      users     @relation("notifications_user_idTousers", fields: [user_id], references: [user_id])
 
@@ -140,7 +140,7 @@ model stream {
   user_id            Int                  @db.UnsignedInt @unique
   category           Int?                 @db.UnsignedInt
   type               String?              @db.VarChar(25)
-  time               DateTime?            @db.Timestamp(0)
+  time               DateTime?
   banner             String?              @db.VarChar(255)
   streamServer       String?              @default("lon.stream.guac.live") @db.VarChar(255)
   mature             Boolean              @default(false)
@@ -164,7 +164,7 @@ model stream_archives {
   stream     String   @db.VarChar(255)
   thumbnail  String   @db.VarChar(255)
   random     String?  @db.VarChar(40)
-  time       DateTime @default(now()) @db.Timestamp(0)
+  time       DateTime? @default(now())
   streamName String   @db.VarChar(255)
   views      BigInt
   users      users    @relation(fields: [user_id], references: [user_id])
@@ -193,7 +193,7 @@ model stream_panels {
   user_id     Int      @db.UnsignedInt
   title       String?  @db.VarChar(100)
   description String   @db.Text
-  time        DateTime @default(now()) @db.Timestamp(0)
+  time        DateTime? @default(now()) @db.Timestamp(0)
   users       users    @relation(fields: [user_id], references: [user_id])
 
   @@index([user_id], name: "user_id")
