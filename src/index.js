@@ -61,7 +61,7 @@ nconf.defaults({
 	}
 });
 //nconf.save();
-const dbNow = () => dayjs().add(2, 'hour').toDate();
+const dbNow = () => dayjs().substract(2, 'hour').toDate();
 
 global.nconf = nconf;
 global.dbInstance = initLegacyKnex();
@@ -76,27 +76,27 @@ function isPrimitive(val) {
 	}
 	return typeof val !== 'function';
   };
-function subtract2Hours(obj) {
+function add2Hours(obj) {
     if (!obj)
         return;
     for (const key of Object.keys(obj)) {
         const val = obj[key];
         if (val instanceof Date) {
-            obj[key] = dayjs(val).subtract(2, 'hour').toDate();
+            obj[key] = dayjs(val).add(2, 'hour').toDate();
         }
         else if (!isPrimitive(val)) {
-            subtract2Hours(val);
+            add2Hours(val);
         }
     }
 }
 function prismaTimeMod(value) {
     if (value instanceof Date) {
-        return dayjs(value).subtract(2, 'hour').toDate();
+        return dayjs(value).add(2, 'hour').toDate();
     }
     if (isPrimitive(value)) {
         return value;
     }
-    subtract2Hours(value);
+    add2Hours(value);
     return value;
 }
 
