@@ -92,7 +92,7 @@ function prismaTimeMod(value) {
     if (isPrimitive(value)) {
         return value;
     }
-    add2Hours(value);
+    subtract2Hours(value);
     return value;
 }
 
