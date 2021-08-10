@@ -2,6 +2,8 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
+import dayjs from 'dayjs';
+
 const {PrismaClient} = require('@prisma/client');
 import knexConfiguration from '../knexfile';
 
@@ -65,6 +67,30 @@ global.dbInstance = initLegacyKnex();
 global.prisma = initDb();
 Sentry.init({dsn: nconf.get('sentry:dsn')});
 
+function subtract2Hours(obj) {
+    if (!obj)
+        return;
+    for (const key of Object.keys(obj)) {
+        const val = obj[key];
+        if (val instanceof Date) {
+            obj[key] = dayjs(val).subtract(2, 'hour').toDate();
+        }
+        else if (!isPrimitive(val)) {
+            subtract2Hours(val);
+        }
+    }
+}
+function prismaTimeMod(value) {
+    if (value instanceof Date) {
+        return dayjs(value).subtract(2, 'hour').toDate();
+    }
+    if (isPrimitive(value)) {
+        return value;
+    }
+    subtract2Hours(value);
+    return value;
+}
+
 function initLegacyKnex() {
 	const knex = require('knex')(knexConfiguration[ENV]);
 	const {attachPaginate} = require('knex-paginate');
@@ -80,6 +106,10 @@ function initDb() {
 			},
 		},
 	})
+	prisma.$use(async (params, next) => {
+		const result = await next(params);
+		return prismaTimeMod(result);
+	});
 	return prisma;
 }
 
