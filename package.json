@@ -36,6 +36,7 @@
     "babel-plugin-transform-regenerator": "^7.0.0-beta.3",
     "bcrypt": "^5.0.0",
     "core-js": "^3",
+    "dayjs": "^1.10.6",
     "discord-webhook-node": "^1.0.4",
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",

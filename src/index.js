@@ -61,10 +61,13 @@ nconf.defaults({
 	}
 });
 //nconf.save();
+const dbNow = () => dayjs().add(2, 'hour').toDate();
 
 global.nconf = nconf;
 global.dbInstance = initLegacyKnex();
 global.prisma = initDb();
+global.dbNow = dbNow();
+
 Sentry.init({dsn: nconf.get('sentry:dsn')});
 
 function isPrimitive(val) {

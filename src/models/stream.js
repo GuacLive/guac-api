@@ -528,7 +528,7 @@ class Stream {
 					id: streamId
 				},
 				data: {
-					time: new Date()
+					time: global.dbNow()
 				}
 			})
 			.then(resolve)
