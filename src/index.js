@@ -72,7 +72,7 @@ Sentry.init({dsn: nconf.get('sentry:dsn')});
 
 const isPrimitive = (val) => Object(val) !== val;
 
-function subtract2Hours(obj) {
+function add2Hours(obj) {
     if (!obj)
         return;
     for (const key of Object.keys(obj)) {
