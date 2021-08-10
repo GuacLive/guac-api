@@ -14,7 +14,7 @@ module.exports = compose(
 		if(jsonData && jsonData.description){
 			let panel;
 			let userId = req.user.id;
-			let panel_id = jsonData.panel_id;
+			let panel_id = panel_id ? parseInt(jsonData.panel_id, 10) : undefined;
 			let title = jsonData.title;
 			let description = jsonData.description;
 			// If panel is already in database, update it
