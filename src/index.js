@@ -61,7 +61,7 @@ nconf.defaults({
 	}
 });
 //nconf.save();
-const dbNow = () => dayjs().subtract(2, 'hour').toDate();
+const dbNow = () => dayjs().add(2, 'hour').toDate();
 
 global.nconf = nconf;
 global.dbInstance = initLegacyKnex();
@@ -72,22 +72,22 @@ Sentry.init({dsn: nconf.get('sentry:dsn')});
 
 const isPrimitive = (val) => Object(val) !== val;
 
-function add2Hours(obj) {
+function subtract2Hours(obj) {
     if (!obj)
         return;
     for (const key of Object.keys(obj)) {
         const val = obj[key];
         if (val instanceof Date) {
-            obj[key] = dayjs(val).add(2, 'hour').toDate();
+            obj[key] = dayjs(val).subtract(2, 'hour').toDate();
         }
         else if (!isPrimitive(val)) {
-            add2Hours(val);
+            subtract2Hours(val);
         }
     }
 }
 function prismaTimeMod(value) {
     if (value instanceof Date) {
-        return dayjs(value).add(2, 'hour').toDate();
+        return dayjs(value).subtract(2, 'hour').toDate();
     }
     if (isPrimitive(value)) {
         return value;
