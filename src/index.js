@@ -2,7 +2,7 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 const {PrismaClient} = require('@prisma/client');
 import knexConfiguration from '../knexfile';
