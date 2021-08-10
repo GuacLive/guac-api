@@ -61,7 +61,7 @@ nconf.defaults({
 	}
 });
 //nconf.save();
-const dbNow = () => dayjs().substract(2, 'hour').toDate();
+const dbNow = () => dayjs().subtract(2, 'hour').toDate();
 
 global.nconf = nconf;
 global.dbInstance = initLegacyKnex();
