@@ -39,16 +39,17 @@ module.exports = compose(
 						statusMessage: 'This is not your panel'
 					});
 				}
-			}
-			await stream.addPanel(
-				title,
-				description,
-				userId
-			);
-			return send(res, 200, {
-                statusCode: 200,
-                statusMessage: 'Panel updated'
-			});
+			}else{
+				await stream.addPanel(
+					title,
+					description,
+					userId
+				);
+				return send(res, 200, {
+					statusCode: 200,
+					statusMessage: 'Panel updated'
+				});
+		}
 		}else{
 			return send(res, 400, {
 				statusCode: 400,
