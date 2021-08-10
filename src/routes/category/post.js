@@ -10,7 +10,7 @@ module.exports = compose(
 		const jsonData = await json(req);
 		let data;
 		if(typeof jsonData.category_id !== 'undefined'){
-			data = await stream.getCategory(parseInt(jsonData.category_id, 10));
+			data = await stream.getCategory(Number(jsonData.category_id));
 		}else{
 			return send(res, 400, {
 				statusCode: 400,
