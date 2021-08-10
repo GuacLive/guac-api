@@ -2,7 +2,7 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs'
 
 const {PrismaClient} = require('@prisma/client');
 import knexConfiguration from '../knexfile';
@@ -70,12 +70,8 @@ global.dbNow = dbNow;
 
 Sentry.init({dsn: nconf.get('sentry:dsn')});
 
-function isPrimitive(val) {
-	if (typeof val === 'object') {
-	  return val === null;
-	}
-	return typeof val !== 'function';
-  };
+const isPrimitive = (val) => Object(val) !== val;
+
 function add2Hours(obj) {
     if (!obj)
         return;
