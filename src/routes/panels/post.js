@@ -14,20 +14,20 @@ module.exports = compose(
 		if(jsonData && jsonData.description){
 			let panel;
 			let userId = req.user.id;
-			let panel_id = panel_id ? parseInt(jsonData.panel_id, 10) : undefined;
+			let panel_id = jsonData.panel_id;
 			let title = jsonData.title;
 			let description = jsonData.description;
 			// If panel is already in database, update it
 			if(panel_id && (panel = await stream.getPanel(panel_id))){
 				if(panel.user_id === userId){
 					if(jsonData.delete){
-						await stream.deletePanel(panel_id);
+						await stream.deletePanel(parseInt(panel_id, 10));
 						return send(res, 200, {
 							statusCode: 200,
 							statusMessage: 'Panel deleted'
 						});
 					}else{
-						await stream.setPanel(panel_id, title, description);
+						await stream.setPanel(parseInt(panel_id, 10), title, description);
 						return send(res, 200, {
 							statusCode: 200,
 							statusMessage: 'Panel updated'
