@@ -67,6 +67,12 @@ global.dbInstance = initLegacyKnex();
 global.prisma = initDb();
 Sentry.init({dsn: nconf.get('sentry:dsn')});
 
+function isPrimitive(val) {
+	if (typeof val === 'object') {
+	  return val === null;
+	}
+	return typeof val !== 'function';
+  };
 function subtract2Hours(obj) {
     if (!obj)
         return;
