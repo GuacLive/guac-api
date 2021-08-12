@@ -44,6 +44,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					category_id: result.category_id,
 					category_name: result.category_name,
 					banner: result.banner,
+					thumbnail: result.live ? `${result.streamServer}/live/${result.name}/thumbnail.jpg` : null,
 					mature: result.mature,
 					urls: {
 						hls: `/live/${result.name}/abr.m3u8`,
