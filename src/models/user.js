@@ -293,12 +293,14 @@ class User {
 
 	updateKeys(username, publicKey, privateKey) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
-				username
-			})
-			.update({
-				publicKey,
-				privateKey
+			prisma.users.update({
+				where: {
+					username: username
+				},
+				data: {
+					publicKey,
+					privateKey
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -333,11 +335,13 @@ class User {
 
 	unban(user_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
-				user_id
-			})
-			.update({
-				banned: false,
+			prisma.users.update({
+				where: {
+					user_id: user_id
+				},
+				data: {
+					banned: false,
+				}
 			})
 			.then(resolve)
 			.catch(reject);
