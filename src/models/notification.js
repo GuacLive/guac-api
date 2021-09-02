@@ -1,6 +1,7 @@
 import Redis from 'ioredis';
 
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 const redis = new Redis();
 const CACHE_TIME = 60; // time to cache, in seconds
 class Notification {
@@ -33,17 +34,17 @@ class Notification {
 	}
 	addNotification(user_id, from_user_id, action, message, rendered, item_id, item_type) {
 		return new Promise((resolve, reject) => {
-			dbInstance('notifications')
-			.insert({
-				user_id,
-				from_user_id,
-				action,
-				message,
-				rendered,
-				item_id,
-				item_type
+			prisma.notifications.create({
+				data: {
+					user_id,
+					from_user_id,
+					action,
+					message,
+					rendered,
+					item_id,
+					item_type
+				}
 			})
-			.debug(true)
 			.then(async data => {
 				if(!data) resolve(false);
 				await redis.del(`notifications:${user_id}:1`);
