@@ -176,6 +176,8 @@ const sentryMiddleware = fn => {
 			let status = response.statusCode;
 			if (status < 400) status = 500;
 			const err = Boom.boomify(error, {statusCode: status});
+			console.log(
+				Object.assign({}, err.output.payload, err.data && {data: err.data}));
 			send(
 				response,
 				status,
