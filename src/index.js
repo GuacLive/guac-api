@@ -172,7 +172,7 @@ const sentryMiddleware = fn => {
 		try {
 			return await fn(request, response);
 		} catch (error) {
-			Raven.captureException(error);
+			Sentry.captureException(error);
 			let status = response.statusCode;
 			if (status < 400) status = 500;
 			const err = Boom.boomify(error, {statusCode: status});
