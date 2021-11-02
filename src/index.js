@@ -1,6 +1,7 @@
 import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
 
 import dayjs from 'dayjs'
 
@@ -68,32 +69,53 @@ global.dbInstance = initLegacyKnex();
 global.prisma = initDb();
 global.dbNow = dbNow;
 
-Sentry.init({dsn: nconf.get('sentry:dsn')});
+Sentry.init({
+	dsn: nconf.get('sentry:dsn'),
+	integrations: [
+
+		// enable HTTP calls tracing
+
+		new Sentry.Integrations.Http({tracing: true}),
+
+		// enable Express.js middleware tracing
+
+		new Tracing.Integrations.Express({app}),
+
+	],
+
+	// Set tracesSampleRate to 1.0 to capture 100%
+
+	// of transactions for performance monitoring.
+
+	// We recommend adjusting this value in production
+
+	tracesSampleRate: 0.1,
+});
 
 const isPrimitive = (val) => Object(val) !== val;
 
 function subtract2Hours(obj) {
-    if (!obj)
-        return;
-    for (const key of Object.keys(obj)) {
-        const val = obj[key];
-        if (val instanceof Date) {
-            obj[key] = dayjs(val).subtract(2, 'hour').toDate();
-        }
-        else if (!isPrimitive(val)) {
-            subtract2Hours(val);
-        }
-    }
+	if (!obj)
+		return;
+	for (const key of Object.keys(obj)) {
+		const val = obj[key];
+		if (val instanceof Date) {
+			obj[key] = dayjs(val).subtract(2, 'hour').toDate();
+		}
+		else if (!isPrimitive(val)) {
+			subtract2Hours(val);
+		}
+	}
 }
 function prismaTimeMod(value) {
-    if (value instanceof Date) {
-        return dayjs(value).subtract(2, 'hour').toDate();
-    }
-    if (isPrimitive(value)) {
-        return value;
-    }
-    subtract2Hours(value);
-    return value;
+	if (value instanceof Date) {
+		return dayjs(value).subtract(2, 'hour').toDate();
+	}
+	if (isPrimitive(value)) {
+		return value;
+	}
+	subtract2Hours(value);
+	return value;
 }
 
 function initLegacyKnex() {
