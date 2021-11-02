@@ -1,7 +1,8 @@
 import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
-import * as Tracing from '@sentry/tracing';
+
+import Boom from '@hapi/boom';
 
 import dayjs from 'dayjs'
 
@@ -166,9 +167,26 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 	}
 });
 
+const sentryMiddleware = async function sentryMiddleware(request, response) {
+	try {
+		return await fn(request, response);
+	} catch (error) {
+		Raven.captureException(error);
+		let status = response.statusCode;
+		if (status < 400) status = 500;
+		const err = Boom.boomify(error, {statusCode: status});
+		send(
+			response,
+			status,
+			Object.assign({}, err.output.payload, err.data && {data: err.data})
+		);
+	}
+};
+
 const middleware = compose(...[
 	//handleErrors,
 	corsMiddleware,
+	sentryMiddleware,
 	//rateLimitMiddleware,
 ]);
 
