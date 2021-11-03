@@ -195,7 +195,10 @@ const middleware = compose(...[
 ]);
 
 const notfound = async (req, res) => {
-	send(res, 404, await Promise.resolve('Not found route'))
+	send(res, 404, await Promise.resolve({
+		statusCode: 404,
+		statusMessage: 'Route not found'
+	}))
 };
 
 module.exports = router()(
