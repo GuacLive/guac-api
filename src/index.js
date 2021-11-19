@@ -11,6 +11,9 @@ import knexConfiguration from '../knexfile';
 
 const ENV = process.env.NODE_ENV || 'production';
 
+var utc = require('dayjs/plugin/utc')
+dayjs.extend(utc)
+
 nconf.argv().env();
 nconf.file('default', path.join('config', path.sep, `${ENV}.json`));
 nconf.set('base_dir', __dirname);
@@ -63,7 +66,7 @@ nconf.defaults({
 	}
 });
 //nconf.save();
-const dbNow = () => dayjs().toDate();
+const dbNow = () => dayjs().utc().format();
 
 global.nconf = nconf;
 global.dbInstance = initLegacyKnex();
@@ -132,7 +135,8 @@ function initDb() {
 	})
 	prisma.$use(async (params, next) => {
 		const result = await next(params);
-		return prismaTimeMod(result);
+		//return prismaTimeMod(result);
+		return result;
 	});
 	return prisma;
 }
