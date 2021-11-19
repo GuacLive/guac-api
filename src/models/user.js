@@ -41,7 +41,7 @@ class User {
 	}
 	getLastBan(user_id = null){
 		return new Promise((resolve, reject) => {
-			prisma.bans.findMany({
+			prisma.bans.findFirst({
 				where: {
 					user_id: user_id
 				},
