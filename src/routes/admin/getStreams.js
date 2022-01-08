@@ -21,11 +21,11 @@ module.exports = compose(
             }
         });
         var data = await nms.json();
-        if(data.live){
+        if(data && data.live){
             data.live = Object.keys(data.live).map(d => {
                 // Hide IP if not admin
                 if(req.user.type !== 'admin'){
-                    delete d.publisher.ip;
+                    if(d && d.publisher) delete d.publisher.ip;
                 }
                 return d;
             });
