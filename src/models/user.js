@@ -371,7 +371,7 @@ class User {
 			.then(async (data) => {
 				if(!data) resolve(false);
 				let match = false;
-				if (user.password.startsWith('$2')) {
+				if (data.password.startsWith('$2')) {
 					match = await bcrypt.compare(password, data.password);
 				} else {
 					match = await argon2.verify(data.password, password);
