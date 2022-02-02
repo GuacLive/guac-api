@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
 const randtoken = require('rand-token');
+const argon2 = require('argon2');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
@@ -369,7 +370,13 @@ class User {
 			.first()
 			.then(async (data) => {
 				if(!data) resolve(false);
-				const match = await bcrypt.compare(password, data.password);
+				let match = false;
+				if (user.password.startsWith('$2')) {
+					match = await bcrypt.compare(password, data.password);
+				} else {
+					match = await argon2.verify(data.password, password);
+				}
+
 				if(match){
 					resolve({
 						'user_id': data.user_id,
