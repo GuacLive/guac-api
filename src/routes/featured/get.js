@@ -10,7 +10,7 @@ module.exports = cache(10 * 1000, compose(
 	async (req, res) => {
 		const stream = new streamModel;
 		const results = await stream.getFeatured();
-		const allViewers = item.live ? await getAllFromViewerAPI() : [];
+		const allViewers = await getAllFromViewerAPI();
 		const data = await Promise.all(results.map(async (item) => {
 			//await stream.increaseView(item.id);
 			const viewers = allViewers.find(viewer => viewer.username === item.name);
