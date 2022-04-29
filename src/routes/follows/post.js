@@ -5,7 +5,7 @@ import channelModel from '../../models/channel';
 
 import verifyJWTKey from '../../services/optionalJWT';
 
-import { getFromViewerAPI } from '../../utils';
+import { getAllFromViewerAPI } from '../../utils';
 module.exports = compose(
 	verifyJWTKey
 )(
@@ -26,14 +26,13 @@ module.exports = compose(
 			});
 		}
 
+		const allViewers =  await getAllFromViewerAPI();
+
 		result = await Promise.all(result.map(async (r) => {
+			const viewers = allViewers.find(viewer => viewer.username === r.name);
 			if(r){
 				r.avatar = r.avatar || `${global.nconf.get('s3:cdn_endpoint')}/profile-avatars/offline-avatar.png`;
-				if(r.live){
-					r.viewers = await getFromViewerAPI(r.username);
-				}else{
-					r.viewers = 0;
-				}
+				r.viewers = viewers ?? 0;
 			}
 			return r;
 		}));
