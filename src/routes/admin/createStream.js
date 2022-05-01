@@ -31,6 +31,12 @@ module.exports = compose(
 				u = await user.getUserByUsername_lower(jsonData.username);
 			}
 			if(!u) return;
+			if (u && u.can_stream) {
+				return send(res, 409 , {
+					statusCode: 409,
+					statusMessage: 'Stream already exists'
+				});
+			}
 			let streamResult = await stream.create(u.user_id);
 			if (streamResult) {
 				let key = crypto.randomBytes(20).toString('hex');

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `stream_panels` MODIFY `time` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3);

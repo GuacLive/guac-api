@@ -1,4 +1,5 @@
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 class Device {
 	getFollowTokens(to_id) {
 		return new Promise((resolve, reject) => {
@@ -25,27 +26,27 @@ class Device {
 	}
 	tokenExists(token) {
 		return new Promise((resolve, reject) => {
-			dbInstance('devices')
-			.where({
-				'token': token
+			prisma.devices.findUnique({
+				where: {
+					'token': token
+				},
 			})
-			.limit(1)
-			.debug(true)
+			.then(resolve)
 			.then((data) => {
-				resolve(data.length > 0);
+				resolve(!!data);
 			})
 			.catch(reject);
 		});
 	}
 	addToken(userId, token, deviceType = 'web') {
 		return new Promise((resolve, reject) => {
-			dbInstance('devices')
-			.insert({
-				'user_id': userId,
-				'token': token,
-				'type': deviceType
+			prisma.devices.create({
+				data: {
+					'user_id': userId,
+					'token': token,
+					'type': deviceType
+				}
 			})
-			.debug(true)
 			.then(resolve)
 			.catch(reject);
 		});

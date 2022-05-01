@@ -23,9 +23,10 @@ module.exports = cache(1 * 1000, async (req, res) => {
 		console.log(req.params, result);
 		if(result && result.id){
 			const mods = await channel.getMods(result.id);
-			await stream.increaseView(result.id);
 			if(result.banned && result.user_id){
 				lastBan = await user.getLastBan(result.user_id);
+			}else{
+				await stream.increaseView(result.id);
 			}
 			return {
 				statusCode: 200,
@@ -34,7 +35,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					name: result.name,
 					type: result.stream_type,
 					title: result.title,
-					live: parseInt(result.live, 10),
+					live: result.live,
 					liveAt: result.time,
 					followers: await stream.getStreamFollowCount(result.user_id),
 					viewers: result.live ? await getFromViewerAPI(result.name) : 0,
@@ -43,6 +44,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					category_id: result.category_id,
 					category_name: result.category_name,
 					banner: result.banner,
+					thumbnail: result.live ? `${result.streamServer}/live/${result.name}/thumbnail.jpg` : null,
 					mature: result.mature,
 					urls: {
 						hls: `/live/${result.name}/abr.m3u8`,

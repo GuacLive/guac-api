@@ -2,9 +2,17 @@ import path from 'path';
 import nconf from 'nconf';
 import * as Sentry from '@sentry/node';
 
+import Boom from '@hapi/boom';
+
+import dayjs from 'dayjs'
+
+const {PrismaClient} = require('@prisma/client');
 import knexConfiguration from '../knexfile';
 
 const ENV = process.env.NODE_ENV || 'production';
+
+var utc = require('dayjs/plugin/utc')
+dayjs.extend(utc)
 
 nconf.argv().env();
 nconf.file('default', path.join('config', path.sep, `${ENV}.json`));
@@ -58,29 +66,92 @@ nconf.defaults({
 	}
 });
 //nconf.save();
+const dbNow = () => dayjs().utc().format();
 
 global.nconf = nconf;
-global.dbInstance = initDb();
-Sentry.init({ dsn: nconf.get('sentry:dsn') });
+global.dbInstance = initLegacyKnex();
+global.prisma = initDb();
+global.dbNow = dbNow;
 
-function initDb(){
+Sentry.init({
+	dsn: nconf.get('sentry:dsn'),
+	integrations: [
+
+		// enable HTTP calls tracing
+
+		new Sentry.Integrations.Http({tracing: true}),
+
+	],
+
+	// Set tracesSampleRate to 1.0 to capture 100%
+
+	// of transactions for performance monitoring.
+
+	// We recommend adjusting this value in production
+
+	tracesSampleRate: 0.1,
+});
+
+const isPrimitive = (val) => Object(val) !== val;
+
+function subtract2Hours(obj) {
+	if (!obj)
+		return;
+	for (const key of Object.keys(obj)) {
+		const val = obj[key];
+		if (val instanceof Date) {
+			obj[key] = dayjs(val).subtract(2, 'hour').toDate();
+		}
+		else if (!isPrimitive(val)) {
+			subtract2Hours(val);
+		}
+	}
+}
+function prismaTimeMod(value) {
+	if (value instanceof Date) {
+		return dayjs(value).subtract(2, 'hour').toDate();
+	}
+	if (isPrimitive(value)) {
+		return value;
+	}
+	subtract2Hours(value);
+	return value;
+}
+
+function initLegacyKnex() {
 	const knex = require('knex')(knexConfiguration[ENV]);
-	const { attachPaginate } = require('knex-paginate');
+	const {attachPaginate} = require('knex-paginate');
 	attachPaginate();
 	return knex;
 }
 
-import { send } from 'micro';
-import { compose } from 'micro-hoofs';
+function initDb() {
+	const prisma = new PrismaClient({
+		datasources: {
+			db: {
+				url: `mysql://${nconf.get('database:connection:user')}:${nconf.get('database:connection:password')}@${nconf.get('database:connection:host')}:3306/${nconf.get('database:connection:database')}`,
+			},
+		},
+	})
+	prisma.$use(async (params, next) => {
+		const result = await next(params);
+		//return prismaTimeMod(result);
+		return result;
+	});
+	return prisma;
+}
+
+import {send} from 'micro';
+import {compose} from 'micro-hoofs';
 import microCors from 'micro-cors';
-import { router, get, post, del, patch } from 'micro-fork';
+import {router, get, post, del, patch} from 'micro-fork';
 import ratelimit from 'micro-ratelimit2';
-import { handleErrors } from 'micro-boom';
+import {handleErrors} from 'micro-boom';
 import Redis from 'ioredis';
 
 const corsMiddleware = microCors({
-	allowMethods: ['POST','GET','PUT','PATCH','DELETE','OPTIONS'],
-	allowHeaders: [ 'Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin'],
+	allowMethods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+	allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin'],
 	maxAge: 86400,
 	origin: '*',
 	runHandlerOnOptionsRequest: true
@@ -92,7 +163,7 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 	max: 300,
 	duration: 60 * 1000,
 	whitelist: req => {
-		if(req.headers['x-guac-bypass'] === nconf.get('server:whitelist_secret')){
+		if (req.headers['x-guac-bypass'] === nconf.get('server:whitelist_secret')) {
 			return true;
 		}
 		return nconf.get('server:whitelist')
@@ -100,14 +171,38 @@ const rateLimitMiddleware = ratelimit.bind(ratelimit, {
 	}
 });
 
+const sentryMiddleware = fn => {
+	return async function sentryMiddleware(request, response) {
+		try {
+			return await fn(request, response);
+		} catch (error) {
+			Sentry.captureException(error);
+			let status = response?.statusCode ?? 500;
+			if (status < 400) status = 500;
+			const err = Boom.boomify(error, {statusCode: status});
+			console.log(
+				Object.assign({}, err.output.payload, err.data && {data: err.data}));
+			send(
+				response,
+				status,
+				Object.assign({}, err.output.payload, err.data && {data: err.data})
+			);
+		}
+	}
+}
+
 const middleware = compose(...[
 	//handleErrors,
 	corsMiddleware,
+	sentryMiddleware,
 	//rateLimitMiddleware,
 ]);
 
 const notfound = async (req, res) => {
-	send(res, 404, await Promise.resolve('Not found route'))
+	send(res, 404, await Promise.resolve({
+		statusCode: 404,
+		statusMessage: 'Route not found'
+	}))
 };
 
 module.exports = router()(
@@ -187,6 +282,7 @@ module.exports = router()(
 	get('/archive/:name', middleware(require('./routes/archive/get'))),
 	get('/getArchive/:id', middleware(require('./routes/archive/id'))),
 	get('/product/:name', corsMiddleware(middleware(require('./routes/product/get')))),
+	get('/mods/:name', middleware(require('./routes/mods/get'))),
 	get('/watch/:name', middleware(require('./routes/watch/get'))),
 	get('/notifications', middleware(require('./routes/notifications/get'))),
 	get('/messages/:name', middleware(require('./routes/messages/get'))),

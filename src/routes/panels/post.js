@@ -21,13 +21,13 @@ module.exports = compose(
 			if(panel_id && (panel = await stream.getPanel(panel_id))){
 				if(panel.user_id === userId){
 					if(jsonData.delete){
-						await stream.deletePanel(panel_id);
+						await stream.deletePanel(parseInt(panel_id, 10));
 						return send(res, 200, {
 							statusCode: 200,
 							statusMessage: 'Panel deleted'
 						});
 					}else{
-						await stream.setPanel(panel_id, title, description);
+						await stream.setPanel(parseInt(panel_id, 10), title, description);
 						return send(res, 200, {
 							statusCode: 200,
 							statusMessage: 'Panel updated'
@@ -39,16 +39,17 @@ module.exports = compose(
 						statusMessage: 'This is not your panel'
 					});
 				}
-			}
-			await stream.addPanel(
-				title,
-				description,
-				userId
-			);
-			return send(res, 200, {
-                statusCode: 200,
-                statusMessage: 'Panel updated'
-			});
+			}else{
+				await stream.addPanel(
+					title,
+					description,
+					userId
+				);
+				return send(res, 200, {
+					statusCode: 200,
+					statusMessage: 'Panel updated'
+				});
+		}
 		}else{
 			return send(res, 400, {
 				statusCode: 400,

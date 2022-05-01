@@ -1,14 +1,17 @@
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 class Stream {
 	getTotal(){
 		return new Promise((resolve, reject) => {
-			dbInstance('stream')
-			.count('id AS count')
-			.first()
-			.debug(true)
-			.then(total => {
-				console.log('stream total', total);
-				resolve(total.count);
+			prisma.stream.aggregate({
+				_count: {
+				  id: true,
+				},
+			  })
+			.then((result) => {
+				console.log('stream total', result._count.id);
+				if(result && result._count && result._count.id) return resolve(result._count.id);
+				return resolve(0);
 			})
 			.catch(reject);
 		});
@@ -77,11 +80,11 @@ class Stream {
 	}
 	getCategory(category_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('categories')
-			.where({
-				category_id
+			prisma.categories.findUnique({
+				where: {
+					category_id
+				}
 			})
-			.debug(true)
 			.then(resolve)
 			.catch(reject);
 		});
@@ -165,7 +168,7 @@ class Stream {
 			dbInstance('stream')
 			.select(['id', 'u1.username AS name', 'u1.type', 'u1.avatar', 'u1.banned'])
 			.where({
-				'live': 1,
+				'live': true,
 				'private': 0
 			})
 			.debug(true)
@@ -336,7 +339,7 @@ class Stream {
 			.insert({
 				'user_id': user_id,
 				'private': 0,
-				'live': 0,
+				'live': true,
 				'views': 0,
 				'category': 1,
 				'type': 'NONE',
@@ -435,12 +438,14 @@ class Stream {
 	}
 	setPanel(panel_id, title, description) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream_panels').where({
-				panel_id
-			})
-			.update({
-				title,
-				description
+			prisma.stream_panels.update({
+				where: {
+					panel_id
+				},
+				data: {
+					title,
+					description
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -448,11 +453,13 @@ class Stream {
 	}
 	setBanner(userId, banner = '') {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				user_id: userId
-			})
-			.update({
-				banner,
+			prisma.stream.update({
+				where: {
+					user_id: userId
+				},
+				data: {
+					banner
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -460,11 +467,13 @@ class Stream {
 	}
 	setCategory(userId, category = '') {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				user_id: userId
-			})
-			.update({
-				category,
+			prisma.stream.update({
+				where: {
+					user_id: userId
+				},
+				data: {
+					category
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -472,11 +481,13 @@ class Stream {
 	}
 	setTitle(userId, title = '') {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				user_id: userId
-			})
-			.update({
-				title,
+			prisma.stream.update({
+				where: {
+					user_id: userId
+				},
+				data: {
+					title
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -484,11 +495,13 @@ class Stream {
 	}
 	setLive(streamId) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				id: streamId
-			})
-			.update({
-				live: 1
+			prisma.stream.update({
+				where: {
+					id: streamId
+				},
+				data: {
+					live: true
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -496,11 +509,13 @@ class Stream {
 	}
 	setInactive(streamId) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				id: streamId
-			})
-			.update({
-				live: 0
+			prisma.stream.update({
+				where: {
+					id: streamId
+				},
+				data: {
+					live: false
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -508,24 +523,28 @@ class Stream {
 	}
 	updateTime(streamId) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				id: streamId
-			})
-			.update({
-				time: dbInstance.fn.now()
+			prisma.stream.update({
+				where: {
+					id: streamId
+				},
+				data: {
+					time: global.dbNow()
+				}
 			})
 			.then(resolve)
 			.catch(reject);
 		});
 	}
 	// CURRENT_TIMESTAMP
-	setPrivate(streamId, bool) {
+	setPrivate(userId, bool) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				user_id: streamId
-			})
-			.update({
-				private: bool ? 1 : 0
+			prisma.stream.update({
+				where: {
+					user_id: userId
+				},
+				data: {
+					private: !!bool
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -533,11 +552,13 @@ class Stream {
 	}
 	setServer(streamId, streamServer = '') {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				id: streamId
-			})
-			.update({
-				streamServer,
+			prisma.stream.update({
+				where: {
+					id: streamId
+				},
+				data: {
+					streamServer
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -545,30 +566,38 @@ class Stream {
 	}
 	increaseView(streamId) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream').where({
-				id: streamId
+			prisma.stream.update({
+				where: {
+					id: streamId
+				},
+				data: {
+					views: {
+						increment: 1,
+					},
+				},
 			})
-			.increment('views', 1)
 			.then(resolve)
 			.catch(reject);
 		});
 	}
 	deleteArchive(archive_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream_archives').where({
-				'stream_archives.archive_id': archive_id
+			prisma.stream_archives.delete({
+				where: {
+					archive_id
+				}
 			})
-			.delete()
 			.then(resolve)
 			.catch(reject);
 		});
 	}
 	deletePanel(panel_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('stream_panels').where({
-				panel_id
+			prisma.stream_panels.delete({
+				where: {
+					panel_id
+				}
 			})
-			.delete()
 			.then(resolve)
 			.catch(reject);
 		});

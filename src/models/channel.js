@@ -1,13 +1,16 @@
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 class Channel {
 	getBans(room) {
 		return new Promise((resolve, reject) => {
-			dbInstance('channel_bans')
-			.where({
-				'room_id': room
+			prisma.channel_bans.findMany({
+				where: {
+					room_id: room
+				},
+				orderBy: [{
+					ban_id: 'desc'
+				}]
 			})
-			.orderBy('ban_id', 'desc')
-			.debug(true)
 			.then(resolve)
 			.catch(reject);
 		});

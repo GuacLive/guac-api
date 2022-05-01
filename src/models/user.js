@@ -1,20 +1,25 @@
 import bcrypt from 'bcrypt';
 
 const randtoken = require('rand-token');
+const argon2 = require('argon2');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(global.nconf.get('sendgrid:api_key'));
 
 const dbInstance = global.dbInstance;
+const prisma = global.prisma;
 class User {
 	getUserFollowingCount(from_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('follows').where({
-				from_id
-			})
-			.count('to_id AS count')
-			.first()
+			prisma.follows.aggregate({
+				where: {
+					from_id
+				},
+				_count: {
+				  to_id: true,
+				},
+			  })
 			.then((result) => {
-				if(result && result.count) return resolve(result.count);
+				if(result && result._count && result._count.to_id) return resolve(result._count.to_id);
 				return resolve(0);
 			})
 			.catch(reject);
@@ -22,28 +27,33 @@ class User {
 	}
 	getTotal(){
 		return new Promise((resolve, reject) => {
-			dbInstance('users')
-			.count('user_id AS count')
-			.first()
-			.then(total => {
-				console.log('user total', total);
-				resolve(total.count);
+			prisma.users.aggregate({
+				_count: {
+				  user_id: true,
+				},
+			  })
+			.then((result) => {
+				console.log('user total', result._count.user_id);
+				if(result && result._count && result._count.user_id) return resolve(result._count.user_id);
+				return resolve(0);
 			})
 			.catch(reject);
 		});
 	}
 	getLastBan(user_id = null){
 		return new Promise((resolve, reject) => {
-			dbInstance('bans').where({
-				'user_id': user_id
+			prisma.bans.findFirst({
+				where: {
+					user_id: user_id
+				},
+				select: {
+					reason: true,
+					time: true
+				},
+				orderBy: [{
+					ban_id: 'desc'
+				}]
 			})
-			.debug(true)
-			.select(
-				'reason',
-				'time'
-			)
-			.orderBy('ban_id', 'desc')
-			.first()
 			.then(resolve)
 			.catch(reject);
 		});
@@ -98,7 +108,52 @@ class User {
 	}
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
+			const query =
+				'select `users`.`user_id`,\
+				\`users`.`email`,\
+				`users`.`activated`,\
+				\`users`.`username`,\
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+				`users`.`type`, `users`.`avatar`,\
+				`users`.`banned`,\
+				`users`.`publicKey`,\
+				HEX(users.color) as color,\
+				`users`.`patreon` from `users`\
+				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+				where `users`.`user_id` = ? limit ?';
+			prisma.$queryRaw(query, id, 1)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
+				.catch(reject);
+			/*prisma.users.findMany({
+				where: {
+					user_id: id
+				},
+				select: {
+					user_id: true,
+					email: true,
+					activated: true,
+					username: true,
+					type: true,
+					avatar: true,
+					banned: true,
+					publickey: true,
+					patreon: true,
+					color: true,
+					stream: {
+						select: {
+							user_id: true
+						},
+					}
+				}
+			})
+			.then(res => {
+				res.can_stream = res.stream && res.stream.user_id;
+				resolve(res);
+			})
+			.catch(reject);*/
+			/*dbInstance('users').where({
 				'users.user_id': id
 			})
 			.debug(true)
@@ -118,84 +173,76 @@ class User {
 			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
 			.first()
 			.then(resolve)
-			.catch(reject);
+			.catch(reject);*/
 		});
 	}
 
 	getUserByEmail(email) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users')
-			.where(
-			  dbInstance.raw('LOWER(users.email) = ?', [email])
-			)
-			.debug(true)
-			.select(
-				'users.user_id',
-				'users.email',
-				'users.activated',
-				'users.username',
-				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type',
-				'users.avatar',
-				'users.banned',
-				'users.publicKey',
-				dbInstance.raw('HEX(users.color) as color'),
-			)
-			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
-			.first()
-			.then(resolve)
-			.catch(reject);
+			const query =
+				'select `users`.`user_id`,\
+				\`users`.`email`,\
+				`users`.`activated`,\
+				\`users`.`username`,\
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+				`users`.`type`, `users`.`avatar`,\
+				`users`.`banned`,\
+				`users`.`publicKey`,\
+				HEX(users.color) as color,\
+				`users`.`patreon` from `users`\
+				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+				where LOWER(users.email) = ? limit ?';
+			prisma.$queryRaw(query, email, 1)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
+				.catch(reject);
 		});
 	}
 
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
-				'users.username': username
-			})
-			.debug(true)
-			.select(
-				'users.user_id',
-				'users.email',
-				'users.activated',
-				'users.username',
-				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type',
-				'users.avatar',
-				'users.banned',
-				'users.publicKey',
-				dbInstance.raw('HEX(users.color) as color'),
-			)
-			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
-			.first()
-			.then(resolve)
-			.catch(reject);
+			const query =
+				'select `users`.`user_id`,\
+					\`users`.`email`,\
+					`users`.`activated`,\
+					\`users`.`username`,\
+					IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+					`users`.`type`, `users`.`avatar`,\
+					`users`.`banned`,\
+					`users`.`publicKey`,\
+					HEX(users.color) as color,\
+					`users`.`patreon` from `users`\
+					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+					where username = ? limit ?';
+			prisma.$queryRaw(query, username, 1)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
+				.catch(reject);
 		});
 	}
 
 	getUserByUsername_lower(username) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users')
-			.where(
-			  dbInstance.raw('LOWER(users.username) = ?', [username])
-			)
-			.debug(true)
-			.select(
-				'users.user_id',
-				'users.email',
-				'users.activated',
-				'users.username',
-				dbInstance.raw('IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream'),
-				'users.type',
-				'users.avatar',
-				'users.banned',
-				'users.publicKey',
-				dbInstance.raw('HEX(users.color) as color'),
-			)
-			.leftJoin('stream', 'users.user_id', '=', 'stream.user_id')
-			.first()
-			.then(resolve)
-			.catch(reject);
+			const query =
+				'select `users`.`user_id`,\
+					\`users`.`email`,\
+					`users`.`activated`,\
+					\`users`.`username`,\
+					IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
+					`users`.`type`, `users`.`avatar`,\
+					`users`.`banned`,\
+					`users`.`publicKey`,\
+					HEX(users.color) as color,\
+					`users`.`patreon` from `users`\
+					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
+					where LOWER(users.username) = ? limit ?';
+			prisma.$queryRaw(query, username, 1)
+				.then(r => {
+					resolve(r && r.length > 0 ? r[0] : null);
+				})
+				.catch(reject);
 		});
 	}
 
@@ -247,12 +294,14 @@ class User {
 
 	updateKeys(username, publicKey, privateKey) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
-				username
-			})
-			.update({
-				publicKey,
-				privateKey
+			prisma.users.update({
+				where: {
+					username: username
+				},
+				data: {
+					publicKey,
+					privateKey
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -287,11 +336,13 @@ class User {
 
 	unban(user_id) {
 		return new Promise((resolve, reject) => {
-			dbInstance('users').where({
-				user_id
-			})
-			.update({
-				banned: false,
+			prisma.users.update({
+				where: {
+					user_id: user_id
+				},
+				data: {
+					banned: false,
+				}
 			})
 			.then(resolve)
 			.catch(reject);
@@ -319,7 +370,13 @@ class User {
 			.first()
 			.then(async (data) => {
 				if(!data) resolve(false);
-				const match = await bcrypt.compare(password, data.password);
+				let match = false;
+				if (data.password.startsWith('$2')) {
+					match = await bcrypt.compare(password, data.password);
+				} else {
+					match = await argon2.verify(data.password, password);
+				}
+
 				if(match){
 					resolve({
 						'user_id': data.user_id,

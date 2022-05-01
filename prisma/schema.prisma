@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model activation_tokens {
+  act_id  Int      @id @default(autoincrement())
+  email   String   @db.VarChar(100)
+  token   String   @db.VarChar(60)
+  user_id Int      @db.UnsignedInt
+  time    DateTime @default(now()) @db.Timestamp(0)
+  users   users    @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id], name: "user_id")
+}
+
+model bans {
+  ban_id  Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id Int      @db.UnsignedInt
+  reason  String   @db.VarChar(255)
+  time    DateTime @default(now()) @db.Timestamp(0)
+  users   users    @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id], name: "user_id")
+}
+
+model categories {
+  category_id Int       @id @default(autoincrement()) @db.UnsignedInt
+  name        String    @db.VarChar(100)
+  slug        String?   @db.VarChar(255)
+  cover       String?   @db.VarChar(255)
+  released    DateTime? @db.Date
+  rawg_id     BigInt?
+  clips       clips[]
+  stream      stream[]
+}
+
+model channel_bans {
+  ban_id    Int      @id @default(autoincrement()) @db.UnsignedInt
+  room_id   Int      @db.UnsignedInt
+  user_id   Int      @db.UnsignedInt
+  reason    String?  @db.VarChar(100)
+  banned_at DateTime @default(now()) @db.Timestamp(0)
+  stream    stream   @relation(fields: [room_id], references: [id])
+  users     users    @relation(fields: [user_id], references: [user_id])
+
+  @@unique([room_id, user_id], name: "channel_bans_uniq_1")
+  @@index([user_id], name: "channel_bans_ibfk_2")
+}
+
+model channel_mods {
+  mod_id    Int      @id @default(autoincrement()) @db.UnsignedInt
+  room_id   Int      @db.UnsignedInt
+  user_id   Int      @db.UnsignedInt
+  modded_at DateTime @default(now()) @db.Timestamp(0)
+  stream    stream   @relation(fields: [room_id], references: [id])
+  users     users    @relation(fields: [user_id], references: [user_id])
+
+  @@unique([room_id, user_id], name: "channel_mods_uniq_1")
+  @@index([user_id], name: "channel_mods_ibfk_2")
+}
+
+model channel_timeouts {
+  timeout_id Int    @id @default(autoincrement()) @db.UnsignedInt
+  room_id    Int    @db.UnsignedInt
+  user_id    Int    @db.UnsignedInt
+  time       BigInt
+}
+
+model clips {
+  clip_id    BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
+  clip_name  String?    @default("Clip") @db.VarChar(255)
+  clipper_id Int        @db.UnsignedInt
+  stream_id  Int        @db.UnsignedInt
+  video_url  String     @db.VarChar(255)
+  uuid       String     @db.VarChar(36)
+  views      BigInt?
+  time       DateTime   @default(now()) @db.Timestamp(0)
+  category   Int        @default(0) @db.UnsignedInt
+  categories categories @relation(fields: [category], references: [category_id])
+  users      users      @relation(fields: [clipper_id], references: [user_id])
+  stream     stream     @relation(fields: [stream_id], references: [id])
+
+  @@index([clipper_id], name: "clipper_id")
+  @@index([category], name: "clips_ibfk_3")
+  @@index([stream_id], name: "stream_id")
+}
+
+model devices {
+  device_id Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id   Int      @db.UnsignedInt
+  token     String   @unique @db.VarChar(255)
+  type      String   @db.VarChar(100)
+  time      DateTime @default(now()) @db.Timestamp(0)
+  users     users    @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id], name: "user_id")
+}
+
+model follows {
+  from_id     Int      @db.UnsignedInt
+  to_id       Int      @db.UnsignedInt
+  followed_at DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([from_id, to_id])
+}
+
+model notifications {
+  notification_id                         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  user_id                                 Int       @db.UnsignedInt
+  from_user_id                            Int?      @db.UnsignedInt
+  action                                  String?   @db.VarChar(255)
+  message                                 String?   @db.VarChar(255)
+  rendered                                String?   @db.VarChar(255)
+  item_type                               String?   @db.VarChar(255)
+  item_id                                 String?   @db.VarChar(255)
+  read_at                                 DateTime?
+  created_at                              DateTime? @default(now())
+  updated_at                              DateTime? @default(now()) @updatedAt
+  deleted_at                              DateTime?
+  users_notifications_from_user_idTousers users?    @relation("notifications_from_user_idTousers", fields: [from_user_id], references: [user_id])
+  users_notifications_user_idTousers      users     @relation("notifications_user_idTousers", fields: [user_id], references: [user_id])
+
+  @@index([created_at], name: "notifications_created_at_index")
+  @@index([deleted_at], name: "notifications_deleted_at_index")
+  @@index([from_user_id], name: "notifications_from_user_id_index")
+  @@index([user_id], name: "notifications_user_id_index")
+}
+
+model stream {
+  id                 Int                  @id @default(autoincrement()) @db.UnsignedInt
+  private            Boolean              @default(false)
+  title              String               @db.VarChar(255)
+  live               Boolean              @default(false)
+  views              BigInt
+  user_id            Int                  @db.UnsignedInt @unique
+  category           Int?                 @db.UnsignedInt
+  type               String?              @db.VarChar(25)
+  time               DateTime?
+  banner             String?              @db.VarChar(255)
+  streamServer       String?              @default("lon.stream.guac.live") @db.VarChar(255)
+  mature             Boolean              @default(false)
+  categories         categories?          @relation(fields: [category], references: [category_id])
+  channel_bans       channel_bans[]
+  channel_mods       channel_mods[]
+  clips              clips[]
+  stream_config      stream_config?
+  subscription_plans subscription_plans[]
+
+  @@index([category], name: "category")
+  @@index([id], name: "stream_index")
+  @@index([streamServer], name: "stream_server_index")
+  @@index([title], name: "title")
+}
+
+model stream_archives {
+  archive_id Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id    Int      @db.UnsignedInt
+  duration   BigInt   @db.UnsignedBigInt
+  stream     String   @db.VarChar(255)
+  thumbnail  String   @db.VarChar(255)
+  random     String?  @db.VarChar(40)
+  time       DateTime? @default(now())
+  streamName String   @db.VarChar(255)
+  views      BigInt
+  users      users    @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id], name: "user_id")
+}
+
+model stream_config {
+  id           Int     @id @default(autoincrement()) @db.UnsignedInt
+  archive      Boolean
+  bitrateLimit Int?
+  stream_id    Int     @unique @db.UnsignedInt
+  stream       stream  @relation(fields: [stream_id], references: [id])
+
+  @@index([id], name: "stream_config_index")
+}
+
+model stream_keys {
+  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  stream_key String @db.VarChar(128)
+  stream_id  Int    @db.UnsignedInt
+}
+
+model stream_panels {
+  panel_id    Int      @id @default(autoincrement()) @db.UnsignedInt
+  user_id     Int      @db.UnsignedInt
+  title       String?  @db.VarChar(100)
+  description String   @db.Text
+  time        DateTime? @default(now()) @updatedAt
+  users       users    @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id], name: "user_id")
+}
+
+model stream_webhooks {
+  hook_id Int    @id @default(autoincrement()) @db.UnsignedInt
+  user_id Int    @db.UnsignedInt
+  url     String @db.VarChar(255)
+  users   users  @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id], name: "user_id")
+}
+
+model subscription_plans {
+  id            Int             @id @default(autoincrement()) @db.UnsignedInt
+  plan_id       Int             @db.UnsignedInt
+  plan_name     String          @db.VarChar(255)
+  email         String          @db.VarChar(100)
+  interval      String          @db.VarChar(10)
+  price         Decimal         @db.Decimal(8, 2)
+  user_id       Int             @db.UnsignedInt
+  stream_id     Int             @db.UnsignedInt
+  stream        stream          @relation(fields: [stream_id], references: [id])
+  users         users           @relation(fields: [user_id], references: [user_id])
+  subscriptions subscriptions[]
+
+  @@index([stream_id], name: "stream_id")
+  @@index([user_id], name: "user_id")
+}
+
+model subscriptions {
+  id                    Int                @id @default(autoincrement()) @db.UnsignedInt
+  subscription_plans_id Int                @db.UnsignedInt
+  start_date            DateTime           @default(now()) @db.Timestamp(0)
+  expiration_date       DateTime           @default(now()) @db.Timestamp(0)
+  status                String             @db.VarChar(15)
+  recurring_payment_id  String             @db.VarChar(25)
+  user_id               Int                @db.UnsignedInt
+  subscription_plans    subscription_plans @relation(fields: [subscription_plans_id], references: [id])
+  users                 users              @relation(fields: [user_id], references: [user_id])
+
+  @@index([subscription_plans_id], name: "subscription_plans_id")
+  @@index([user_id], name: "user_id")
+}
+
+model user_types {
+  type_id Int     @id @default(autoincrement()) @db.UnsignedInt
+  type    String  @unique @db.VarChar(25)
+  users   users[]
+}
+
+model users {
+  user_id                                         Int                  @id @default(autoincrement()) @db.UnsignedInt
+  username                                        String               @unique @db.VarChar(255)
+  password                                        String               @db.VarChar(200)
+  registered_at                                   DateTime             @default(now()) @db.Timestamp(0)
+  activated                                       Boolean              @default(false)
+  type                                            String               @default("user") @db.VarChar(25)
+  avatar                                          String?              @db.VarChar(255)
+  email                                           String               @unique @db.VarChar(255)
+  banned                                          Boolean              @default(false)
+  color                                           Bytes?               @db.Binary(3)
+  patreon                                         String?              @db.LongText
+  publicKey                                       String?              @db.VarChar(2048)
+  privateKey                                      String?              @db.VarChar(2048)
+  user_types                                      user_types           @relation(fields: [type], references: [type])
+  activation_tokens                               activation_tokens[]
+  bans                                            bans[]
+  channel_bans                                    channel_bans[]
+  channel_mods                                    channel_mods[]
+  clips                                           clips[]
+  devices                                         devices[]
+  notifications_notifications_from_user_idTousers notifications[]      @relation("notifications_from_user_idTousers")
+  notifications_notifications_user_idTousers      notifications[]      @relation("notifications_user_idTousers")
+  stream_archives                                 stream_archives[]
+  stream_panels                                   stream_panels[]
+  stream_webhooks                                 stream_webhooks[]
+  subscription_plans                              subscription_plans[]
+  subscriptions                                   subscriptions[]
+
+  @@index([email], name: "email")
+  @@index([type], name: "user_types_ibfk_1")
+  @@index([username], name: "username")
+  @@index([user_id], name: "users_id_index")
+  @@index([username], name: "users_name_index")
+}

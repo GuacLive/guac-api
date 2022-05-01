@@ -74,6 +74,20 @@ export const isReservedUsername = (username) => {
 	// Check if username is in reserved array
 	return reservedUsernames.indexOf(normalized) !== -1;
 };
+export const getAllFromViewerAPI = () => {
+	return new Promise((resolve, reject) => {
+		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers`, {
+			signal: timeoutSignal(5000)
+		})
+		.then(r => r.json())
+		.then(response => {
+			resolve(response?.rooms || []);
+		}
+		).catch(err => {
+			reject(err);
+		});
+	});
+};
 export const getFromViewerAPI = (name) => {
 	return new Promise((resolve, reject) => {
 		fetch(`${global.nconf.get('server:viewer_api_url')}/viewers/${name}`, {
