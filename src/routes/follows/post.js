@@ -29,7 +29,7 @@ module.exports = compose(
 		const allViewers =  await getAllFromViewerAPI();
 
 		result = await Promise.all(result.map(async (r) => {
-			const viewers = allViewers.find(viewer => viewer.username === r.name);
+			const viewers = allViewers.find(viewer => viewer.username === r.name)?.viewers;
 			if(r){
 				r.avatar = r.avatar || `${global.nconf.get('s3:cdn_endpoint')}/profile-avatars/offline-avatar.png`;
 				r.viewers = viewers ?? 0;

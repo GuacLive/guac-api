@@ -13,7 +13,7 @@ module.exports = cache(10 * 1000, compose(
 		const allViewers = await getAllFromViewerAPI();
 		const data = await Promise.all(results.map(async (item) => {
 			//await stream.increaseView(item.id);
-			const viewers = allViewers.find(viewer => viewer.username === item.name);
+			const viewers = allViewers.find(viewer => viewer.username === item.name)?.viewers;
 			item = await stream.getStream(item.name);
 			return {
 				id: item.id,
