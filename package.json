@@ -41,6 +41,7 @@
     "core-js": "^3",
     "dayjs": "^1.10.6",
     "discord-webhook-node": "^1.0.4",
+    "form-urlencoded": "^6.0.6",
     "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.95",

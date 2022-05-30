@@ -4,6 +4,7 @@ import {compose} from 'micro-hoofs';
 import userModel from '../../models/user';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
+import formurlencoded from 'form-urlencoded';
 
 const clientId = global.nconf.get('patreon:client_id');
 const clientSecret = global.nconf.get('patreon:client_secret');
@@ -17,7 +18,7 @@ const refresh = async (user, userPatreonObject) => {
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
-		data: formUrlEncoded({
+		data: formurlencoded({
 			grant_type: 'refresh_token',
 			refresh_token: userPatreonObject.refresh_token,
 			client_id: clientId,
