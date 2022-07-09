@@ -18,6 +18,7 @@ module.exports = compose(
 					thumbnail: data.thumbnail,
 					time: data.time, 
 					streamName: data.streamName,
+					streamType: data.streamType,
 					user: {
 						id: data.user_id,
 						name: data.name,
