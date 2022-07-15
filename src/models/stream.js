@@ -403,7 +403,7 @@ class Stream {
 			.catch(reject);
 		});
 	}
-	addArchive(user_id, streamName, duration, random, thumbnail, stream) {
+	addArchive(user_id, streamName, duration, random, thumbnail, stream, private = false) {
 		return new Promise((resolve, reject) => {
 			dbInstance('stream_archives')
 			.insert({
@@ -412,7 +412,8 @@ class Stream {
 				duration,
 				random,
 				thumbnail,
-				stream
+				stream,
+				private
 			})
 			.debug(true)
 			.then(async (data) => {
