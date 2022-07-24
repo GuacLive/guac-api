@@ -7,6 +7,15 @@ import streamModel from '../../models/stream';
 
 import verifyJWTKey from '../../services/verifyJWTKey';
 
+const toURL = (url) => {
+	if (url.startsWith('http://') || url.startsWith('https://')) {
+		return url;
+	} else if (url.startsWith('//')) {
+		return `https:${url}`;
+	}
+	return `https://${url}`;
+}
+
 module.exports = compose(
 	verifyJWTKey
 )(
@@ -24,7 +33,7 @@ module.exports = compose(
 				}
 				const auth = Buffer.from(`${global.nconf.get('nms:user')}:${global.nconf.get('nms:password')}`)
 					.toString('base64');
-				const nms = await fetch(result.streamServer + '/api/clip', {
+				const nms = await fetch(toURL(result.streamServer) + '/api/clip', {
 					'method': 'POST',
 					'headers': {
 						'Authorization': `Basic ${auth}`,
