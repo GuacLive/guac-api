@@ -110,7 +110,7 @@ class User {
 		return new Promise((resolve, reject) => {
 			prisma.$queryRaw`select users.user_id,
 				users.email,
-				users.activated
+				users.activated,
 				users.username,
 				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
 				users.type, users.avatar,
@@ -180,7 +180,7 @@ class User {
 		return new Promise((resolve, reject) => {
 			prisma.$queryRaw`select users.user_id,
 				users.email,
-				users.activated
+				users.activated,
 				users.username,
 				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
 				users.type, users.avatar,
@@ -201,7 +201,7 @@ class User {
 		return new Promise((resolve, reject) => {
 			prisma.$queryRaw`select users.user_id,
 				users.email,
-				users.activated
+				users.activated,
 				users.username,
 				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
 				users.type, users.avatar,
@@ -222,7 +222,7 @@ class User {
 		return new Promise((resolve, reject) => {
 			prisma.$queryRaw`select users.user_id,
 				users.email,
-				users.activated
+				users.activated,
 				users.username,
 				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
 				users.type, users.avatar,
