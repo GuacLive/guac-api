@@ -108,7 +108,7 @@ class User {
 	}
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
-			prisma.$queryRaw`select users.user_id
+			prisma.$queryRaw`select users.user_id,
 				users.email,
 				users.activated
 				users.username,
@@ -178,7 +178,7 @@ class User {
 
 	getUserByEmail(email) {
 		return new Promise((resolve, reject) => {
-			prisma.$queryRaw`select users.user_id
+			prisma.$queryRaw`select users.user_id,
 				users.email,
 				users.activated
 				users.username,
@@ -199,7 +199,7 @@ class User {
 
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
-			prisma.$queryRaw`select users.user_id
+			prisma.$queryRaw`select users.user_id,
 				users.email,
 				users.activated
 				users.username,
@@ -220,7 +220,7 @@ class User {
 
 	getUserByUsername_lower(username) {
 		return new Promise((resolve, reject) => {
-			prisma.$queryRaw`select users.user_id
+			prisma.$queryRaw`select users.user_id,
 				users.email,
 				users.activated
 				users.username,
