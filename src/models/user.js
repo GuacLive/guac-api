@@ -108,24 +108,23 @@ class User {
 	}
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
-			const query =
-				'select `users`.`user_id`,\
-				\`users`.`email`,\
-				`users`.`activated`,\
-				\`users`.`username`,\
-				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
-				`users`.`type`, `users`.`avatar`,\
-				`users`.`banned`,\
-				`users`.`publicKey`,\
-				HEX(users.color) as color,\
-				`users`.`patreon` from `users`\
-				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
-				where `users`.`user_id` = ? limit ?';
-			prisma.$queryRaw(query, id, 1)
+			prisma.$queryRaw`select users.user_id
+				users.email,
+				users.activated
+				users.username,
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
+				users.type, users.avatar,
+				users.banned,
+				users.publicKey,
+				HEX(users.color) as color,
+				users.patreon from users
+				left join stream on users.user_id = stream.user_id
+				where users.user_id = ${id} limit 1`
 				.then(r => {
 					resolve(r && r.length > 0 ? r[0] : null);
 				})
 				.catch(reject);
+				
 			/*prisma.users.findMany({
 				where: {
 					user_id: id
@@ -179,20 +178,18 @@ class User {
 
 	getUserByEmail(email) {
 		return new Promise((resolve, reject) => {
-			const query =
-				'select `users`.`user_id`,\
-				\`users`.`email`,\
-				`users`.`activated`,\
-				\`users`.`username`,\
-				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
-				`users`.`type`, `users`.`avatar`,\
-				`users`.`banned`,\
-				`users`.`publicKey`,\
-				HEX(users.color) as color,\
-				`users`.`patreon` from `users`\
-				left join `stream` on `users`.`user_id` = `stream`.`user_id`\
-				where LOWER(users.email) = ? limit ?';
-			prisma.$queryRaw(query, email, 1)
+			prisma.$queryRaw`select users.user_id
+				users.email,
+				users.activated
+				users.username,
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
+				users.type, users.avatar,
+				users.banned,
+				users.publicKey,
+				HEX(users.color) as color,
+				users.patreon from users
+				left join stream on users.user_id = stream.user_id
+				where LOWER(users.email) = ${email} limit 1`
 				.then(r => {
 					resolve(r && r.length > 0 ? r[0] : null);
 				})
@@ -202,20 +199,18 @@ class User {
 
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
-			const query =
-				'select `users`.`user_id`,\
-					\`users`.`email`,\
-					`users`.`activated`,\
-					\`users`.`username`,\
-					IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
-					`users`.`type`, `users`.`avatar`,\
-					`users`.`banned`,\
-					`users`.`publicKey`,\
-					HEX(users.color) as color,\
-					`users`.`patreon` from `users`\
-					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
-					where username = ? limit ?';
-			prisma.$queryRaw(query, username, 1)
+			prisma.$queryRaw`select users.user_id
+				users.email,
+				users.activated
+				users.username,
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
+				users.type, users.avatar,
+				users.banned,
+				users.publicKey,
+				HEX(users.color) as color,
+				users.patreon from users
+				left join stream on users.user_id = stream.user_id
+				where username = ${username} limit 1`
 				.then(r => {
 					resolve(r && r.length > 0 ? r[0] : null);
 				})
@@ -225,20 +220,18 @@ class User {
 
 	getUserByUsername_lower(username) {
 		return new Promise((resolve, reject) => {
-			const query =
-				'select `users`.`user_id`,\
-					\`users`.`email`,\
-					`users`.`activated`,\
-					\`users`.`username`,\
-					IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,\
-					`users`.`type`, `users`.`avatar`,\
-					`users`.`banned`,\
-					`users`.`publicKey`,\
-					HEX(users.color) as color,\
-					`users`.`patreon` from `users`\
-					left join `stream` on `users`.`user_id` = `stream`.`user_id`\
-					where LOWER(users.username) = ? limit ?';
-			prisma.$queryRaw(query, username, 1)
+			prisma.$queryRaw`select users.user_id
+				users.email,
+				users.activated
+				users.username,
+				IF(stream.user_id IS NULL, FALSE, TRUE) as can_stream,
+				users.type, users.avatar,
+				users.banned,
+				users.publicKey,
+				HEX(users.color) as color,
+				users.patreon from users
+				left join stream on users.user_id = stream.user_id
+				where LOWER(users.username) = ${username} limit 1`
 				.then(r => {
 					resolve(r && r.length > 0 ? r[0] : null);
 				})
