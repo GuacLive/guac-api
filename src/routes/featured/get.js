@@ -32,7 +32,7 @@ module.exports = cache(10 * 1000, compose(
 				mature: item.mature,
 				urls: {
 					hls: `/live/${item.name}/abr.m3u8`,
-					flv: `/live/${item.name}.flv`
+					//flv: `/live/${item.name}.flv`
 				},
 				qualities: {
 					//'source': '_src',

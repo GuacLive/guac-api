@@ -48,7 +48,7 @@ module.exports = cache(1 * 1000, async (req, res) => {
 					mature: result.mature,
 					urls: {
 						hls: `/live/${result.name}/abr.m3u8`,
-						flv: `/live/${result.name}.flv`
+						//flv: `/live/${result.name}.flv`
 					},
 					qualities: {
 						//'source': '_src',
